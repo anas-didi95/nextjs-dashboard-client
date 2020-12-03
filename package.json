@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,css}'"
+    "format": "prettier --write '{components,lib,pages,styles}/**/*.{js,jsx,ts,tsx,css}'"
   },
   "dependencies": {
     "date-fns": "^2.11.1",
