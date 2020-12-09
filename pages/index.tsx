@@ -1,7 +1,7 @@
 const LoginPage = () => (
-  <section className="hero is-primary is-fullheight">
+  <section className="hero is-primary is-fullheight is-info">
     <div className="hero-head">
-      <nav className="navbar" role="navigation" aria-label="main navigation">
+      <nav className="navbar is-spaced" role="navigation" aria-label="main navigation">
         <div className="navbar-brand">
           <a className="navbar-item" href="https://bulma.io">
             <img

@@ -1,5 +1,7 @@
 @charset "utf-8";
 
-@import "~bulmaswatch/pulse/_variables.scss";
+@import "~bulmaswatch/united/_variables.scss";
+$body-size: 16px;
+
 @import "~bulma/bulma.sass";
-@import "~bulmaswatch/pulse/_overrides.scss";
+@import "~bulmaswatch/united/_overrides.scss";
