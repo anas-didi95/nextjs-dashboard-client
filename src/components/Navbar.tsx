@@ -7,7 +7,7 @@ const Navbar = () => {
   const [isActive, setActive] = useState(false)
   const constants = useConstants()
 
-  const toggleActive = () => setActive(prev => !prev)
+  const toggleActive = () => setActive((prev) => !prev)
 
   return (
     <nav
@@ -33,7 +33,9 @@ const Navbar = () => {
           <span aria-hidden="true"></span>
         </a>
       </div>
-      <div id="navbarBasicExample" className={`navbar-menu ${isActive && "is-active"}`}>
+      <div
+        id="navbarBasicExample"
+        className={`navbar-menu ${isActive && "is-active"}`}>
         <div className="navbar-start">
           <a className="navbar-item">Home</a>
           <a className="navbar-item">Documentation</a>

@@ -1,6 +1,6 @@
 const useConstants = () => {
   const metadata = {
-    title: "Dashboard"
+    title: "Dashboard",
   }
 
   return { metadata }
