@@ -1,9 +1,11 @@
 import React, { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import useConstants from "../utils/useConstants"
 
 const Navbar = () => {
   const [isActive, setActive] = useState(false)
+  const constants = useConstants()
 
   const toggleActive = () => setActive(prev => !prev)
 
@@ -16,7 +18,7 @@ const Navbar = () => {
         <Link href="/">
           <a className="navbar-item" href="#">
             <Image src="/images/dashboard.png" width={64} height={64} />
-            <p className="title is-4 ml-2">Dashboard</p>
+            <p className="title is-4 ml-2">{constants.metadata.title}</p>
           </a>
         </Link>
         <a
