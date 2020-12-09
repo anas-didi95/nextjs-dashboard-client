@@ -1,14 +1,14 @@
+import React from "react"
+import Image from "next/image"
+
 const LoginPage = () => (
   <section className="hero is-primary is-fullheight is-info">
     <div className="hero-head">
       <nav className="navbar is-spaced" role="navigation" aria-label="main navigation">
         <div className="navbar-brand">
-          <a className="navbar-item" href="https://bulma.io">
-            <img
-              src="https://bulma.io/images/bulma-logo.png"
-              width="112"
-              height="28"
-            />
+          <a className="navbar-item" href="/">
+            <Image src="/images/dashboard.png" width={64} height={64} />
+            <p className="title is-4 ml-2">Dashboard</p>
           </a>
           <a
             role="button"
