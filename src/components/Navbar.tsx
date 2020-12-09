@@ -3,13 +3,15 @@ import Image from "next/image"
 import Link from "next/link"
 
 const Navbar = () => (
-  <nav className="navbar is-spaced" role="navigation" aria-label="main navigation">
+  <nav
+    className="navbar is-spaced"
+    role="navigation"
+    aria-label="main navigation">
     <div className="navbar-brand">
       <Link href="/">
         <a className="navbar-item" href="#">
           <Image src="/images/dashboard.png" width={64} height={64} />
           <p className="title is-4 ml-2">Dashboard</p>
-
         </a>
       </Link>
       <a
