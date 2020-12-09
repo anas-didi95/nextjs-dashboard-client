@@ -1,15 +1,18 @@
 import React from "react"
 import Image from "next/image"
+import Link from "next/link"
 
 const LoginPage = () => (
   <section className="hero is-primary is-fullheight is-info">
     <div className="hero-head">
       <nav className="navbar is-spaced" role="navigation" aria-label="main navigation">
         <div className="navbar-brand">
-          <a className="navbar-item" href="/">
-            <Image src="/images/dashboard.png" width={64} height={64} />
-            <p className="title is-4 ml-2">Dashboard</p>
-          </a>
+          <Link href="/">
+            <a className="navbar-item" href="#">
+              <Image src="/images/dashboard.png" width={64} height={64} />
+              <p className="title is-4 ml-2">Dashboard</p>
+            </a>
+          </Link>
           <a
             role="button"
             className="navbar-burger burger"
