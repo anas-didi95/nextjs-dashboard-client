@@ -1,7 +1,8 @@
 const useConstants = () => {
   const metadata = {
     title: "Dashboard",
-    description: "Dashboard client application developed using Next.js and TypeScript."
+    description:
+      "Dashboard client application developed using Next.js and TypeScript.",
   }
 
   return { metadata }
