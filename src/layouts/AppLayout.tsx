@@ -17,7 +17,7 @@ const AppLayout: React.FC<IAppLayout> = ({ children }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta
           name="description"
-          content="Dashboard client application developed using Next.js and TypeScript."
+          content={constants.metadata.description}
         />
         <title>{constants.metadata.title}</title>
         <link rel="shortcut icon" href="/images/dashboard.png" />
