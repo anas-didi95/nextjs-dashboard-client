@@ -3,7 +3,7 @@ import Navbar from "../src/components/Navbar"
 import AppLayout from "../src/layouts/AppLayout"
 
 const LoginPage = () => (
-  <AppLayout>
+  <AppLayout title="Login Page">
     <section className="hero is-primary is-fullheight is-info">
       <div className="hero-head">
         <Navbar />

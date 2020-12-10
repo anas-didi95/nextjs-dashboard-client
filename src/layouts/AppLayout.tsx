@@ -4,9 +4,10 @@ import useConstants from "../utils/useConstants"
 
 interface IAppLayout {
   children: ReactNode
+  title: string
 }
 
-const AppLayout: React.FC<IAppLayout> = ({ children }) => {
+const AppLayout: React.FC<IAppLayout> = ({ children, title }) => {
   const constants = useConstants()
 
   return (
@@ -19,7 +20,7 @@ const AppLayout: React.FC<IAppLayout> = ({ children }) => {
           name="description"
           content={constants.metadata.description}
         />
-        <title>{constants.metadata.title}</title>
+        <title>{title} | {constants.metadata.title}</title>
         <link rel="shortcut icon" href="/images/dashboard.png" />
       </Head>
       <main>{children}</main>
