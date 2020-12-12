@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react"
 
 interface IForm {
-  children: ReactNode,
+  children: ReactNode
   title?: string
 }
 

@@ -6,7 +6,7 @@ const useConstants = () => {
   }
 
   const header = {
-    signInForm: "Sign In Form"
+    signInForm: "Sign In Form",
   }
 
   const label = {
@@ -16,7 +16,7 @@ const useConstants = () => {
 
   const button = {
     clear: "Clear",
-    signIn: "Sign In"
+    signIn: "Sign In",
   }
 
   return { metadata, label, button, header }

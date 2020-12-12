@@ -8,8 +8,20 @@ interface IButton {
   isInverted?: boolean
 }
 
-const Button: React.FC<IButton> = ({ type, color, isOutlined, isInverted, label }) => (
-  <button type={type} className={`button ${!!color && color} ${isOutlined && "is-outlined"} ${isInverted && "is-inverted"}`}>{label}</button>
+const Button: React.FC<IButton> = ({
+  type,
+  color,
+  isOutlined,
+  isInverted,
+  label,
+}) => (
+  <button
+    type={type}
+    className={`button ${!!color && color} ${isOutlined && "is-outlined"} ${
+      isInverted && "is-inverted"
+    }`}>
+    {label}
+  </button>
 )
 
 export default Button

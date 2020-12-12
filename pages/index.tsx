@@ -37,8 +37,18 @@ const SignInForm: React.FC<{}> = () => {
         <FormInput label={constants.label.password} type="password" />
         <br />
         <ButtonGroup align="is-right">
-          <Button label={constants.button.clear} type="button" color="is-light" isInverted isOutlined />
-          <Button label={constants.button.signIn} type="submit" color="is-primary" />
+          <Button
+            label={constants.button.clear}
+            type="button"
+            color="is-light"
+            isInverted
+            isOutlined
+          />
+          <Button
+            label={constants.button.signIn}
+            type="submit"
+            color="is-primary"
+          />
         </ButtonGroup>
       </Form>
     </Box>

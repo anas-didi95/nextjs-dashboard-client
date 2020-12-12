@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react"
 
 interface IButtonGroup {
-  children: ReactNode,
+  children: ReactNode
   align?: "is-right"
 }
 
