@@ -5,9 +5,13 @@ const useConstants = () => {
       "Dashboard client application developed using Next.js and TypeScript.",
   }
 
+  const header = {
+    signInForm: "Sign In Form"
+  }
+
   const label = {
     username: "Username",
-    password: "Password"
+    password: "Password",
   }
 
   const button = {
@@ -15,7 +19,7 @@ const useConstants = () => {
     signIn: "Sign In"
   }
 
-  return { metadata, label, button }
+  return { metadata, label, button, header }
 }
 
 export default useConstants

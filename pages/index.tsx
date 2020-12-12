@@ -32,7 +32,7 @@ const SignInForm: React.FC<{}> = () => {
 
   return (
     <Box>
-      <Form title="Sign In Form">
+      <Form title={constants.header.signInForm}>
         <FormInput label={constants.label.username} type="text" />
         <FormInput label={constants.label.password} type="password" />
         <br />
