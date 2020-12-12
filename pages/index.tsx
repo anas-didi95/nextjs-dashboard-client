@@ -1,4 +1,5 @@
 import React from "react"
+import ButtonGroup from "../src/components/ButtonGroup"
 import Form from "../src/components/Form"
 import FormInput from "../src/components/FormInput"
 import Navbar from "../src/components/Navbar"
@@ -19,10 +20,10 @@ const LoginPage = () => (
                   <FormInput label="Username" type="text" />
                   <FormInput label="Password" type="password" />
                   <br />
-                  <div className="buttons is-right">
+                  <ButtonGroup align="is-right">
                     <button type="button" className="button is-light is-outlined is-inverted">Clear</button>
                     <button type="submit" className="button is-primary">Sign In</button>
-                  </div>
+                  </ButtonGroup>
                 </Form>
               </div>
             </div>
