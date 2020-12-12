@@ -1,4 +1,5 @@
 import React from "react"
+import Form from "../src/components/Form"
 import Navbar from "../src/components/Navbar"
 import AppLayout from "../src/layouts/AppLayout"
 
@@ -13,9 +14,7 @@ const LoginPage = () => (
           <div className="columns is-centered">
             <div className="column is-5">
               <div className="box">
-                <form>
-                  <p className="has-text-weight-bold is-size-4">Sign In Form</p>
-                  <br />
+                <Form title="Sign In Form">
                   <div className="field">
                     <label className="label">Label</label>
                     <div className="control">
@@ -35,7 +34,7 @@ const LoginPage = () => (
                     <button type="button" className="button is-light is-outlined is-inverted">Clear</button>
                     <button type="submit" className="button is-primary">Sign In</button>
                   </div>
-                </form>
+                </Form>
               </div>
             </div>
           </div>
