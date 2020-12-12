@@ -9,10 +9,37 @@ const LoginPage = () => (
         <Navbar />
       </div>
       <div className="hero-body">
-        <div className="container">
-          <h1 className="title">Primary title</h1>
-          <h2 className="subtitle">Primary subtitle</h2>
-        </div>
+        <article className="container">
+          <div className="columns is-centered">
+            <div className="column is-5">
+              <div className="box">
+                <form>
+                  <p className="has-text-weight-bold is-size-4">Sign In Form</p>
+                  <br />
+                  <div className="field">
+                    <label className="label">Label</label>
+                    <div className="control">
+                      <input className="input is-danger" type="text" />
+                    </div>
+                    <p className="help is-danger">This is a help text</p>
+                  </div>
+                  <div className="field">
+                    <label className="label">Label</label>
+                    <div className="control">
+                      <input className="input is-danger" type="text" />
+                    </div>
+                    <p className="help is-danger">This is a help text</p>
+                  </div>
+                  <br />
+                  <div className="buttons is-right">
+                    <button type="button" className="button is-light is-outlined is-inverted">Clear</button>
+                    <button type="submit" className="button is-primary">Sign In</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </article>
       </div>
     </section>
   </AppLayout>
