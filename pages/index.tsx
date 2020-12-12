@@ -1,4 +1,5 @@
 import React from "react"
+import Button from "../src/components/Button"
 import ButtonGroup from "../src/components/ButtonGroup"
 import Form from "../src/components/Form"
 import FormInput from "../src/components/FormInput"
@@ -21,8 +22,8 @@ const LoginPage = () => (
                   <FormInput label="Password" type="password" />
                   <br />
                   <ButtonGroup align="is-right">
-                    <button type="button" className="button is-light is-outlined is-inverted">Clear</button>
-                    <button type="submit" className="button is-primary">Sign In</button>
+                    <Button label="Clear" type="button" color="is-light" isInverted isOutlined />
+                    <Button label="Sign In" type="submit" color="is-primary" />
                   </ButtonGroup>
                 </Form>
               </div>
