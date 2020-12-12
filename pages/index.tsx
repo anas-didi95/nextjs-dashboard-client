@@ -1,5 +1,6 @@
 import React from "react"
 import Form from "../src/components/Form"
+import FormInput from "../src/components/FormInput"
 import Navbar from "../src/components/Navbar"
 import AppLayout from "../src/layouts/AppLayout"
 
@@ -15,20 +16,8 @@ const LoginPage = () => (
             <div className="column is-5">
               <div className="box">
                 <Form title="Sign In Form">
-                  <div className="field">
-                    <label className="label">Label</label>
-                    <div className="control">
-                      <input className="input is-danger" type="text" />
-                    </div>
-                    <p className="help is-danger">This is a help text</p>
-                  </div>
-                  <div className="field">
-                    <label className="label">Label</label>
-                    <div className="control">
-                      <input className="input is-danger" type="text" />
-                    </div>
-                    <p className="help is-danger">This is a help text</p>
-                  </div>
+                  <FormInput label="Username" type="text" />
+                  <FormInput label="Password" type="password" />
                   <br />
                   <div className="buttons is-right">
                     <button type="button" className="button is-light is-outlined is-inverted">Clear</button>
