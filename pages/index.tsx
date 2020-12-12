@@ -1,4 +1,5 @@
 import React from "react"
+import Box from "../src/components/Box"
 import Button from "../src/components/Button"
 import ButtonGroup from "../src/components/ButtonGroup"
 import Form from "../src/components/Form"
@@ -16,7 +17,7 @@ const LoginPage = () => (
         <article className="container">
           <div className="columns is-centered">
             <div className="column is-5">
-              <div className="box">
+              <Box>
                 <Form title="Sign In Form">
                   <FormInput label="Username" type="text" />
                   <FormInput label="Password" type="password" />
@@ -26,7 +27,7 @@ const LoginPage = () => (
                     <Button label="Sign In" type="submit" color="is-primary" />
                   </ButtonGroup>
                 </Form>
-              </div>
+              </Box>
             </div>
           </div>
         </article>
