@@ -34,11 +34,13 @@ const SignInForm: React.FC<{}> = () => {
     password: string
   }
   const constants = useConstants()
-  const { register, handleSubmit, errors } = useForm<TForm>()
+  const { register, handleSubmit, errors, reset } = useForm<TForm>()
 
   const onSignIn = (data: TForm) => {
     console.log("data", data)
   }
+
+  const onClear = () => reset()
 
   return (
     <Box>
@@ -67,7 +69,7 @@ const SignInForm: React.FC<{}> = () => {
             color="is-light"
             isInverted
             isOutlined
-            onClick={() => console.log("Clear button undefined!")}
+            onClick={onClear}
           />
           <Button
             label={constants.button.signIn}
