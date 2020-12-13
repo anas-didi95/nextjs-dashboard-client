@@ -20,7 +20,7 @@ const useConstants = () => {
   }
 
   const error = {
-    mandatoryField: (field: string) => `${field} is a mandatory field!`
+    mandatoryField: (field: string) => `${field} is a mandatory field!`,
   }
 
   return { metadata, label, button, header, error }

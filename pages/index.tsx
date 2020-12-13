@@ -51,14 +51,18 @@ const SignInForm: React.FC<{}> = () => {
           name="username"
           label={constants.label.username}
           type="text"
-          register={register({ required: constants.error.mandatoryField(constants.label.username) })}
+          register={register({
+            required: constants.error.mandatoryField(constants.label.username),
+          })}
           error={errors?.username?.message}
         />
         <FormInput
           name="password"
           label={constants.label.password}
           type="password"
-          register={register({ required: constants.error.mandatoryField(constants.label.password) })}
+          register={register({
+            required: constants.error.mandatoryField(constants.label.password),
+          })}
           error={errors?.password?.message}
         />
         <br />
