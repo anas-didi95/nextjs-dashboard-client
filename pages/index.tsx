@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useContext } from "react"
 import { useForm } from "react-hook-form"
 import Box from "../src/components/Box"
 import Button from "../src/components/Button"
@@ -9,6 +9,7 @@ import Navbar from "../src/components/Navbar"
 import AppLayout from "../src/layouts/AppLayout"
 import useConstants from "../src/utils/useConstants"
 import { useRouter } from "next/router"
+import AuthContext from "../src/utils/contexts/AuthContext"
 
 const LoginPage: React.FC<{}> = () => (
   <AppLayout title="Login Page">
@@ -37,11 +38,15 @@ const SignInForm: React.FC<{}> = () => {
   const constants = useConstants()
   const { register, handleSubmit, errors, reset } = useForm<TForm>()
   const router = useRouter()
+  const auth = useContext(AuthContext)
 
   const onSignIn = (data: TForm) => {
     console.log("data", data)
 
-    router.replace("/dashboard")
+    if (data.username === "anas.didi95" && data.password === "password") {
+      auth.setAuth(true)
+      router.replace("/dashboard")
+    }
   }
 
   const onClear = () => reset()
