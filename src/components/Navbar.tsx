@@ -15,7 +15,7 @@ const Navbar = () => {
       role="navigation"
       aria-label="main navigation">
       <div className="navbar-brand">
-        <Link href="/">
+        <Link href="/dashboard">
           <a className="navbar-item" href="#">
             <Image src="/images/dashboard.png" width={64} height={64} />
             <p className="title is-4 ml-2 has-text-white">

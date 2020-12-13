@@ -2,6 +2,7 @@ import React, { ReactNode, useContext, useEffect, useState } from "react"
 import Head from "next/head"
 import useConstants from "../utils/useConstants"
 import AuthContext from "../utils/contexts/AuthContext"
+import { useRouter } from "next/router"
 
 interface IAppLayout {
   children: ReactNode
@@ -13,10 +14,15 @@ const AppLayout: React.FC<IAppLayout> = ({ children, title, needAuth }) => {
   const constants = useConstants()
   const [isShow, setShow] = useState<boolean>(false)
   const auth = useContext(AuthContext)
+  const router = useRouter()
 
   useEffect(() => {
-    if (needAuth && auth.isAuth()) {
-      setShow(true)
+    if (needAuth) {
+      if (auth.isAuth()) {
+        setShow(true)
+      } else {
+        router.replace("/")
+      }
     } else {
       setShow(true)
     }
