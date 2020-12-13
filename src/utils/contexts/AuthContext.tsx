@@ -1,11 +1,11 @@
-import React, { createContext, ReactNode, useEffect, useState } from "react"
+import React, { createContext, ReactNode, useState } from "react"
 
 interface IAuthContext {
-  isAuth: () => void
+  isAuth: () => boolean
   setAuth: (status: boolean) => void
 }
 
-const AuthContext = createContext<IAuthContext>({ isAuth: () => { }, setAuth: () => { } })
+const AuthContext = createContext<IAuthContext>({ isAuth: () => false, setAuth: () => { } })
 
 const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   type TData = {

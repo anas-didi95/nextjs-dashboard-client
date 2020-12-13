@@ -1,6 +1,7 @@
-import React, { ReactNode, useEffect, useState } from "react"
+import React, { ReactNode, useContext, useEffect, useState } from "react"
 import Head from "next/head"
 import useConstants from "../utils/useConstants"
+import AuthContext from "../utils/contexts/AuthContext"
 
 interface IAppLayout {
   children: ReactNode
@@ -11,10 +12,11 @@ interface IAppLayout {
 const AppLayout: React.FC<IAppLayout> = ({ children, title, needAuth }) => {
   const constants = useConstants()
   const [isShow, setShow] = useState<boolean>(false)
+  const auth = useContext(AuthContext)
 
   useEffect(() => {
-    if (needAuth) {
-      console.log("Check user is authenticated")
+    if (needAuth && auth.isAuth()) {
+      setShow(true)
     } else {
       setShow(true)
     }
