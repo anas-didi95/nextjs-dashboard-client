@@ -43,8 +43,11 @@ const SignInForm: React.FC<{}> = () => {
   return (
     <Box>
       <Form title={constants.header.signInForm} onSubmit={handleSubmit(onSignIn)}>
-        <FormInput name="username" label={constants.label.username} type="text" register={register} />
-        <FormInput name="password" label={constants.label.password} type="password" register={register} />
+        <FormInput name="username" label={constants.label.username} type="text" register={register({ required: "Username is mandatory field!" })}
+          error={errors?.username?.message}
+        />
+        <FormInput name="password" label={constants.label.password} type="password" register={register({ required: "Password is mandatory field!" })}
+          error={errors?.password?.message} />
         <br />
         <ButtonGroup align="is-right">
           <Button
