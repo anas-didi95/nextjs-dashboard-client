@@ -5,7 +5,10 @@ interface IAuthContext {
   setAuth: (status: boolean) => void
 }
 
-const AuthContext = createContext<IAuthContext>({ isAuth: () => false, setAuth: () => { } })
+const AuthContext = createContext<IAuthContext>({
+  isAuth: () => false,
+  setAuth: () => {},
+})
 
 const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   type TData = {
@@ -14,9 +17,14 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [data, setData] = useState<TData>({ isAuth: false })
 
   const isAuth = () => data.isAuth
-  const setAuth = (status: boolean) => setData(prev => ({ ...prev, isAuth: status }))
+  const setAuth = (status: boolean) =>
+    setData((prev) => ({ ...prev, isAuth: status }))
 
-  return <AuthContext.Provider value={{ isAuth, setAuth }}>{children}</AuthContext.Provider>
+  return (
+    <AuthContext.Provider value={{ isAuth, setAuth }}>
+      {children}
+    </AuthContext.Provider>
+  )
 }
 
 export default AuthContext
