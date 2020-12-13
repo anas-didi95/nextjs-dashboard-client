@@ -1,6 +1,7 @@
 import React from "react"
 
 interface IButton {
+  onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
   type: "button" | "submit"
   label: string
   color?: "is-light" | "is-primary"
@@ -14,12 +15,14 @@ const Button: React.FC<IButton> = ({
   isOutlined,
   isInverted,
   label,
+  onClick,
 }) => (
   <button
     type={type}
     className={`button ${!!color && color} ${isOutlined && "is-outlined"} ${
       isInverted && "is-inverted"
-    }`}>
+    }`}
+    onClick={onClick}>
     {label}
   </button>
 )

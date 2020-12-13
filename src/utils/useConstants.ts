@@ -19,7 +19,11 @@ const useConstants = () => {
     signIn: "Sign In",
   }
 
-  return { metadata, label, button, header }
+  const error = {
+    mandatoryField: (field: string) => `${field} is a mandatory field!`,
+  }
+
+  return { metadata, label, button, header, error }
 }
 
 export default useConstants
