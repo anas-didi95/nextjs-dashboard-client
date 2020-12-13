@@ -8,6 +8,7 @@ import FormInput from "../src/components/FormInput"
 import Navbar from "../src/components/Navbar"
 import AppLayout from "../src/layouts/AppLayout"
 import useConstants from "../src/utils/useConstants"
+import { useRouter } from "next/router"
 
 const LoginPage: React.FC<{}> = () => (
   <AppLayout title="Login Page">
@@ -35,9 +36,12 @@ const SignInForm: React.FC<{}> = () => {
   }
   const constants = useConstants()
   const { register, handleSubmit, errors, reset } = useForm<TForm>()
+  const router = useRouter()
 
   const onSignIn = (data: TForm) => {
     console.log("data", data)
+
+    router.replace("/dashboard")
   }
 
   const onClear = () => reset()
