@@ -8,7 +8,13 @@ interface IFormInput {
   error?: string
 }
 
-const FormInput: React.FC<IFormInput> = ({ name, register, type, label, error }) => (
+const FormInput: React.FC<IFormInput> = ({
+  name,
+  register,
+  type,
+  label,
+  error,
+}) => (
   <div className="field">
     <label className="label">{label}</label>
     <div className="control">
