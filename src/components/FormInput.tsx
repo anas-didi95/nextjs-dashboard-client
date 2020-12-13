@@ -1,6 +1,7 @@
 import React from "react"
 
 interface IFormInput {
+  register: any
   type: "text" | "password"
   label: string
   error?: string

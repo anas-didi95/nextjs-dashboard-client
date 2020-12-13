@@ -1,4 +1,5 @@
 import React from "react"
+import { useForm } from "react-hook-form"
 import Box from "../src/components/Box"
 import Button from "../src/components/Button"
 import ButtonGroup from "../src/components/ButtonGroup"
@@ -28,13 +29,18 @@ const LoginPage: React.FC<{}> = () => (
 )
 
 const SignInForm: React.FC<{}> = () => {
+  type TForm = {
+    username: string
+    password: string
+  }
   const constants = useConstants()
+  const { register, handleSubmit, errors } = useForm<TForm>()
 
   return (
     <Box>
       <Form title={constants.header.signInForm}>
-        <FormInput label={constants.label.username} type="text" />
-        <FormInput label={constants.label.password} type="password" />
+        <FormInput label={constants.label.username} type="text" register={register} />
+        <FormInput label={constants.label.password} type="password" register={register} />
         <br />
         <ButtonGroup align="is-right">
           <Button
