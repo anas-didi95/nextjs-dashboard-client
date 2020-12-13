@@ -36,11 +36,15 @@ const SignInForm: React.FC<{}> = () => {
   const constants = useConstants()
   const { register, handleSubmit, errors } = useForm<TForm>()
 
+  const onSignIn = (data: TForm) => {
+    console.log("data", data)
+  }
+
   return (
     <Box>
-      <Form title={constants.header.signInForm}>
-        <FormInput label={constants.label.username} type="text" register={register} />
-        <FormInput label={constants.label.password} type="password" register={register} />
+      <Form title={constants.header.signInForm} onSubmit={handleSubmit(onSignIn)}>
+        <FormInput name="username" label={constants.label.username} type="text" register={register} />
+        <FormInput name="password" label={constants.label.password} type="password" register={register} />
         <br />
         <ButtonGroup align="is-right">
           <Button
@@ -49,11 +53,13 @@ const SignInForm: React.FC<{}> = () => {
             color="is-light"
             isInverted
             isOutlined
+            onClick={() => console.log("Clear button undefined!")}
           />
           <Button
             label={constants.button.signIn}
             type="submit"
             color="is-primary"
+            onClick={handleSubmit(onSignIn)}
           />
         </ButtonGroup>
       </Form>
