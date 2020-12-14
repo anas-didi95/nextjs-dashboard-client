@@ -5,13 +5,19 @@ import useConstants from "../utils/hooks/useConstants"
 import AuthContext from "../utils/contexts/AuthContext"
 import ButtonGroup from "./ButtonGroup"
 import Button from "./Button"
+import { useRouter } from "next/router"
 
 const Navbar = () => {
   const [isActive, setActive] = useState(false)
   const constants = useConstants()
   const authContext = useContext(AuthContext)
+  const router = useRouter()
 
   const toggleActive = () => setActive((prev) => !prev)
+  const signOut = () => {
+    authContext.clearAuth()
+    router.replace("/")
+  }
 
   return (
     <nav
@@ -48,7 +54,7 @@ const Navbar = () => {
         <div className="navbar-end">
           <div className="navbar-item">
             <ButtonGroup>
-              {authContext.isAuth() && <Button label={constants.button.signOut} onClick={() => console.log("sign out")} type="button" color="is-danger" />}
+              {authContext.isAuth() && <Button label={constants.button.signOut} onClick={signOut} type="button" color="is-danger" />}
             </ButtonGroup>
           </div>
         </div>

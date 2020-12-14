@@ -3,11 +3,13 @@ import React, { createContext, ReactNode, useState } from "react"
 interface IAuthContext {
   isAuth: () => boolean
   setAuth: (accessToken: string) => void
+  clearAuth: () => void
 }
 
 const AuthContext = createContext<IAuthContext>({
   isAuth: () => false,
   setAuth: () => { },
+  clearAuth: () => { }
 })
 
 const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -19,9 +21,10 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const isAuth = () => !!data.accessToken
   const setAuth = (accessToken: string) =>
     setData((prev) => ({ ...prev, accessToken }))
+  const clearAuth = () => setData({ accessToken: "" })
 
   return (
-    <AuthContext.Provider value={{ isAuth, setAuth }}>
+    <AuthContext.Provider value={{ isAuth, setAuth, clearAuth }}>
       {children}
     </AuthContext.Provider>
   )
