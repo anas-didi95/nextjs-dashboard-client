@@ -1,5 +1,5 @@
 const useAuth = () => {
-  const baseUrl = "https://api.anasdidi.dev/security/api/jwt"
+  const baseUrl = `${process.env.NEXT_PUBLIC_API_SECURITY}/api/jwt`
 
   const signIn = async (username: string, password: string): Promise<{ status: { isSuccess: boolean }, data: { accessToken: string } }> => {
     try {

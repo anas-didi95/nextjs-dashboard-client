@@ -1,4 +1,4 @@
-@baseUrl = https://api.anasdidi.dev/security/api/jwt
+@baseUrl = {{$processEnv NEXT_PUBLIC_API_SECURITY}}/api/jwt
 
 // @name login
 POST {{baseUrl}}/login
