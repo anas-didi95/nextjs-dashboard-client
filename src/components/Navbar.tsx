@@ -44,22 +44,32 @@ const Navbar = () => {
           <span aria-hidden="true"></span>
         </a>
       </div>
-      <div
-        className={`navbar-menu ${isActive && "is-active"}`}>
-        {authContext.isAuth() && (<div className="navbar-start">
-          <Link href="/dashboard">
-            <a className="navbar-item" href="/dashboard">Home</a>
-          </Link>
-        </div>)}
+      <div className={`navbar-menu ${isActive && "is-active"}`}>
+        {authContext.isAuth() && (
+          <div className="navbar-start">
+            <Link href="/dashboard">
+              <a className="navbar-item" href="/dashboard">
+                Home
+              </a>
+            </Link>
+          </div>
+        )}
         <div className="navbar-end">
           <div className="navbar-item">
             <ButtonGroup>
-              {authContext.isAuth() && <Button label={constants.button.signOut} onClick={signOut} type="button" color="is-danger" />}
+              {authContext.isAuth() && (
+                <Button
+                  label={constants.button.signOut}
+                  onClick={signOut}
+                  type="button"
+                  color="is-danger"
+                />
+              )}
             </ButtonGroup>
           </div>
         </div>
       </div>
-    </nav >
+    </nav>
   )
 }
 

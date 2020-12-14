@@ -17,7 +17,7 @@ const useConstants = () => {
   const button = {
     clear: "Clear",
     signIn: "Sign In",
-    signOut: "Sign Out"
+    signOut: "Sign Out",
   }
 
   const error = {

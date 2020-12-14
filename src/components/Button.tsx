@@ -17,13 +17,14 @@ const Button: React.FC<IButton> = ({
   label,
   onClick,
 }) => (
-    <button
-      type={type}
-      className={`button ${!!color && color} ${isOutlined && "is-outlined"} ${isInverted && "is-inverted"
-        }`}
-      onClick={onClick}>
-      {label}
-    </button>
-  )
+  <button
+    type={type}
+    className={`button ${!!color && color} ${isOutlined && "is-outlined"} ${
+      isInverted && "is-inverted"
+    }`}
+    onClick={onClick}>
+    {label}
+  </button>
+)
 
 export default Button

@@ -8,8 +8,8 @@ interface IAuthContext {
 
 const AuthContext = createContext<IAuthContext>({
   isAuth: () => false,
-  setAuth: () => { },
-  clearAuth: () => { }
+  setAuth: () => {},
+  clearAuth: () => {},
 })
 
 const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
