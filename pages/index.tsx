@@ -7,9 +7,10 @@ import Form from "../src/components/Form"
 import FormInput from "../src/components/FormInput"
 import Navbar from "../src/components/Navbar"
 import AppLayout from "../src/layouts/AppLayout"
-import useConstants from "../src/utils/useConstants"
+import useConstants from "../src/utils/hooks/useConstants"
 import { useRouter } from "next/router"
 import AuthContext from "../src/utils/contexts/AuthContext"
+import useAuth from "../src/utils/hooks/useAuth"
 
 const LoginPage: React.FC<{}> = () => (
   <AppLayout title="Login Page">
@@ -38,13 +39,14 @@ const SignInForm: React.FC<{}> = () => {
   const constants = useConstants()
   const { register, handleSubmit, errors, reset } = useForm<TForm>()
   const router = useRouter()
-  const auth = useContext(AuthContext)
+  const authContext = useContext(AuthContext)
+  const auth = useAuth()
 
-  const onSignIn = (data: TForm) => {
-    console.log("data", data)
+  const onSignIn = async (data: TForm) => {
+    const responseBody = await auth.signIn(data.username, data.password)
 
-    if (data.username === "anas.didi95" && data.password === "password") {
-      auth.setAuth(true)
+    if (responseBody.status.isSuccess) {
+      authContext.setAuth(responseBody.data.accessToken)
       router.replace("/dashboard")
     }
   }

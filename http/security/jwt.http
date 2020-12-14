@@ -1,0 +1,36 @@
+@baseUrl = {{$processEnv NEXT_PUBLIC_API_SECURITY}}/api/jwt
+
+// @name login
+POST {{baseUrl}}/login
+Accept: application/json
+Content-Type: application/json
+
+{
+  "username": "superadmin",
+  "password": "password"
+}
+
+###
+
+// @name refresh
+GET {{baseUrl}}/refresh
+Accept: application/json
+Content-Type: application/json
+
+###
+
+@accessToken = {{login.response.body.$.data.accessToken}}
+
+GET {{baseUrl}}/check
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+###
+
+@accessToken = {{login.response.body.$.data.accessToken}}
+
+GET {{baseUrl}}/logout
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}

@@ -1,6 +1,6 @@
 import React, { ReactNode, useContext, useEffect, useState } from "react"
 import Head from "next/head"
-import useConstants from "../utils/useConstants"
+import useConstants from "../utils/hooks/useConstants"
 import AuthContext from "../utils/contexts/AuthContext"
 import { useRouter } from "next/router"
 
