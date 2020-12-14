@@ -7,9 +7,10 @@ import Form from "../src/components/Form"
 import FormInput from "../src/components/FormInput"
 import Navbar from "../src/components/Navbar"
 import AppLayout from "../src/layouts/AppLayout"
-import useConstants from "../src/utils/useConstants"
+import useConstants from "../src/utils/hooks/useConstants"
 import { useRouter } from "next/router"
 import AuthContext from "../src/utils/contexts/AuthContext"
+import useAuth from "../src/utils/hooks/useAuth"
 
 const LoginPage: React.FC<{}> = () => (
   <AppLayout title="Login Page">
@@ -39,30 +40,14 @@ const SignInForm: React.FC<{}> = () => {
   const { register, handleSubmit, errors, reset } = useForm<TForm>()
   const router = useRouter()
   const authContext = useContext(AuthContext)
+  const auth = useAuth()
 
   const onSignIn = async (data: TForm) => {
-    console.log("data", data)
+    const responseBody = await auth.signIn(data.username, data.password)
 
-    try {
-      const response = await fetch("https://api.anasdidi.dev/security/api/jwt/login", {
-        method: "POST",
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          username: data.username,
-          password: data.password
-        })
-      })
-      const responseBody = await response.json()
-
-      if (responseBody.status.isSuccess) {
-        authContext.setAuth(responseBody.data.accessToken)
-        router.replace("/dashboard")
-      }
-    } catch (e) {
-      console.error(e)
+    if (responseBody.status.isSuccess) {
+      authContext.setAuth(responseBody.data.accessToken)
+      router.replace("/dashboard")
     }
   }
 

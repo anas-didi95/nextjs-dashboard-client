@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import useConstants from "../utils/useConstants"
+import useConstants from "../utils/hooks/useConstants"
 
 const Navbar = () => {
   const [isActive, setActive] = useState(false)
