@@ -38,14 +38,31 @@ const SignInForm: React.FC<{}> = () => {
   const constants = useConstants()
   const { register, handleSubmit, errors, reset } = useForm<TForm>()
   const router = useRouter()
-  const auth = useContext(AuthContext)
+  const authContext = useContext(AuthContext)
 
-  const onSignIn = (data: TForm) => {
+  const onSignIn = async (data: TForm) => {
     console.log("data", data)
 
-    if (data.username === "anas.didi95" && data.password === "password") {
-      auth.setAuth(true)
-      router.replace("/dashboard")
+    try {
+      const response = await fetch("https://api.anasdidi.dev/security/api/jwt/login", {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          username: data.username,
+          password: data.password
+        })
+      })
+      const responseBody = await response.json()
+
+      if (responseBody.status.isSuccess) {
+        authContext.setAuth(responseBody.data.accessToken)
+        router.replace("/dashboard")
+      }
+    } catch (e) {
+      console.error(e)
     }
   }
 

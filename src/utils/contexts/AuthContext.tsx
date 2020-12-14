@@ -2,23 +2,23 @@ import React, { createContext, ReactNode, useState } from "react"
 
 interface IAuthContext {
   isAuth: () => boolean
-  setAuth: (status: boolean) => void
+  setAuth: (accessToken: string) => void
 }
 
 const AuthContext = createContext<IAuthContext>({
   isAuth: () => false,
-  setAuth: () => {},
+  setAuth: () => { },
 })
 
 const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   type TData = {
-    isAuth: boolean
+    accessToken: string
   }
-  const [data, setData] = useState<TData>({ isAuth: false })
+  const [data, setData] = useState<TData>({ accessToken: "" })
 
-  const isAuth = () => data.isAuth
-  const setAuth = (status: boolean) =>
-    setData((prev) => ({ ...prev, isAuth: status }))
+  const isAuth = () => !!data.accessToken
+  const setAuth = (accessToken: string) =>
+    setData((prev) => ({ ...prev, accessToken }))
 
   return (
     <AuthContext.Provider value={{ isAuth, setAuth }}>
