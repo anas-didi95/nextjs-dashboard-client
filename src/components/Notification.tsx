@@ -7,12 +7,12 @@ const Notification: React.FC<{}> = () => {
 
   return (
     <>
-      {notificationContext.hasMessage() &&
+      {notificationContext.hasMessage() && (
         <div className={`notification ${type}`}>
           <p className="is-size-5 has-text-weight-semibold">{title}</p>
           <p className="mt-1">{message}</p>
         </div>
-      }
+      )}
     </>
   )
 }

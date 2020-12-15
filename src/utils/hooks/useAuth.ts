@@ -5,7 +5,7 @@ const useAuth = () => {
     username: string,
     password: string
   ): Promise<{
-    status: { isSuccess: boolean, message: string }
+    status: { isSuccess: boolean; message: string }
     data: { accessToken: string }
   }> => {
     try {
@@ -28,11 +28,11 @@ const useAuth = () => {
       return {
         status: {
           isSuccess: false,
-          message: "Unable to authenticate with server!"
+          message: "Unable to authenticate with server!",
         },
         data: {
-          accessToken: ""
-        }
+          accessToken: "",
+        },
       }
     }
   }
