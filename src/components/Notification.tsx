@@ -1,10 +1,20 @@
-import React from "react"
+import React, { useContext } from "react"
+import NotificationContext from "../utils/contexts/NotificationContext"
 
-const Notification: React.FC<{}> = () => (
-  <div className="notification is-danger">
-    <p className="is-size-4 has-text-weight-bold">title</p>
-    <p className="mt-1">message</p>
-  </div>
-)
+const Notification: React.FC<{}> = () => {
+  const notificationContext = useContext(NotificationContext)
+  const [title, message, type] = notificationContext.getValue()
+
+  return (
+    <>
+      {notificationContext.hasMessage() &&
+        <div className={`notification ${type}`}>
+          <p className="is-size-4 has-text-weight-semibold">{title}</p>
+          <p className="mt-1">{message}</p>
+        </div>
+      }
+    </>
+  )
+}
 
 export default Notification
