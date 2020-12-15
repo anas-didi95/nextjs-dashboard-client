@@ -11,6 +11,7 @@ import useConstants from "../src/utils/hooks/useConstants"
 import { useRouter } from "next/router"
 import AuthContext from "../src/utils/contexts/AuthContext"
 import useAuth from "../src/utils/hooks/useAuth"
+import Notification from "../src/components/Notification"
 
 const LoginPage: React.FC<{}> = () => (
   <AppLayout title="Login Page">
@@ -58,10 +59,7 @@ const SignInForm: React.FC<{}> = () => {
       <Form
         title={constants.header.signInForm}
         onSubmit={handleSubmit(onSignIn)}>
-        <div className="notification is-danger">
-          <p className="is-size-4 has-text-weight-bold">Error</p>
-          <p className="mt-1">Invalid credentials!</p>
-        </div>
+        <Notification />
         <FormInput
           name="username"
           label={constants.label.username}
