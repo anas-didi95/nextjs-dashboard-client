@@ -11,6 +11,8 @@ import useConstants from "../src/utils/hooks/useConstants"
 import { useRouter } from "next/router"
 import AuthContext from "../src/utils/contexts/AuthContext"
 import useAuth from "../src/utils/hooks/useAuth"
+import Notification from "../src/components/Notification"
+import NotificationContext from "../src/utils/contexts/NotificationContext"
 
 const LoginPage: React.FC<{}> = () => (
   <AppLayout title="Login Page">
@@ -41,23 +43,34 @@ const SignInForm: React.FC<{}> = () => {
   const router = useRouter()
   const authContext = useContext(AuthContext)
   const auth = useAuth()
+  const notificationContext = useContext(NotificationContext)
 
   const onSignIn = async (data: TForm) => {
+    notificationContext.clear()
     const responseBody = await auth.signIn(data.username, data.password)
 
     if (responseBody.status.isSuccess) {
       authContext.setAuth(responseBody.data.accessToken)
       router.replace("/dashboard")
+    } else {
+      notificationContext.setErrorMessage(
+        "Sign in failed!",
+        responseBody.status.message
+      )
     }
   }
 
-  const onClear = () => reset()
+  const onClear = () => {
+    notificationContext.clear()
+    reset()
+  }
 
   return (
     <Box>
       <Form
         title={constants.header.signInForm}
         onSubmit={handleSubmit(onSignIn)}>
+        <Notification />
         <FormInput
           name="username"
           label={constants.label.username}
