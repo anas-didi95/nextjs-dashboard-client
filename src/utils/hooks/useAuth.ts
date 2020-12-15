@@ -5,7 +5,7 @@ const useAuth = () => {
     username: string,
     password: string
   ): Promise<{
-    status: { isSuccess: boolean }
+    status: { isSuccess: boolean, message: string }
     data: { accessToken: string }
   }> => {
     try {

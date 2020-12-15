@@ -52,6 +52,8 @@ const SignInForm: React.FC<{}> = () => {
     if (responseBody.status.isSuccess) {
       authContext.setAuth(responseBody.data.accessToken)
       router.replace("/dashboard")
+    } else {
+      notificationContext.setErrorMessage("Sign in failed!", responseBody.status.message)
     }
   }
 
