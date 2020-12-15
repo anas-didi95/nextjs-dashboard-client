@@ -58,6 +58,10 @@ const SignInForm: React.FC<{}> = () => {
       <Form
         title={constants.header.signInForm}
         onSubmit={handleSubmit(onSignIn)}>
+        <div className="notification is-danger">
+          <p className="is-size-4 has-text-weight-bold">Error</p>
+          <p className="mt-1">Invalid credentials!</p>
+        </div>
         <FormInput
           name="username"
           label={constants.label.username}
