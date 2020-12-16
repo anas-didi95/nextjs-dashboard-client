@@ -13,6 +13,7 @@ import AuthContext from "../src/utils/contexts/AuthContext"
 import useAuth from "../src/utils/hooks/useAuth"
 import Notification from "../src/components/Notification"
 import NotificationContext from "../src/utils/contexts/NotificationContext"
+import LoadingContext from "../src/utils/contexts/LoadingContext"
 
 const LoginPage: React.FC<{}> = () => (
   <AppLayout title="Login Page">
@@ -44,10 +45,13 @@ const SignInForm: React.FC<{}> = () => {
   const authContext = useContext(AuthContext)
   const auth = useAuth()
   const notificationContext = useContext(NotificationContext)
+  const loadingContext = useContext(LoadingContext)
 
   const onSignIn = async (data: TForm) => {
     notificationContext.clear()
+    loadingContext.onLoading()
     const responseBody = await auth.signIn(data.username, data.password)
+    loadingContext.offLoading()
 
     if (responseBody.status.isSuccess) {
       authContext.setAuth(responseBody.data.accessToken)

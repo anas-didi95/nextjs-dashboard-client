@@ -19,7 +19,7 @@ const FormInput: React.FC<IFormInput> = ({
     <label className="label">{label}</label>
     <div className="control">
       <input
-        className={`input ${!!error ? "is-danger" : "is-link"}`}
+        className={`input ${!!error ? "is-danger" : "is-hovered"}`}
         type={type}
         name={name}
         ref={register}
