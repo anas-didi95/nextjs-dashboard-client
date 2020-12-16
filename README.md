@@ -1,5 +1,7 @@
 # Next.js Dashboard Client
 
+![build](https://github.com/anas-didi95/nextjs-dashboard-client/workflows/build/badge.svg)
+
 This is dashboard client application developed using [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 The application is deployed at https://dashboard.anasdidi.dev/.
