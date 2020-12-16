@@ -1,0 +1,31 @@
+#Reference: https://docs.github.com/en/free-pro-team@latest/actions/guides/building-and-testing-nodejs
+#Reference: https://github.com/actions/setup-node
+
+name: build
+
+on:
+  pull_request:
+    branches:
+      - main
+      - add-build-workflow
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x]
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: yarn install, build, codegen, type-check and test
+        run: |
+          yarn install
+          yarn build
+        env:
+          CI: true
