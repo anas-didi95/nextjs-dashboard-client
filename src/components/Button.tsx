@@ -1,4 +1,5 @@
-import React from "react"
+import React, { useContext } from "react"
+import LoadingContext from "../utils/contexts/LoadingContext"
 
 interface IButton {
   onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
@@ -16,15 +17,18 @@ const Button: React.FC<IButton> = ({
   isInverted,
   label,
   onClick,
-}) => (
-  <button
-    type={type}
-    className={`button ${!!color && color} ${isOutlined && "is-outlined"} ${
-      isInverted && "is-inverted"
-    }`}
-    onClick={onClick}>
-    {label}
-  </button>
-)
+}) => {
+  const loadingContext = useContext(LoadingContext)
+
+  return (
+    <button
+      type={type}
+      className={`button ${!!color && color} ${isOutlined && "is-outlined"} ${isInverted && "is-inverted"
+        } ${loadingContext.isLoading() && "is-loading"}`}
+      onClick={onClick}>
+      {label}
+    </button>
+  )
+}
 
 export default Button
