@@ -17,10 +17,7 @@ import LoadingContext from "../src/utils/contexts/LoadingContext"
 
 const LoginPage: React.FC<{}> = () => (
   <AppLayout title="Login Page">
-    <section className="hero is-primary is-fullheight is-info">
-      <div className="hero-head">
-        <Navbar />
-      </div>
+    <section className="hero is-primary is-fullheight-with-navbar is-info">
       <div className="hero-body">
         <article className="container">
           <div className="columns is-centered">

@@ -3,6 +3,7 @@ import Head from "next/head"
 import useConstants from "../utils/hooks/useConstants"
 import AuthContext from "../utils/contexts/AuthContext"
 import { useRouter } from "next/router"
+import Navbar from "../components/Navbar"
 
 interface IAppLayout {
   children: ReactNode
@@ -45,6 +46,7 @@ const AppLayout: React.FC<IAppLayout> = ({ children, title, needAuth }) => {
             </title>
             <link rel="shortcut icon" href="/images/dashboard.png" />
           </Head>
+          <Navbar />
           <main>{children}</main>
         </>
       )}
