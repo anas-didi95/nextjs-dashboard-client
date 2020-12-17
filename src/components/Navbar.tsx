@@ -6,6 +6,7 @@ import AuthContext from "../utils/contexts/AuthContext"
 import ButtonGroup from "./ButtonGroup"
 import Button from "./Button"
 import { useRouter } from "next/router"
+import Modal from "./Modal"
 
 const Navbar = () => {
   const [isActive, setActive] = useState(false)
@@ -73,25 +74,16 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
-      <div className={`modal ${isSignOut ? "is-active" : ""} px-4`}>
-        <div className="modal-background" onClick={toggleSignOut}></div>
-        <div className="modal-card">
-          <header className="modal-card-head">
-            <p className="modal-card-title">Confirm Sign Out?</p>
-            <button className="delete" aria-label="close" onClick={toggleSignOut}></button>
-          </header>
-          <section className="modal-card-body">
-            <p className="content">
-              Click "Sign Out" below to sign out from dashboard.
+      <Modal isActive={isSignOut} toggleActive={toggleSignOut} title="Confirm Sign Out?">
+        <p className="content">
+          Click "Sign Out" below to sign out from dashboard.
 </p>
-            <br />
-            <ButtonGroup align="is-right">
-              <Button label="Close" onClick={toggleSignOut} type="button" color="is-light" isInverted isOutlined />
-              <Button label="Sign Out" onClick={() => { }} type="button" color="is-danger" />
-            </ButtonGroup>
-          </section>
-        </div>
-      </div>
+        <br />
+        <ButtonGroup align="is-right">
+          <Button label="Close" onClick={toggleSignOut} type="button" color="is-light" isInverted isOutlined />
+          <Button label="Sign Out" onClick={() => { }} type="button" color="is-danger" />
+        </ButtonGroup>
+      </Modal>
     </>
   )
 }
