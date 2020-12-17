@@ -7,7 +7,7 @@ const useConstants = () => {
 
   const header = {
     signInForm: "Sign In Form",
-    confirmSignOut: "Confirm Sign Out?"
+    confirmSignOut: "Confirm Sign Out?",
   }
 
   const label = {
@@ -19,7 +19,7 @@ const useConstants = () => {
     clear: "Clear",
     signIn: "Sign In",
     signOut: "Sign Out",
-    close: "Close"
+    close: "Close",
   }
 
   const error = {

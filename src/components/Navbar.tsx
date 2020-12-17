@@ -13,7 +13,7 @@ const Navbar = () => {
   const [isSignOut, setSignOut] = useState(false)
 
   const toggleActive = () => setActive((prev) => !prev)
-  const toggleSignOut = () => setSignOut(prev => !prev)
+  const toggleSignOut = () => setSignOut((prev) => !prev)
 
   return (
     <>
@@ -29,7 +29,10 @@ const Navbar = () => {
   )
 }
 
-const NavbarBrand: React.FC<{ isActive: boolean, toggleActive: () => void }> = ({ isActive, toggleActive }) => {
+const NavbarBrand: React.FC<{
+  isActive: boolean
+  toggleActive: () => void
+}> = ({ isActive, toggleActive }) => {
   const constants = useConstants()
 
   return (
@@ -56,7 +59,10 @@ const NavbarBrand: React.FC<{ isActive: boolean, toggleActive: () => void }> = (
   )
 }
 
-const NavbarMenu: React.FC<{ isActive: boolean, toggleSignOut: () => void }> = ({ isActive, toggleSignOut }) => {
+const NavbarMenu: React.FC<{
+  isActive: boolean
+  toggleSignOut: () => void
+}> = ({ isActive, toggleSignOut }) => {
   const constants = useConstants()
   const authContext = useContext(AuthContext)
 
@@ -67,7 +73,7 @@ const NavbarMenu: React.FC<{ isActive: boolean, toggleSignOut: () => void }> = (
           <Link href="/dashboard">
             <a className="navbar-item" href="/dashboard">
               Home
-        </a>
+            </a>
           </Link>
         </div>
       )}
@@ -89,7 +95,10 @@ const NavbarMenu: React.FC<{ isActive: boolean, toggleSignOut: () => void }> = (
   )
 }
 
-const ModalSignOut: React.FC<{ isActive: boolean, toggleActive: () => void }> = ({ isActive, toggleActive }) => {
+const ModalSignOut: React.FC<{
+  isActive: boolean
+  toggleActive: () => void
+}> = ({ isActive, toggleActive }) => {
   const constants = useConstants()
   const authContext = useContext(AuthContext)
   const router = useRouter()
@@ -100,14 +109,29 @@ const ModalSignOut: React.FC<{ isActive: boolean, toggleActive: () => void }> = 
   }
 
   return (
-    <Modal isActive={isActive} toggleActive={toggleActive} title={constants.header.confirmSignOut}>
+    <Modal
+      isActive={isActive}
+      toggleActive={toggleActive}
+      title={constants.header.confirmSignOut}>
       <p className="content">
         Click "Sign Out" below to sign out from dashboard.
-</p>
+      </p>
       <br />
       <ButtonGroup align="is-right">
-        <Button label={constants.button.close} onClick={toggleActive} type="button" color="is-light" isInverted isOutlined />
-        <Button label={constants.button.signOut} onClick={signOut} type="button" color="is-danger" />
+        <Button
+          label={constants.button.close}
+          onClick={toggleActive}
+          type="button"
+          color="is-light"
+          isInverted
+          isOutlined
+        />
+        <Button
+          label={constants.button.signOut}
+          onClick={signOut}
+          type="button"
+          color="is-danger"
+        />
       </ButtonGroup>
     </Modal>
   )
