@@ -16,7 +16,7 @@ import NotificationContext from "../src/utils/contexts/NotificationContext"
 import LoadingContext from "../src/utils/contexts/LoadingContext"
 
 const LoginPage: React.FC<{}> = () => (
-  <AppLayout title="Login Page">
+  <AppLayout title="Sign In Page">
     <section className="hero is-primary is-fullheight-with-navbar is-info">
       <div className="hero-body">
         <article className="container">
