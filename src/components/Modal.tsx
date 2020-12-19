@@ -14,7 +14,10 @@ const Modal: React.FC<IModal> = ({
 }) => (
   <div className={`modal ${isActive ? "is-active" : ""} px-4`}>
     <div className="modal-background" onClick={toggleActive}></div>
-    <div className={`modal-card ${isActive ? "animate__animated animate__zoomIn animate__faster" : ""}`}>
+    <div
+      className={`modal-card ${
+        isActive ? "animate__animated animate__zoomIn animate__faster" : ""
+      }`}>
       <header className="modal-card-head">
         <p className="modal-card-title">{title}</p>
         <button
