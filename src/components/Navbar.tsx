@@ -7,13 +7,16 @@ import ButtonGroup from "./ButtonGroup"
 import Button from "./Button"
 import { useRouter } from "next/router"
 import Modal from "./Modal"
+import { GrPersonalComputer, GrGithub, GrLinkedin } from "react-icons/gr"
 
 const Navbar = () => {
   const [isActive, setActive] = useState(false)
   const [isSignOut, setSignOut] = useState(false)
+  const [isCredits, setCredits] = useState(false)
 
   const toggleActive = () => setActive((prev) => !prev)
   const toggleSignOut = () => setSignOut((prev) => !prev)
+  const toggleCredits = () => setCredits((prev) => !prev)
 
   return (
     <>
@@ -22,8 +25,13 @@ const Navbar = () => {
         role="navigation"
         aria-label="main navigation">
         <NavbarBrand isActive={isActive} toggleActive={toggleActive} />
-        <NavbarMenu isActive={isActive} toggleSignOut={toggleSignOut} />
+        <NavbarMenu
+          isActive={isActive}
+          toggleSignOut={toggleSignOut}
+          toggleCredits={toggleCredits}
+        />
       </nav>
+      <ModalCredits isActive={isCredits} toggleActive={toggleCredits} />
       <ModalSignOut isActive={isSignOut} toggleActive={toggleSignOut} />
     </>
   )
@@ -62,12 +70,18 @@ const NavbarBrand: React.FC<{
 const NavbarMenu: React.FC<{
   isActive: boolean
   toggleSignOut: () => void
-}> = ({ isActive, toggleSignOut }) => {
+  toggleCredits: () => void
+}> = ({ isActive, toggleSignOut, toggleCredits }) => {
   const constants = useConstants()
   const authContext = useContext(AuthContext)
 
   return (
-    <div className={`navbar-menu ${isActive ? "is-active" : ""}`}>
+    <div
+      className={`navbar-menu ${
+        isActive
+          ? "is-active animate__animated animate__slideInDown animate__faster"
+          : ""
+      }`}>
       {authContext.isAuth() && (
         <div className="navbar-start">
           <Link href="/dashboard">
@@ -80,6 +94,13 @@ const NavbarMenu: React.FC<{
       <div className="navbar-end">
         <div className="navbar-item">
           <ButtonGroup>
+            <Button
+              label="Credits"
+              onClick={toggleCredits}
+              type="button"
+              color="is-light"
+              isOutlined
+            />
             {authContext.isAuth() && (
               <Button
                 label={constants.button.signOut}
@@ -92,6 +113,70 @@ const NavbarMenu: React.FC<{
         </div>
       </div>
     </div>
+  )
+}
+
+const ModalCredits: React.FC<{
+  isActive: boolean
+  toggleActive: () => void
+}> = ({ isActive, toggleActive }) => {
+  const constants = useConstants()
+
+  return (
+    <Modal
+      isActive={isActive}
+      title={constants.header.credits}
+      toggleActive={toggleActive}>
+      <div className="content">
+        <h3>Resources</h3>
+        <ul>
+          <li>
+            Icons made by{" "}
+            <a
+              href="https://www.flaticon.com/authors/prosymbols"
+              title="Prosymbols">
+              Prosymbols
+            </a>{" "}
+            from{" "}
+            <a href="https://www.flaticon.com/" title="Flaticon">
+              www.flaticon.com{" "}
+            </a>
+          </li>
+          <li>
+            Icons made by{" "}
+            <a href="https://www.flaticon.com/authors/freepik" title="Freepik">
+              Freepik
+            </a>{" "}
+            from{" "}
+            <a href="https://www.flaticon.com/" title="Flaticon">
+              www.flaticon.com
+            </a>
+          </li>
+        </ul>
+      </div>
+      <hr />
+      <div className="columns is-centered has-text-centered is-mobile">
+        <div className="column is-size-3">
+          <a
+            href={constants.metadata.social.website}
+            className="has-text-black">
+            <GrPersonalComputer />
+          </a>
+        </div>
+        <div className="column is-size-3">
+          <a href={constants.metadata.social.github} className="has-text-black">
+            <GrGithub />
+          </a>
+        </div>
+        <div className="column is-size-3">
+          <a
+            href={constants.metadata.social.linkedin}
+            className="has-text-black">
+            <GrLinkedin />
+          </a>
+        </div>
+      </div>{" "}
+    </Modal>
   )
 }
 
