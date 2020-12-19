@@ -23,11 +23,9 @@ const Button: React.FC<IButton> = ({
   return (
     <button
       type={type}
-      className={`button ${!!color ? color : ""} ${
-        isOutlined ? "is-outlined" : ""
-      } ${isInverted ? "is-inverted" : ""} ${
-        loadingContext.isLoading() ? "is-loading" : ""
-      }`}
+      className={`button ${!!color ? color : ""} ${isOutlined ? "is-outlined" : ""
+        } ${isInverted ? "is-inverted" : ""} ${loadingContext.isLoading() ? "is-loading" : ""
+        }`}
       onClick={onClick}>
       {label}
     </button>
