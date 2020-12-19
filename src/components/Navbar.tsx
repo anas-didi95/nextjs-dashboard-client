@@ -76,7 +76,7 @@ const NavbarMenu: React.FC<{
   const authContext = useContext(AuthContext)
 
   return (
-    <div className={`navbar-menu ${isActive ? "is-active" : ""}`}>
+    <div className={`navbar-menu ${isActive ? "is-active animate__animated animate__slideInDown animate__faster" : ""}`}>
       {authContext.isAuth() && (
         <div className="navbar-start">
           <Link href="/dashboard">
