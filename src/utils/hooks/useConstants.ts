@@ -6,14 +6,14 @@ const useConstants = () => {
     social: {
       website: "https://anasdidi.dev",
       github: "https://github.com/anas-didi95/nextjs-dashboard-client",
-      linkedin: "https://www.linkedin.com/in/anas-juwaidi-mohd-jeffry"
-    }
+      linkedin: "https://www.linkedin.com/in/anas-juwaidi-mohd-jeffry",
+    },
   }
 
   const header = {
     signInForm: "Sign In Form",
     confirmSignOut: "Confirm Sign Out?",
-    credits: "Credits"
+    credits: "Credits",
   }
 
   const label = {

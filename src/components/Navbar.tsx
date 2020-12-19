@@ -16,7 +16,7 @@ const Navbar = () => {
 
   const toggleActive = () => setActive((prev) => !prev)
   const toggleSignOut = () => setSignOut((prev) => !prev)
-  const toggleCredits = () => setCredits(prev => !prev)
+  const toggleCredits = () => setCredits((prev) => !prev)
 
   return (
     <>
@@ -25,7 +25,11 @@ const Navbar = () => {
         role="navigation"
         aria-label="main navigation">
         <NavbarBrand isActive={isActive} toggleActive={toggleActive} />
-        <NavbarMenu isActive={isActive} toggleSignOut={toggleSignOut} toggleCredits={toggleCredits} />
+        <NavbarMenu
+          isActive={isActive}
+          toggleSignOut={toggleSignOut}
+          toggleCredits={toggleCredits}
+        />
       </nav>
       <ModalCredits isActive={isCredits} toggleActive={toggleCredits} />
       <ModalSignOut isActive={isSignOut} toggleActive={toggleSignOut} />
@@ -65,7 +69,7 @@ const NavbarBrand: React.FC<{
 
 const NavbarMenu: React.FC<{
   isActive: boolean
-  toggleSignOut: () => void,
+  toggleSignOut: () => void
   toggleCredits: () => void
 }> = ({ isActive, toggleSignOut, toggleCredits }) => {
   const constants = useConstants()
@@ -85,7 +89,13 @@ const NavbarMenu: React.FC<{
       <div className="navbar-end">
         <div className="navbar-item">
           <ButtonGroup>
-            <Button label="Credits" onClick={toggleCredits} type="button" color="is-light" isOutlined />
+            <Button
+              label="Credits"
+              onClick={toggleCredits}
+              type="button"
+              color="is-light"
+              isOutlined
+            />
             {authContext.isAuth() && (
               <Button
                 label={constants.button.signOut}
@@ -101,11 +111,17 @@ const NavbarMenu: React.FC<{
   )
 }
 
-const ModalCredits: React.FC<{ isActive: boolean, toggleActive: () => void }> = ({ isActive, toggleActive }) => {
+const ModalCredits: React.FC<{
+  isActive: boolean
+  toggleActive: () => void
+}> = ({ isActive, toggleActive }) => {
   const constants = useConstants()
 
   return (
-    <Modal isActive={isActive} title={constants.header.credits} toggleActive={toggleActive}>
+    <Modal
+      isActive={isActive}
+      title={constants.header.credits}
+      toggleActive={toggleActive}>
       <div className="content">
         <h3>Resources</h3>
         <ul>
@@ -113,8 +129,7 @@ const ModalCredits: React.FC<{ isActive: boolean, toggleActive: () => void }> = 
             Icons made by{" "}
             <a
               href="https://www.flaticon.com/authors/prosymbols"
-              title="Prosymbols"
-            >
+              title="Prosymbols">
               Prosymbols
             </a>{" "}
             from{" "}
@@ -139,7 +154,9 @@ const ModalCredits: React.FC<{ isActive: boolean, toggleActive: () => void }> = 
       <hr />
       <div className="columns is-centered has-text-centered is-mobile">
         <div className="column is-size-3">
-          <a href={constants.metadata.social.website} className="has-text-black">
+          <a
+            href={constants.metadata.social.website}
+            className="has-text-black">
             <GrPersonalComputer />
           </a>
         </div>
@@ -149,11 +166,14 @@ const ModalCredits: React.FC<{ isActive: boolean, toggleActive: () => void }> = 
           </a>
         </div>
         <div className="column is-size-3">
-          <a href={constants.metadata.social.linkedin} className="has-text-black">
+          <a
+            href={constants.metadata.social.linkedin}
+            className="has-text-black">
             <GrLinkedin />
           </a>
         </div>
-      </div>		</Modal>
+      </div>{" "}
+    </Modal>
   )
 }
 
