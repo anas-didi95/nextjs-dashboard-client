@@ -134,8 +134,7 @@ const ModalCredits: React.FC<{
             </a>{" "}
             from{" "}
             <a href="https://www.flaticon.com/" title="Flaticon">
-              {" "}
-              www.flaticon.com
+              www.flaticon.com{" "}
             </a>
           </li>
           <li>
@@ -145,7 +144,6 @@ const ModalCredits: React.FC<{
             </a>{" "}
             from{" "}
             <a href="https://www.flaticon.com/" title="Flaticon">
-              {" "}
               www.flaticon.com
             </a>
           </li>

@@ -14,11 +14,13 @@ The application is deployed at https://dashboard.anasdidi.dev/.
 * [Getting Started](#getting-started)
 * [Learn More](#learn-more)
 * [Deploy on Vercel](#deploy-on-vercel)
+* [Credits](#credits)
 * [Contact](#contact)
 
 ---
 
 ## Technologies
+
 * Next - version 10.0.3
 * React - version 17.0.1
 * TypeScript - version 4.1.2
@@ -27,6 +29,7 @@ The application is deployed at https://dashboard.anasdidi.dev/.
 ---
 
 ## Features
+
 * Sign in user using JWT authentication to access the dashboard.
 * Sign out user from the dashboard.
 
@@ -64,6 +67,13 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+---
+
+## Credits
+
+* Icons made by <a href="https://www.flaticon.com/authors/prosymbols" title="Prosymbols">Prosymbols</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+* Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
 
 ---
 
