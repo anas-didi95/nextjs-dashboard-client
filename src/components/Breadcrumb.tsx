@@ -1,14 +1,14 @@
 import React from "react"
 
 interface IBreadcrumb {
-  paths: string[]
+  breadcrumbs: string[]
 }
-const Breadcrumb: React.FC<IBreadcrumb> = ({ paths }) => (
+const Breadcrumb: React.FC<IBreadcrumb> = ({ breadcrumbs }) => (
   <nav className="breadcrumb is-medium" aria-label="breadcrumbs">
     <ul>
       <li></li>
-      {paths.map((path, i) => (
-        <li key={path} className={`${(i + 1) === paths.length ? "is-active" : ""}`}><a href="#">{path}</a></li>
+      {breadcrumbs.map((breadcrumb, i) => (
+        <li key={breadcrumb} className={`${(i + 1) === breadcrumbs.length ? "is-active" : ""}`}><a href="#">{breadcrumb}</a></li>
       ))}
     </ul>
   </nav>
