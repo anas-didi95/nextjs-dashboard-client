@@ -5,7 +5,10 @@ interface IDashboardLayout {
   children: ReactNode
   breadcrumbs: string[]
 }
-const DashboardLayout: React.FC<IDashboardLayout> = ({ children, breadcrumbs }) => (
+const DashboardLayout: React.FC<IDashboardLayout> = ({
+  children,
+  breadcrumbs,
+}) => (
   <section className="section">
     <article className="container">
       <div className="columns is-centered">

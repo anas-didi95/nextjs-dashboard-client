@@ -14,13 +14,13 @@ const useConstants = () => {
     signInForm: "Sign In Form",
     confirmSignOut: "Confirm Sign Out?",
     credits: "Credits",
-    welcome: "Welcome"
+    welcome: "Welcome",
   }
 
   const label = {
     username: "Username",
     password: "Password",
-    currentTime: "Current Time"
+    currentTime: "Current Time",
   }
 
   const button = {
