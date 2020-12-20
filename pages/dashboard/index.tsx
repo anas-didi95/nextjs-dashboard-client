@@ -7,7 +7,7 @@ import useConstants from "../../src/utils/hooks/useConstants"
 
 const DashboardPage: React.FC<{}> = () => {
   const constants = useConstants()
-  const [currentTime, setCurrentTime] = useState("")
+  const [currentTime, setCurrentTime] = useState("Refreshing...")
 
   useEffect(() => {
     const refreshTime = setInterval(() => {
