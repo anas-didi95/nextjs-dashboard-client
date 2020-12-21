@@ -11,7 +11,7 @@ const useConstants = () => {
   }
 
   const env = {
-    apiSecurity: process.env.NEXT_PUBLIC_API_SECURITY
+    apiSecurity: process.env.NEXT_PUBLIC_API_SECURITY,
   }
 
   const header = {
@@ -19,7 +19,7 @@ const useConstants = () => {
     confirmSignOut: "Confirm Sign Out?",
     credits: "Credits",
     welcome: "Welcome",
-    securityServerStatus: "Security Server Status"
+    securityServerStatus: "Security Server Status",
   }
 
   const label = {
@@ -28,7 +28,7 @@ const useConstants = () => {
     currentTime: "Current Time",
     url: "URL",
     status: "Status",
-    responseBody: "Response Body"
+    responseBody: "Response Body",
   }
 
   const button = {

@@ -30,30 +30,37 @@ const DashboardPage: React.FC<{}> = () => {
           </LabelValue>
         </Card>
         <br />
-        <ServerStatus title={constants.header.securityServerStatus} url={constants.env.apiSecurity} />
+        <ServerStatus
+          title={constants.header.securityServerStatus}
+          url={constants.env.apiSecurity}
+        />
       </DashboardLayout>
     </AppLayout>
   )
 }
 
-const ServerStatus: React.FC<{ url: string, title: string }> = ({ url, title }) => {
+const ServerStatus: React.FC<{ url: string; title: string }> = ({
+  url,
+  title,
+}) => {
   type TServer = {
     isOnline: boolean
     responseBody: string
   }
   const constants = useConstants()
-  const [server, setServer] = useState<TServer>(
-    { isOnline: false, responseBody: "" }
-  )
+  const [server, setServer] = useState<TServer>({
+    isOnline: false,
+    responseBody: "",
+  })
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       const response = await fetch(`${url}/ping`, { method: "GET" })
       const responseBody = await response.json()
 
       setServer({
         isOnline: responseBody.outcome === "UP",
-        responseBody: JSON.stringify(responseBody)
+        responseBody: JSON.stringify(responseBody),
       })
     })()
   }, [])
@@ -71,8 +78,8 @@ const ServerStatus: React.FC<{ url: string, title: string }> = ({ url, title }) 
             {server.isOnline ? (
               <Tag value="Online" color="is-success" />
             ) : (
-                <Tag value="Checking" color="is-warning" />
-              )}
+              <Tag value="Checking" color="is-warning" />
+            )}
           </LabelValue>
         </div>
         <div className="column is-12">

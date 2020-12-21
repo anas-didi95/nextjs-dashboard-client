@@ -5,7 +5,10 @@ interface ITag {
   value: string
 }
 const Tag: React.FC<ITag> = ({ color, value }) => (
-  <span className={`tag is-rounded has-text-weight-semibold ${!!color ? color : ""}`}>
+  <span
+    className={`tag is-rounded has-text-weight-semibold ${
+      !!color ? color : ""
+    }`}>
     {value}
   </span>
 )
