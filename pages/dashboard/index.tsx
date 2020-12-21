@@ -36,30 +36,53 @@ const DashboardPage: React.FC<{}> = () => {
 }
 
 const ServerStatus: React.FC<{ url: string, title: string }> = ({ url, title }) => {
+  type TServer = {
+    isOnline: boolean
+    responseBody: string
+  }
+  const [server, setServer] = useState<TServer>(
+    { isOnline: false, responseBody: "" }
+  )
 
   useEffect(() => {
     (async () => {
       const response = await fetch(`${url}/ping`, { method: "GET" })
       const responseBody = await response.json()
 
-      console.log("response", response)
-      console.log("responseBody", responseBody)
+      setServer({
+        isOnline: responseBody.outcome === "UP",
+        responseBody: JSON.stringify(responseBody)
+      })
     })()
   }, [])
 
   return (
     <Card title={title}>
-      <div className="columns is-mobile">
-        <div className="column is-6">
+      <div className="columns is-mobile is-multiline">
+        <div className="column is-8">
           <LabelValue label="URL">
             <p>{url}</p>
           </LabelValue>
         </div>
-        <div className="column is-6">
+        <div className="column is-4">
           <LabelValue label="Status">
-            <span className="tag is-rounded is-success">
-              Online
-            </span>          </LabelValue>
+            {server.isOnline ? (
+              <span className="tag is-rounded is-success">
+                Online
+              </span>) : (<p>
+                <span className="tag is-rounded is-warning">
+                  Checking
+              </span>
+
+              </p>)}
+          </LabelValue>
+        </div>
+        <div className="column is-12">
+          <LabelValue label="Response Body">
+            <pre>
+              {server.responseBody.replace("[", "[\n\t").replace("]", "]\n")}
+            </pre>
+          </LabelValue>
         </div>
       </div>
     </Card>
