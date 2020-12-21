@@ -54,7 +54,7 @@ const ServerStatus: React.FC<{ url: string; title: string }> = ({
   })
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const response = await fetch(`${url}/ping`, { method: "GET" })
       const responseBody = await response.json()
 
@@ -78,14 +78,14 @@ const ServerStatus: React.FC<{ url: string; title: string }> = ({
             {server.isOnline ? (
               <Tag value="Online" color="is-success" />
             ) : (
-              <Tag value="Checking" color="is-warning" />
-            )}
+                <Tag value="Checking" color="is-warning" />
+              )}
           </LabelValue>
         </div>
         <div className="column is-12">
           <LabelValue label={constants.label.responseBody}>
             <pre>
-              {server.responseBody.replace("[", "[\n\t").replace("]", "]\n")}
+              {server.responseBody.replace(`{"id"`, `\n\t{"id"`).replace("]", "]\n")}
             </pre>
           </LabelValue>
         </div>
