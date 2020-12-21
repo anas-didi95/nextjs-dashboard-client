@@ -28,8 +28,42 @@ const DashboardPage: React.FC<{}> = () => {
             <p>{currentTime}</p>
           </LabelValue>
         </Card>
+        <br />
+        <ServerStatus title="Security Server Status" url={process.env.NEXT_PUBLIC_API_SECURITY} />
       </DashboardLayout>
     </AppLayout>
+  )
+}
+
+const ServerStatus: React.FC<{ url: string, title: string }> = ({ url, title }) => {
+
+  useEffect(() => {
+    (async () => {
+      const response = await fetch(`${url}/ping`, { method: "GET" })
+      const responseBody = await response.json()
+
+      console.log("response", response)
+      console.log("responseBody", responseBody)
+    })()
+  }, [])
+
+  return (
+    <Card title={title}>
+      <div className="columns is-mobile">
+        <div className="column is-6">
+          <LabelValue label="URL">
+            <p>{url}</p>
+          </LabelValue>
+        </div>
+        <div className="column is-6">
+          <LabelValue label="Status">
+            <span className="tag is-rounded is-success">
+              Online
+            </span>          </LabelValue>
+        </div>
+      </div>
+    </Card>
+
   )
 }
 
