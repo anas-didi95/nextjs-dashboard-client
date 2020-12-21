@@ -1,5 +1,8 @@
+import useConstants from "./useConstants"
+
 const useAuth = () => {
-  const baseUrl = `${process.env.NEXT_PUBLIC_API_SECURITY}/api/jwt`
+  const constants = useConstants()
+  const baseUrl = `${constants.env.apiSecurity}/api/jwt`
 
   const signIn = async (
     username: string,

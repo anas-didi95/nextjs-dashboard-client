@@ -30,7 +30,7 @@ const DashboardPage: React.FC<{}> = () => {
           </LabelValue>
         </Card>
         <br />
-        <ServerStatus title="Security Server Status" url={process.env.NEXT_PUBLIC_API_SECURITY} />
+        <ServerStatus title={constants.header.securityServerStatus} url={constants.env.apiSecurity} />
       </DashboardLayout>
     </AppLayout>
   )
@@ -41,6 +41,7 @@ const ServerStatus: React.FC<{ url: string, title: string }> = ({ url, title }) 
     isOnline: boolean
     responseBody: string
   }
+  const constants = useConstants()
   const [server, setServer] = useState<TServer>(
     { isOnline: false, responseBody: "" }
   )
@@ -61,12 +62,12 @@ const ServerStatus: React.FC<{ url: string, title: string }> = ({ url, title }) 
     <Card title={title}>
       <div className="columns is-mobile is-multiline">
         <div className="column is-8">
-          <LabelValue label="URL">
+          <LabelValue label={constants.label.url}>
             <p>{url}</p>
           </LabelValue>
         </div>
         <div className="column is-4">
-          <LabelValue label="Status">
+          <LabelValue label={constants.label.status}>
             {server.isOnline ? (
               <Tag value="Online" color="is-success" />
             ) : (
@@ -75,7 +76,7 @@ const ServerStatus: React.FC<{ url: string, title: string }> = ({ url, title }) 
           </LabelValue>
         </div>
         <div className="column is-12">
-          <LabelValue label="Response Body">
+          <LabelValue label={constants.label.responseBody}>
             <pre>
               {server.responseBody.replace("[", "[\n\t").replace("]", "]\n")}
             </pre>
@@ -83,7 +84,6 @@ const ServerStatus: React.FC<{ url: string, title: string }> = ({ url, title }) 
         </div>
       </div>
     </Card>
-
   )
 }
 

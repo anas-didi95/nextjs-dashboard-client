@@ -10,17 +10,25 @@ const useConstants = () => {
     },
   }
 
+  const env = {
+    apiSecurity: process.env.NEXT_PUBLIC_API_SECURITY
+  }
+
   const header = {
     signInForm: "Sign In Form",
     confirmSignOut: "Confirm Sign Out?",
     credits: "Credits",
     welcome: "Welcome",
+    securityServerStatus: "Security Server Status"
   }
 
   const label = {
     username: "Username",
     password: "Password",
     currentTime: "Current Time",
+    url: "URL",
+    status: "Status",
+    responseBody: "Response Body"
   }
 
   const button = {
@@ -34,7 +42,7 @@ const useConstants = () => {
     mandatoryField: (field: string) => `${field} is a mandatory field!`,
   }
 
-  return { metadata, label, button, header, error }
+  return { metadata, env, label, button, header, error }
 }
 
 export default useConstants
