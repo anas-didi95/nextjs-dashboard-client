@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import Card from "../../src/components/Card"
 import LabelValue from "../../src/components/LabelValue"
+import Tag from "../../src/components/Tag"
 import AppLayout from "../../src/layouts/AppLayout"
 import DashboardLayout from "../../src/layouts/DashboardLayout"
 import useConstants from "../../src/utils/hooks/useConstants"
@@ -67,14 +68,10 @@ const ServerStatus: React.FC<{ url: string, title: string }> = ({ url, title }) 
         <div className="column is-4">
           <LabelValue label="Status">
             {server.isOnline ? (
-              <span className="tag is-rounded is-success">
-                Online
-              </span>) : (<p>
-                <span className="tag is-rounded is-warning">
-                  Checking
-              </span>
-
-              </p>)}
+              <Tag value="Online" color="is-success" />
+            ) : (
+                <Tag value="Checking" color="is-warning" />
+              )}
           </LabelValue>
         </div>
         <div className="column is-12">
