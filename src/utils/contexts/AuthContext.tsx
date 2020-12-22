@@ -4,12 +4,14 @@ interface IAuthContext {
   isAuth: () => boolean
   setAuth: (accessToken: string) => void
   clearAuth: () => void
+  getAccessToken: () => string
 }
 
 const AuthContext = createContext<IAuthContext>({
   isAuth: () => false,
   setAuth: () => {},
   clearAuth: () => {},
+  getAccessToken: () => "",
 })
 
 const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -22,9 +24,11 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const setAuth = (accessToken: string) =>
     setData((prev) => ({ ...prev, accessToken }))
   const clearAuth = () => setData({ accessToken: "" })
+  const getAccessToken = () => data.accessToken
 
   return (
-    <AuthContext.Provider value={{ isAuth, setAuth, clearAuth }}>
+    <AuthContext.Provider
+      value={{ isAuth, setAuth, clearAuth, getAccessToken }}>
       {children}
     </AuthContext.Provider>
   )

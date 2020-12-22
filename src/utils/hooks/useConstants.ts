@@ -20,6 +20,7 @@ const useConstants = () => {
     credits: "Credits",
     welcome: "Welcome",
     securityServerStatus: "Security Server Status",
+    userListing: "User Listing",
   }
 
   const label = {
@@ -29,6 +30,9 @@ const useConstants = () => {
     url: "URL",
     status: "Status",
     responseBody: "Response Body",
+    number: "No.",
+    fullName: "Full Name",
+    email: "Email",
   }
 
   const button = {

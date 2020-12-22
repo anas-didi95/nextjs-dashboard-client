@@ -1,0 +1,62 @@
+@baseUrl = {{$processEnv NEXT_PUBLIC_API_SECURITY}}/graphql
+@accessToken =
+
+// @name ping
+POST {{baseUrl}}
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "query": "query($value: String!) { ping(value: $value) { isSuccess testValue } }",
+  "variables": {
+    "value": "Hello world!"
+  }
+}
+
+###
+
+// @name getUserList
+POST {{baseUrl}}
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "query": "query ($format: String) { getUserList { id username fullName email lastModifiedDate(format: $format) version } }",
+  "variables": {
+    "format": "yyyy-MM-dd HH:mm:ss"
+  }
+}
+
+###
+
+// @name getUserById
+POST {{baseUrl}}
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "query": "query($id: String!, $format: String) { getUserById(id: $id) { id username fullName email lastModifiedDate(format: $format) version } }",
+  "variables": {
+    "id": "5fb8d7fafdaf9e6c6f63616f",
+    "format": "yyyy-MM-dd HH:mm:ss"
+  }
+}
+
+###
+
+// @name getUserByUsername
+POST {{baseUrl}}
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "query": "query($username: String!, $format: String) { getUserByUsername(username: $username) { id username fullName email lastModifiedDate(format: $format) version } }",
+  "variables": {
+    "username": "superadmin",
+    "format": "yyyy-MM-dd HH:mm:ss"
+  }
+}
