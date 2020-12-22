@@ -1,10 +1,9 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import Card from "../../../../src/components/Card"
 import Table from "../../../../src/components/Table"
 import AppLayout from "../../../../src/layouts/AppLayout"
 import DashboardLayout from "../../../../src/layouts/DashboardLayout"
-import AuthContext from "../../../../src/utils/contexts/AuthContext"
-import useConstants from "../../../../src/utils/hooks/useConstants"
+import useSecurityService, { TUser } from "../../../../src/utils/hooks/useSecurityService"
 
 const SecurityUserListPage: React.FC<{}> = () => (
   <AppLayout title="Security - User List" needAuth={true}>
@@ -15,31 +14,13 @@ const SecurityUserListPage: React.FC<{}> = () => (
 )
 
 const UserListTable: React.FC<{}> = () => {
-  type TUser = {
-    id: string
-    username: string
-    fullName: string
-    email: string
-  }
-  const constants = useConstants()
   const [userList, setUserList] = useState<TUser[]>([])
-  const authContext = useContext(AuthContext)
+  const securityService = useSecurityService()
 
   useEffect(() => {
     (async () => {
-      const response = await fetch(`${constants.env.apiSecurity}/graphql`, {
-        method: "POST",
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${authContext.getAccessToken()}`
-        },
-        body: JSON.stringify({
-          query: `query { getUserList { id username fullName email } }`,
-        })
-      })
-      const responseBody = await response.json()
-      setUserList(responseBody.data.getUserList)
+      const userList = await securityService.getUserList()
+      setUserList(userList)
     })()
   }, [])
 
