@@ -1,8 +1,8 @@
 import React, { ReactNode } from "react"
 
 interface ITable {
-  children: ReactNode
   headers: string[]
+  children: ReactNode
 }
 const Table: React.FC<ITable> = ({ children, headers }) => (
   <div className="table-container">
@@ -13,7 +13,9 @@ const Table: React.FC<ITable> = ({ children, headers }) => (
         ))}
       </thead>
       <tbody>
-        {children}
+        {children || (
+          <tr className="has-text-centered"><td colSpan={headers.length}>No Record Found</td></tr>
+        )}
       </tbody>
     </table>
   </div>

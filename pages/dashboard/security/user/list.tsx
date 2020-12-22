@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import Card from "../../../../src/components/Card"
 import Table from "../../../../src/components/Table"
 import AppLayout from "../../../../src/layouts/AppLayout"
@@ -12,24 +12,29 @@ const SecurityUserListPage: React.FC<{}> = () => (
   </AppLayout>
 )
 
-const UserListTable: React.FC<{}> = () => (
-  <Card title="User Listing">
-    <Table headers={["No", "User Id", "Full Name", "Email"]}>
-      <tr>
-        <th>1</th>
-        <td><a href="https://en.wikipedia.org/wiki/Leicester_City_F.C." title="Leicester City F.C.">Leicester City</a> <strong>(C)</strong>
-        </td>
-        <td>38</td>
-        <td>23</td>
-      </tr>
-      <tr>
-        <th>2</th>
-        <td><a href="https://en.wikipedia.org/wiki/Arsenal_F.C." title="Arsenal F.C.">Arsenal</a></td>
-        <td>38</td>
-        <td>20</td>
-      </tr>
-    </Table >
-  </Card >
-)
+const UserListTable: React.FC<{}> = () => {
+  type TUser = {
+    id: string
+    userId: string
+    fullName: string
+    email: string
+  }
+  const [userList, setUserList] = useState<TUser[]>([])
+
+  return (
+    <Card title="User Listing">
+      <Table headers={["No", "User Id", "Full Name", "Email"]}>
+        {!!userList && userList.length > 0 && userList.map((user, i) => (
+          <tr>
+            <td>{i + 1}</td>
+            <td>{user.userId}</td>
+            <td>{user.fullName}</td>
+            <td>{user.email}</td>
+          </tr>
+        ))}
+      </Table >
+    </Card >
+  )
+}
 
 export default SecurityUserListPage
