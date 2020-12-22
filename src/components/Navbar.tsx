@@ -77,11 +77,10 @@ const NavbarMenu: React.FC<{
 
   return (
     <div
-      className={`navbar-menu ${
-        isActive
-          ? "is-active animate__animated animate__slideInDown animate__faster"
-          : ""
-      }`}>
+      className={`navbar-menu ${isActive
+        ? "is-active animate__animated animate__slideInDown animate__faster"
+        : ""
+        }`}>
       {authContext.isAuth() && (
         <div className="navbar-start">
           <Link href="/dashboard">
@@ -89,6 +88,18 @@ const NavbarMenu: React.FC<{
               Home
             </a>
           </Link>
+          <div className="navbar-item has-dropdown is-hoverable">
+            <a className="navbar-link">
+              Security
+            </a>
+            <div className="navbar-dropdown">
+              <Link href="/dashboard/security/user/list">
+                <a className="navbar-item" href="/dashboard/security/user/list">
+                  User
+            </a>
+              </Link>
+            </div>
+          </div>
         </div>
       )}
       <div className="navbar-end">
