@@ -20,7 +20,7 @@ const useConstants = () => {
     credits: "Credits",
     welcome: "Welcome",
     securityServerStatus: "Security Server Status",
-    userListing: "User Listing"
+    userListing: "User Listing",
   }
 
   const label = {
@@ -32,7 +32,7 @@ const useConstants = () => {
     responseBody: "Response Body",
     number: "No.",
     fullName: "Full Name",
-    email: "Email"
+    email: "Email",
   }
 
   const button = {

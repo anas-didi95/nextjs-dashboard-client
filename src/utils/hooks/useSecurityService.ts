@@ -17,13 +17,13 @@ const useSecurityService = () => {
       const response = await fetch(`${constants.env.apiSecurity}/graphql`, {
         method: "POST",
         headers: {
-          "Accept": "application/json",
+          Accept: "application/json",
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${authContext.getAccessToken()}`
+          Authorization: `Bearer ${authContext.getAccessToken()}`,
         },
         body: JSON.stringify({
           query: `query { getUserList { id username fullName email } }`,
-        })
+        }),
       })
       const responseBody = await response.json()
 
