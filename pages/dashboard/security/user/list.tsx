@@ -3,6 +3,7 @@ import Card from "../../../../src/components/Card"
 import Table from "../../../../src/components/Table"
 import AppLayout from "../../../../src/layouts/AppLayout"
 import DashboardLayout from "../../../../src/layouts/DashboardLayout"
+import useConstants from "../../../../src/utils/hooks/useConstants"
 import useSecurityService, { TUser } from "../../../../src/utils/hooks/useSecurityService"
 
 const SecurityUserListPage: React.FC<{}> = () => (
@@ -14,6 +15,7 @@ const SecurityUserListPage: React.FC<{}> = () => (
 )
 
 const UserListTable: React.FC<{}> = () => {
+  const constants = useConstants()
   const [userList, setUserList] = useState<TUser[]>([])
   const securityService = useSecurityService()
 
@@ -25,8 +27,8 @@ const UserListTable: React.FC<{}> = () => {
   }, [])
 
   return (
-    <Card title="User Listing">
-      <Table headers={["No", "Username", "Full Name", "Email"]}>
+    <Card title={constants.header.userListing}>
+      <Table headers={[constants.label.number, constants.label.username, constants.label.fullName, constants.label.email]}>
         {!!userList && userList.length > 0 && userList.map((user, i) => (
           <tr>
             <td>{i + 1}</td>
