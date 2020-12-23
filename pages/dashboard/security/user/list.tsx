@@ -59,8 +59,8 @@ const UserListTable: React.FC<{}> = () => {
             ))}
         </Table>
       ) : (
-        <Skeleton count={3} />
-      )}
+          <Skeleton count={3} />
+        )}
     </Card>
   )
 }

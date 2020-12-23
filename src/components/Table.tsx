@@ -8,9 +8,11 @@ const Table: React.FC<ITable> = ({ children, headers }) => (
   <div className="table-container">
     <table className="table is-striped is-hoverable is-fullwidth">
       <thead>
-        {headers.map((header) => (
-          <th key={header}>{header}</th>
-        ))}
+        <tr>
+          {headers.map((header) => (
+            <th key={header}>{header}</th>
+          ))}
+        </tr>
       </thead>
       <tbody>
         {children || (
