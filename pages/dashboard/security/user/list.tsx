@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react"
 import Skeleton from "react-loading-skeleton"
-import useSWR from "swr"
 import Card from "../../../../src/components/Card"
 import Table from "../../../../src/components/Table"
 import AppLayout from "../../../../src/layouts/AppLayout"
@@ -23,23 +22,20 @@ const UserListTable: React.FC<{}> = () => {
   const constants = useConstants()
   const [userList, setUserList] = useState<TUser[]>([])
   const securityService = useSecurityService()
-  const { data, isValidating } = useSWR("/dashboard/security/user/list", () =>
-    securityService.getUserList()
-  )
   const loadingContext = useContext(LoadingContext)
 
   useEffect(() => {
-    if (!isValidating) {
-      setUserList(data)
-      loadingContext.offLoading()
-    } else {
+    (async () => {
       loadingContext.onLoading()
-    }
-  }, [isValidating])
+      const userList = await securityService.getUserList()
+      setUserList(userList)
+      loadingContext.offLoading()
+    })()
+  }, [])
 
   return (
     <Card title={constants.header.userListing}>
-      {!isValidating ? (
+      {!loadingContext.isLoading() ? (
         <Table
           headers={[
             constants.label.number,
