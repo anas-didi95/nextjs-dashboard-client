@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import Skeleton from "react-loading-skeleton"
 import Card from "../../../../src/components/Card"
 import Table from "../../../../src/components/Table"
 import AppLayout from "../../../../src/layouts/AppLayout"
@@ -20,17 +21,24 @@ const UserListTable: React.FC<{}> = () => {
   const constants = useConstants()
   const [userList, setUserList] = useState<TUser[]>([])
   const securityService = useSecurityService()
+  const [isLoading, setLoading] = useState(false)
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const userList = await securityService.getUserList()
       setUserList(userList)
     })()
+
+    const timeout = setTimeout(() => setLoading(true), 5000)
+
+    return () => {
+      clearTimeout(timeout)
+    }
   }, [])
 
   return (
     <Card title={constants.header.userListing}>
-      <Table
+      {isLoading ? (<Table
         headers={[
           constants.label.number,
           constants.label.username,
@@ -47,7 +55,7 @@ const UserListTable: React.FC<{}> = () => {
               <td>{user.email}</td>
             </tr>
           ))}
-      </Table>
+      </Table>) : <Skeleton count={3} />}
     </Card>
   )
 }
