@@ -25,7 +25,7 @@ const UserListTable: React.FC<{}> = () => {
   const loadingContext = useContext(LoadingContext)
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       loadingContext.onLoading()
       const userList = await securityService.getUserList()
       setUserList(userList)
@@ -55,8 +55,8 @@ const UserListTable: React.FC<{}> = () => {
             ))}
         </Table>
       ) : (
-          <Skeleton count={3} />
-        )}
+        <Skeleton count={3} />
+      )}
     </Card>
   )
 }
