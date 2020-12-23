@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import Skeleton from "react-loading-skeleton"
+import useSWR from "swr"
 import Card from "../../../../src/components/Card"
 import Table from "../../../../src/components/Table"
 import AppLayout from "../../../../src/layouts/AppLayout"
 import DashboardLayout from "../../../../src/layouts/DashboardLayout"
+import LoadingContext from "../../../../src/utils/contexts/LoadingContext"
 import useConstants from "../../../../src/utils/hooks/useConstants"
 import useSecurityService, {
   TUser,
@@ -21,24 +23,21 @@ const UserListTable: React.FC<{}> = () => {
   const constants = useConstants()
   const [userList, setUserList] = useState<TUser[]>([])
   const securityService = useSecurityService()
-  const [isLoading, setLoading] = useState(false)
+  const { data, isValidating } = useSWR("/dashboard/security/user/list", () => securityService.getUserList())
+  const loadingContext = useContext(LoadingContext)
 
   useEffect(() => {
-    ; (async () => {
-      const userList = await securityService.getUserList()
-      setUserList(userList)
-    })()
-
-    const timeout = setTimeout(() => setLoading(true), 5000)
-
-    return () => {
-      clearTimeout(timeout)
+    if (!isValidating) {
+      setUserList(data)
+      loadingContext.offLoading()
+    } else {
+      loadingContext.onLoading()
     }
-  }, [])
+  }, [isValidating])
 
   return (
     <Card title={constants.header.userListing}>
-      {isLoading ? (<Table
+      {!isValidating ? (<Table
         headers={[
           constants.label.number,
           constants.label.username,
@@ -48,7 +47,7 @@ const UserListTable: React.FC<{}> = () => {
         {!!userList &&
           userList.length > 0 &&
           userList.map((user, i) => (
-            <tr>
+            <tr key={user.id}>
               <td>{i + 1}</td>
               <td>{user.username}</td>
               <td>{user.fullName}</td>
