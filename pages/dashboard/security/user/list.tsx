@@ -23,7 +23,9 @@ const UserListTable: React.FC<{}> = () => {
   const constants = useConstants()
   const [userList, setUserList] = useState<TUser[]>([])
   const securityService = useSecurityService()
-  const { data, isValidating } = useSWR("/dashboard/security/user/list", () => securityService.getUserList())
+  const { data, isValidating } = useSWR("/dashboard/security/user/list", () =>
+    securityService.getUserList()
+  )
   const loadingContext = useContext(LoadingContext)
 
   useEffect(() => {
@@ -37,24 +39,28 @@ const UserListTable: React.FC<{}> = () => {
 
   return (
     <Card title={constants.header.userListing}>
-      {!isValidating ? (<Table
-        headers={[
-          constants.label.number,
-          constants.label.username,
-          constants.label.fullName,
-          constants.label.email,
-        ]}>
-        {!!userList &&
-          userList.length > 0 &&
-          userList.map((user, i) => (
-            <tr key={user.id}>
-              <td>{i + 1}</td>
-              <td>{user.username}</td>
-              <td>{user.fullName}</td>
-              <td>{user.email}</td>
-            </tr>
-          ))}
-      </Table>) : <Skeleton count={3} />}
+      {!isValidating ? (
+        <Table
+          headers={[
+            constants.label.number,
+            constants.label.username,
+            constants.label.fullName,
+            constants.label.email,
+          ]}>
+          {!!userList &&
+            userList.length > 0 &&
+            userList.map((user, i) => (
+              <tr key={user.id}>
+                <td>{i + 1}</td>
+                <td>{user.username}</td>
+                <td>{user.fullName}</td>
+                <td>{user.email}</td>
+              </tr>
+            ))}
+        </Table>
+      ) : (
+        <Skeleton count={3} />
+      )}
     </Card>
   )
 }
