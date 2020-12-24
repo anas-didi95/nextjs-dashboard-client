@@ -1,6 +1,6 @@
 import Link from "next/link"
 import React from "react"
-import { useForm } from "react-hook-form"
+import { useController, useForm } from "react-hook-form"
 import Button from "../../../../src/components/Button"
 import ButtonGroup from "../../../../src/components/ButtonGroup"
 import Card from "../../../../src/components/Card"
@@ -8,6 +8,7 @@ import Form from "../../../../src/components/Form"
 import FormInput from "../../../../src/components/FormInput"
 import AppLayout from "../../../../src/layouts/AppLayout"
 import DashboardLayout from "../../../../src/layouts/DashboardLayout"
+import useConstants from "../../../../src/utils/hooks/useConstants"
 import { TUser } from "../../../../src/utils/hooks/useSecurityService"
 
 const SecurityUserCreatePage: React.FC<{}> = () => (
@@ -29,6 +30,7 @@ const UserCreateForm: React.FC<{}> = () => {
     fullName: string
     telegramId: string
   }
+  const constants = useConstants()
   const { register, handleSubmit, errors } = useForm<TForm>()
 
   const onCreate = (data: TUser) => {
@@ -36,26 +38,26 @@ const UserCreateForm: React.FC<{}> = () => {
   }
 
   return (
-    <Card title="User Form">
+    <Card title={constants.header.userForm}>
       <Form onSubmit={handleSubmit(onCreate)}>
         <div className="columns is-multiline is-variable is-4">
           <div className="column is-6">
-            <FormInput label="Username" name="username" register={register} type="text" error={errors.username?.message} />
+            <FormInput label={constants.label.username} name="username" register={register} type="text" error={errors.username?.message} />
           </div>
           <div className="column is-6">
-            <FormInput label="Email" name="email" register={register} type="email" error={errors.email?.message} />
+            <FormInput label={constants.label.email} name="email" register={register} type="email" error={errors.email?.message} />
           </div>
           <div className="column is-6">
-            <FormInput label="Password" name="password" register={register} type="password" error={errors.password?.message} />
+            <FormInput label={constants.label.password} name="password" register={register} type="password" error={errors.password?.message} />
           </div>
           <div className="column is-6">
-            <FormInput label="Confirm Password" name="confirmPassword" register={register} type="password" error={errors.confirmPassword?.message} />
+            <FormInput label={constants.label.confirmPassword} name="confirmPassword" register={register} type="password" error={errors.confirmPassword?.message} />
           </div>
           <div className="column is-6">
-            <FormInput label="Full Name" name="fullName" register={register} type="text" error={errors.fullName?.message} />
+            <FormInput label={constants.label.fullName} name="fullName" register={register} type="text" error={errors.fullName?.message} />
           </div>
           <div className="column is-6">
-            <FormInput label="Telegram Id" name="telegramId" register={register} type="text" error={errors.telegramId?.message} />
+            <FormInput label={constants.label.telegramId} name="telegramId" register={register} type="text" error={errors.telegramId?.message} />
           </div>
         </div>
         <br />

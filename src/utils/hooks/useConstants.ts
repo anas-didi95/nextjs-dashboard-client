@@ -21,6 +21,7 @@ const useConstants = () => {
     welcome: "Welcome",
     securityServerStatus: "Security Server Status",
     userListing: "User Listing",
+    userForm: "User Form"
   }
 
   const label = {
@@ -33,6 +34,8 @@ const useConstants = () => {
     number: "No.",
     fullName: "Full Name",
     email: "Email",
+    confirmPassword: "Confirm Password",
+    telegramId: "Telegram Id"
   }
 
   const button = {
