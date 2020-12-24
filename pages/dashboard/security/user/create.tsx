@@ -3,6 +3,7 @@ import React from "react"
 import { useForm } from "react-hook-form"
 import Button from "../../../../src/components/Button"
 import ButtonGroup from "../../../../src/components/ButtonGroup"
+import ButtonLink from "../../../../src/components/ButtonLink"
 import Card from "../../../../src/components/Card"
 import Form from "../../../../src/components/Form"
 import FormInput from "../../../../src/components/FormInput"
@@ -79,12 +80,14 @@ const UserCreateForm: React.FC<{}> = () => {
   )
 }
 
-const ActionButton: React.FC<{}> = () => (
-  <ButtonGroup align="is-right">
-    <Link href="/dashboard/security/user/list">
-      <Button label="Back" onClick={null} type="button" color="is-primary" />
-    </Link>
-  </ButtonGroup>
-)
+const ActionButton: React.FC<{}> = () => {
+  const constants = useConstants()
+
+  return (
+    <ButtonGroup align="is-right">
+      <ButtonLink href="/dashboard/security/user/list" label={constants.button.back} color="is-primary" />
+    </ButtonGroup>
+  )
+}
 
 export default SecurityUserCreatePage
