@@ -1,14 +1,18 @@
+import Link from "next/link"
 import React from "react"
+import Button from "../../../../src/components/Button"
+import ButtonGroup from "../../../../src/components/ButtonGroup"
 import Card from "../../../../src/components/Card"
 import Form from "../../../../src/components/Form"
-import FormInput from "../../../../src/components/FormInput"
 import AppLayout from "../../../../src/layouts/AppLayout"
 import DashboardLayout from "../../../../src/layouts/DashboardLayout"
 
 const SecurityUserCreatePage: React.FC<{}> = () => (
-  <AppLayout title="Security - User Create">
+  <AppLayout title="Security - User Create" needAuth={true}>
     <DashboardLayout breadcrumbs={["Security", "User", "Create"]}>
       <UserCreateForm />
+      <br />
+      <ActionButton />
     </DashboardLayout>
   </AppLayout>
 )
@@ -31,5 +35,13 @@ const UserCreateForm: React.FC<{}> = () => {
     </Card>
   )
 }
+
+const ActionButton: React.FC<{}> = () => (
+  <ButtonGroup align="is-right">
+    <Link href="/dashboard/security/user/list">
+      <Button label="Back" onClick={null} type="button" color="is-primary" />
+    </Link>
+  </ButtonGroup>
+)
 
 export default SecurityUserCreatePage

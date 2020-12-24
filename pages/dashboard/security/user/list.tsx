@@ -1,5 +1,8 @@
+import Link from "next/link"
 import React, { useContext, useEffect, useState } from "react"
 import Skeleton from "react-loading-skeleton"
+import Button from "../../../../src/components/Button"
+import ButtonGroup from "../../../../src/components/ButtonGroup"
 import Card from "../../../../src/components/Card"
 import Table from "../../../../src/components/Table"
 import AppLayout from "../../../../src/layouts/AppLayout"
@@ -14,6 +17,8 @@ const SecurityUserListPage: React.FC<{}> = () => (
   <AppLayout title="Security - User List" needAuth={true}>
     <DashboardLayout breadcrumbs={["Security", "User"]}>
       <UserListTable />
+      <br />
+      <ActionButton />
     </DashboardLayout>
   </AppLayout>
 )
@@ -25,7 +30,7 @@ const UserListTable: React.FC<{}> = () => {
   const loadingContext = useContext(LoadingContext)
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       loadingContext.onLoading()
       const userList = await securityService.getUserList()
       setUserList(userList)
@@ -55,10 +60,18 @@ const UserListTable: React.FC<{}> = () => {
             ))}
         </Table>
       ) : (
-        <Skeleton count={3} />
-      )}
+          <Skeleton count={3} />
+        )}
     </Card>
   )
 }
+
+const ActionButton: React.FC<{}> = () => (
+  <ButtonGroup align="is-right">
+    <Link href="/dashboard/security/user/create">
+      <Button label="Create" onClick={null} type="button" color="is-primary" />
+    </Link>
+  </ButtonGroup>
+)
 
 export default SecurityUserListPage
