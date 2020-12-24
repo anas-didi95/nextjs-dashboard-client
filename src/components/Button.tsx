@@ -5,7 +5,7 @@ interface IButton {
   onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
   type: "button" | "submit"
   label: string
-  color?: "is-light" | "is-primary" | "is-danger"
+  color?: "is-light" | "is-primary" | "is-danger" | "is-success"
   isOutlined?: boolean
   isInverted?: boolean
 }

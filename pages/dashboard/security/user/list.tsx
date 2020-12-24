@@ -1,5 +1,9 @@
+import Link from "next/link"
 import React, { useContext, useEffect, useState } from "react"
 import Skeleton from "react-loading-skeleton"
+import Button from "../../../../src/components/Button"
+import ButtonGroup from "../../../../src/components/ButtonGroup"
+import ButtonLink from "../../../../src/components/ButtonLink"
 import Card from "../../../../src/components/Card"
 import Table from "../../../../src/components/Table"
 import AppLayout from "../../../../src/layouts/AppLayout"
@@ -14,6 +18,8 @@ const SecurityUserListPage: React.FC<{}> = () => (
   <AppLayout title="Security - User List" needAuth={true}>
     <DashboardLayout breadcrumbs={["Security", "User"]}>
       <UserListTable />
+      <br />
+      <ActionButton />
     </DashboardLayout>
   </AppLayout>
 )
@@ -58,6 +64,20 @@ const UserListTable: React.FC<{}> = () => {
         <Skeleton count={3} />
       )}
     </Card>
+  )
+}
+
+const ActionButton: React.FC<{}> = () => {
+  const constants = useConstants()
+
+  return (
+    <ButtonGroup align="is-right">
+      <ButtonLink
+        href="/dashboard/security/user/create"
+        label={constants.button.create}
+        color="is-primary"
+      />
+    </ButtonGroup>
   )
 }
 

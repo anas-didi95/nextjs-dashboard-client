@@ -21,6 +21,7 @@ const useConstants = () => {
     welcome: "Welcome",
     securityServerStatus: "Security Server Status",
     userListing: "User Listing",
+    userForm: "User Form",
   }
 
   const label = {
@@ -33,6 +34,8 @@ const useConstants = () => {
     number: "No.",
     fullName: "Full Name",
     email: "Email",
+    confirmPassword: "Confirm Password",
+    telegramId: "Telegram Id",
   }
 
   const button = {
@@ -40,10 +43,13 @@ const useConstants = () => {
     signIn: "Sign In",
     signOut: "Sign Out",
     close: "Close",
+    create: "Create",
+    back: "Back",
   }
 
   const error = {
     mandatoryField: (field: string) => `${field} is a mandatory field!`,
+    passwordNotMatched: "Password not matched!",
   }
 
   return { metadata, env, label, button, header, error }
