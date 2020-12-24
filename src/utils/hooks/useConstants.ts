@@ -47,6 +47,7 @@ const useConstants = () => {
 
   const error = {
     mandatoryField: (field: string) => `${field} is a mandatory field!`,
+    passwordNotMatched: "Password not matched!"
   }
 
   return { metadata, env, label, button, header, error }

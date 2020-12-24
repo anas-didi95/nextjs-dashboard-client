@@ -31,7 +31,7 @@ const UserCreateForm: React.FC<{}> = () => {
     telegramId: string
   }
   const constants = useConstants()
-  const { register, handleSubmit, errors } = useForm<TForm>()
+  const { register, handleSubmit, errors, watch } = useForm<TForm>()
 
   const onCreate = (data: TUser) => {
     console.log("data: ", data)
@@ -42,19 +42,26 @@ const UserCreateForm: React.FC<{}> = () => {
       <Form onSubmit={handleSubmit(onCreate)}>
         <div className="columns is-multiline is-variable is-4">
           <div className="column is-6">
-            <FormInput label={constants.label.username} name="username" register={register} type="text" error={errors.username?.message} />
+            <FormInput label={constants.label.username} name="username" register={register({ required: constants.error.mandatoryField(constants.label.username) })} type="text" error={errors.username?.message} />
           </div>
           <div className="column is-6">
-            <FormInput label={constants.label.email} name="email" register={register} type="email" error={errors.email?.message} />
+            <FormInput label={constants.label.email} name="email" register={register({ required: constants.error.mandatoryField(constants.label.email) })} type="email" error={errors.email?.message} />
           </div>
           <div className="column is-6">
-            <FormInput label={constants.label.password} name="password" register={register} type="password" error={errors.password?.message} />
+            <FormInput label={constants.label.password} name="password" register={register({ required: constants.error.mandatoryField(constants.label.password) })} type="password" error={errors.password?.message} />
           </div>
           <div className="column is-6">
-            <FormInput label={constants.label.confirmPassword} name="confirmPassword" register={register} type="password" error={errors.confirmPassword?.message} />
+            <FormInput label={constants.label.confirmPassword} name="confirmPassword" register={register({
+              validate: (value) => watch().password === value || constants.error.passwordNotMatched
+            })
+            } type="password" error={errors.confirmPassword?.message} />
           </div>
           <div className="column is-6">
-            <FormInput label={constants.label.fullName} name="fullName" register={register} type="text" error={errors.fullName?.message} />
+            <FormInput label={constants.label.fullName} name="fullName" register={register(
+              {
+                required: constants.error.mandatoryField(constants.label.fullName)
+              }
+            )} type="text" error={errors.fullName?.message} />
           </div>
           <div className="column is-6">
             <FormInput label={constants.label.telegramId} name="telegramId" register={register} type="text" error={errors.telegramId?.message} />
