@@ -7,6 +7,8 @@ export type TUser = {
   username: string
   fullName: string
   email: string
+  password: string
+  telegramId: string
 }
 const useSecurityService = () => {
   const constants = useConstants()

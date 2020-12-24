@@ -3,7 +3,7 @@ import React from "react"
 interface IFormInput {
   register: any
   name: string
-  type: "text" | "password"
+  type: "text" | "password" | "email"
   label: string
   error?: string
 }
