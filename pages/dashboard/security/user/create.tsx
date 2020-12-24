@@ -1,6 +1,6 @@
 import Link from "next/link"
 import React from "react"
-import { useController, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import Button from "../../../../src/components/Button"
 import ButtonGroup from "../../../../src/components/ButtonGroup"
 import Card from "../../../../src/components/Card"
@@ -31,11 +31,13 @@ const UserCreateForm: React.FC<{}> = () => {
     telegramId: string
   }
   const constants = useConstants()
-  const { register, handleSubmit, errors, watch } = useForm<TForm>()
+  const { register, handleSubmit, errors, watch, reset } = useForm<TForm>()
 
   const onCreate = (data: TUser) => {
     console.log("data: ", data)
   }
+
+  const onClear = () => reset()
 
   return (
     <Card title={constants.header.userForm}>
@@ -69,7 +71,8 @@ const UserCreateForm: React.FC<{}> = () => {
         </div>
         <br />
         <ButtonGroup align="is-right">
-          <Button label="Create" onClick={handleSubmit(onCreate)} type="submit" color="is-success" />
+          <Button label={constants.button.clear} onClick={onClear} type="button" color="is-light" isInverted isOutlined />
+          <Button label={constants.button.create} onClick={handleSubmit(onCreate)} type="submit" color="is-success" />
         </ButtonGroup>
       </Form>
     </Card>
