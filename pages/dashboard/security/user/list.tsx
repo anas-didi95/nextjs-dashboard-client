@@ -31,7 +31,7 @@ const UserListTable: React.FC<{}> = () => {
   const loadingContext = useContext(LoadingContext)
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       loadingContext.onLoading()
       const userList = await securityService.getUserList()
       setUserList(userList)
@@ -61,8 +61,8 @@ const UserListTable: React.FC<{}> = () => {
             ))}
         </Table>
       ) : (
-          <Skeleton count={3} />
-        )}
+        <Skeleton count={3} />
+      )}
     </Card>
   )
 }
@@ -72,7 +72,11 @@ const ActionButton: React.FC<{}> = () => {
 
   return (
     <ButtonGroup align="is-right">
-      <ButtonLink href="/dashboard/security/user/create" label={constants.button.create} color="is-primary" />
+      <ButtonLink
+        href="/dashboard/security/user/create"
+        label={constants.button.create}
+        color="is-primary"
+      />
     </ButtonGroup>
   )
 }
