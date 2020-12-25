@@ -1,6 +1,5 @@
-import Link from "next/link"
 import { useRouter } from "next/router"
-import React from "react"
+import React, { useContext } from "react"
 import { useForm } from "react-hook-form"
 import Button from "../../../../src/components/Button"
 import ButtonGroup from "../../../../src/components/ButtonGroup"
@@ -8,14 +7,17 @@ import ButtonLink from "../../../../src/components/ButtonLink"
 import Card from "../../../../src/components/Card"
 import Form from "../../../../src/components/Form"
 import FormInput from "../../../../src/components/FormInput"
+import Notification from "../../../../src/components/Notification"
 import AppLayout from "../../../../src/layouts/AppLayout"
 import DashboardLayout from "../../../../src/layouts/DashboardLayout"
+import NotificationContext from "../../../../src/utils/contexts/NotificationContext"
 import useConstants from "../../../../src/utils/hooks/useConstants"
 import useSecurityService, { TUser } from "../../../../src/utils/hooks/useSecurityService"
 
 const SecurityUserCreatePage: React.FC<{}> = () => (
   <AppLayout title="Security - User Create" needAuth={true}>
     <DashboardLayout breadcrumbs={["Security", "User", "Create"]}>
+      <Notification />
       <UserCreateForm />
       <br />
       <ActionButton />
@@ -36,8 +38,11 @@ const UserCreateForm: React.FC<{}> = () => {
   const { register, handleSubmit, errors, watch, reset } = useForm<TForm>()
   const securityService = useSecurityService()
   const router = useRouter()
+  const notificationContext = useContext(NotificationContext)
 
   const onCreate = async (data: TUser) => {
+    notificationContext.clear()
+
     const user: TUser = {
       id: "",
       username: data.username,
@@ -50,6 +55,8 @@ const UserCreateForm: React.FC<{}> = () => {
 
     if (responseBody.status.isSuccess) {
       router.replace("/dashboard/security/user/list")
+    } else {
+      notificationContext.setErrorMessage("Create user failed!", responseBody.status.message)
     }
   }
 

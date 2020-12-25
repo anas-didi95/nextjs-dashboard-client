@@ -61,7 +61,7 @@ const useSecurityService = () => {
       return {
         status: {
           isSuccess: false,
-          message: "Operation failed! Kindly refer console log for details."
+          message: "Kindly refer console log for details."
         },
         data: {
           id: ""
