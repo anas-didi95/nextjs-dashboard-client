@@ -32,11 +32,50 @@ const useSecurityService = () => {
       return responseBody.data.getUserList
     } catch (e) {
       console.error("[useSecurityService] getUserList failed!", e)
-      return null
+      return []
     }
   }
 
-  return { getUserList }
+  const createUser = async (
+    user: TUser
+  ): Promise<{
+    status: { isSuccess: boolean; message: string }
+    data: { id: string }
+  }> => {
+    try {
+      const response = await fetch(`${constants.env.apiSecurity}/api/user`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authContext.getAccessToken()}`,
+        },
+        body: JSON.stringify({
+          username: user.username,
+          password: user.password,
+          fullName: user.fullName,
+          email: user.email,
+          telegramId: user.telegramId,
+        }),
+      })
+      const responseBody = await response.json()
+
+      return responseBody
+    } catch (e) {
+      console.error("[useSecurityService] createUser failed!", e)
+      return {
+        status: {
+          isSuccess: false,
+          message: "Kindly refer console log for details.",
+        },
+        data: {
+          id: "",
+        },
+      }
+    }
+  }
+
+  return { getUserList, createUser }
 }
 
 export default useSecurityService

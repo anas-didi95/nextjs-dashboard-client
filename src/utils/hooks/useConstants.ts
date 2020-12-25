@@ -11,7 +11,7 @@ const useConstants = () => {
   }
 
   const env = {
-    apiSecurity: process.env.NEXT_PUBLIC_API_SECURITY,
+    apiSecurity: process.env.NEXT_PUBLIC_API_SECURITY ?? "",
   }
 
   const header = {

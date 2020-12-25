@@ -19,15 +19,15 @@ const NotificationProvider: React.FC<{ children: ReactNode }> = ({
   type TData = {
     title: string
     message: string
-    type?: "is-danger"
+    type: "is-danger" | ""
   }
   const [data, setData] = useState<TData>({
     title: "",
     message: "",
-    type: null,
+    type: "",
   })
 
-  const clear = () => setData({ title: "", message: "", type: null })
+  const clear = () => setData({ title: "", message: "", type: "" })
   const hasMessage = () => !!data.title && !!data.message && !!data.type
   const getValue = () => [data.title, data.message, data.type]
   const setErrorMessage = (title: string, message: string) =>

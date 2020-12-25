@@ -1,5 +1,5 @@
-import Link from "next/link"
-import React from "react"
+import { useRouter } from "next/router"
+import React, { useContext } from "react"
 import { useForm } from "react-hook-form"
 import Button from "../../../../src/components/Button"
 import ButtonGroup from "../../../../src/components/ButtonGroup"
@@ -7,14 +7,20 @@ import ButtonLink from "../../../../src/components/ButtonLink"
 import Card from "../../../../src/components/Card"
 import Form from "../../../../src/components/Form"
 import FormInput from "../../../../src/components/FormInput"
+import Notification from "../../../../src/components/Notification"
 import AppLayout from "../../../../src/layouts/AppLayout"
 import DashboardLayout from "../../../../src/layouts/DashboardLayout"
+import LoadingContext from "../../../../src/utils/contexts/LoadingContext"
+import NotificationContext from "../../../../src/utils/contexts/NotificationContext"
 import useConstants from "../../../../src/utils/hooks/useConstants"
-import { TUser } from "../../../../src/utils/hooks/useSecurityService"
+import useSecurityService, {
+  TUser,
+} from "../../../../src/utils/hooks/useSecurityService"
 
 const SecurityUserCreatePage: React.FC<{}> = () => (
   <AppLayout title="Security - User Create" needAuth={true}>
     <DashboardLayout breadcrumbs={["Security", "User", "Create"]}>
+      <Notification />
       <UserCreateForm />
       <br />
       <ActionButton />
@@ -33,9 +39,34 @@ const UserCreateForm: React.FC<{}> = () => {
   }
   const constants = useConstants()
   const { register, handleSubmit, errors, watch, reset } = useForm<TForm>()
+  const securityService = useSecurityService()
+  const router = useRouter()
+  const notificationContext = useContext(NotificationContext)
+  const loadingContext = useContext(LoadingContext)
 
-  const onCreate = (data: TUser) => {
-    console.log("data: ", data)
+  const onCreate = async (data: TUser) => {
+    const user: TUser = {
+      id: "",
+      username: data.username,
+      email: data.email,
+      password: data.password,
+      fullName: data.fullName,
+      telegramId: data.telegramId,
+    }
+
+    notificationContext.clear()
+    loadingContext.onLoading()
+    const responseBody = await securityService.createUser(user)
+    loadingContext.offLoading()
+
+    if (responseBody.status.isSuccess) {
+      router.replace("/dashboard/security/user/list")
+    } else {
+      notificationContext.setErrorMessage(
+        "Create user failed!",
+        responseBody.status.message
+      )
+    }
   }
 
   const onClear = () => reset()
