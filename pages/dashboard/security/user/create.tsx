@@ -10,6 +10,7 @@ import FormInput from "../../../../src/components/FormInput"
 import Notification from "../../../../src/components/Notification"
 import AppLayout from "../../../../src/layouts/AppLayout"
 import DashboardLayout from "../../../../src/layouts/DashboardLayout"
+import LoadingContext from "../../../../src/utils/contexts/LoadingContext"
 import NotificationContext from "../../../../src/utils/contexts/NotificationContext"
 import useConstants from "../../../../src/utils/hooks/useConstants"
 import useSecurityService, { TUser } from "../../../../src/utils/hooks/useSecurityService"
@@ -39,10 +40,9 @@ const UserCreateForm: React.FC<{}> = () => {
   const securityService = useSecurityService()
   const router = useRouter()
   const notificationContext = useContext(NotificationContext)
+  const loadingContext = useContext(LoadingContext)
 
   const onCreate = async (data: TUser) => {
-    notificationContext.clear()
-
     const user: TUser = {
       id: "",
       username: data.username,
@@ -51,7 +51,11 @@ const UserCreateForm: React.FC<{}> = () => {
       fullName: data.fullName,
       telegramId: data.telegramId
     }
+
+    notificationContext.clear()
+    loadingContext.onLoading()
     const responseBody = await securityService.createUser(user)
+    loadingContext.offLoading()
 
     if (responseBody.status.isSuccess) {
       router.replace("/dashboard/security/user/list")
