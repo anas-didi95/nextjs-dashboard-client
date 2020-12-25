@@ -13,7 +13,9 @@ import DashboardLayout from "../../../../src/layouts/DashboardLayout"
 import LoadingContext from "../../../../src/utils/contexts/LoadingContext"
 import NotificationContext from "../../../../src/utils/contexts/NotificationContext"
 import useConstants from "../../../../src/utils/hooks/useConstants"
-import useSecurityService, { TUser } from "../../../../src/utils/hooks/useSecurityService"
+import useSecurityService, {
+  TUser,
+} from "../../../../src/utils/hooks/useSecurityService"
 
 const SecurityUserCreatePage: React.FC<{}> = () => (
   <AppLayout title="Security - User Create" needAuth={true}>
@@ -49,7 +51,7 @@ const UserCreateForm: React.FC<{}> = () => {
       email: data.email,
       password: data.password,
       fullName: data.fullName,
-      telegramId: data.telegramId
+      telegramId: data.telegramId,
     }
 
     notificationContext.clear()
@@ -60,7 +62,10 @@ const UserCreateForm: React.FC<{}> = () => {
     if (responseBody.status.isSuccess) {
       router.replace("/dashboard/security/user/list")
     } else {
-      notificationContext.setErrorMessage("Create user failed!", responseBody.status.message)
+      notificationContext.setErrorMessage(
+        "Create user failed!",
+        responseBody.status.message
+      )
     }
   }
 

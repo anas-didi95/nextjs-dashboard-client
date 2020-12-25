@@ -7,10 +7,10 @@ interface INotificationContext {
   setErrorMessage: (title: string, message: string) => void
 }
 const NotificationContext = createContext<INotificationContext>({
-  clear: () => { },
+  clear: () => {},
   hasMessage: () => false,
   getValue: () => [],
-  setErrorMessage: () => { },
+  setErrorMessage: () => {},
 })
 
 const NotificationProvider: React.FC<{ children: ReactNode }> = ({
