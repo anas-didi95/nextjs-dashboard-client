@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { useRouter } from "next/router"
 import React from "react"
 import { useForm } from "react-hook-form"
 import Button from "../../../../src/components/Button"
@@ -10,7 +11,7 @@ import FormInput from "../../../../src/components/FormInput"
 import AppLayout from "../../../../src/layouts/AppLayout"
 import DashboardLayout from "../../../../src/layouts/DashboardLayout"
 import useConstants from "../../../../src/utils/hooks/useConstants"
-import { TUser } from "../../../../src/utils/hooks/useSecurityService"
+import useSecurityService, { TUser } from "../../../../src/utils/hooks/useSecurityService"
 
 const SecurityUserCreatePage: React.FC<{}> = () => (
   <AppLayout title="Security - User Create" needAuth={true}>
@@ -33,9 +34,23 @@ const UserCreateForm: React.FC<{}> = () => {
   }
   const constants = useConstants()
   const { register, handleSubmit, errors, watch, reset } = useForm<TForm>()
+  const securityService = useSecurityService()
+  const router = useRouter()
 
-  const onCreate = (data: TUser) => {
-    console.log("data: ", data)
+  const onCreate = async (data: TUser) => {
+    const user: TUser = {
+      id: "",
+      username: data.username,
+      email: data.email,
+      password: data.password,
+      fullName: data.fullName,
+      telegramId: data.telegramId
+    }
+    const responseBody = await securityService.createUser(user)
+
+    if (responseBody.status.isSuccess) {
+      router.replace("/dashboard/security/user/list")
+    }
   }
 
   const onClear = () => reset()
