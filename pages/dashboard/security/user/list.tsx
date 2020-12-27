@@ -31,7 +31,7 @@ const UserListTable: React.FC<{}> = () => {
   const loadingContext = useContext(LoadingContext)
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       loadingContext.onLoading()
       const userList = await securityService.getUserList()
       setUserList(userList)
@@ -54,15 +54,19 @@ const UserListTable: React.FC<{}> = () => {
             userList.map((user, i) => (
               <tr key={user.id}>
                 <td>{i + 1}</td>
-                <td>{user.username}</td>
+                <td>
+                  <Link href={`/dashboard/security/user/${user.id}/summary`}>
+                    <a href={`/dashboard/security/user/${user.id}/summary`}>{user.username}</a >
+                  </Link>
+                </td>
                 <td>{user.fullName}</td>
                 <td>{user.email}</td>
               </tr>
             ))}
         </Table>
       ) : (
-        <Skeleton count={3} />
-      )}
+          <Skeleton count={3} />
+        )}
     </Card>
   )
 }
