@@ -54,7 +54,13 @@ const UserListTable: React.FC<{}> = () => {
             userList.map((user, i) => (
               <tr key={user.id}>
                 <td>{i + 1}</td>
-                <td>{user.username}</td>
+                <td>
+                  <Link href={`/dashboard/security/user/${user.id}/summary`}>
+                    <a href={`/dashboard/security/user/${user.id}/summary`}>
+                      {user.username}
+                    </a>
+                  </Link>
+                </td>
                 <td>{user.fullName}</td>
                 <td>{user.email}</td>
               </tr>

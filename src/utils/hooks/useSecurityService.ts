@@ -1,3 +1,4 @@
+import { basename } from "path"
 import { useContext } from "react"
 import AuthContext from "../contexts/AuthContext"
 import useConstants from "./useConstants"
@@ -9,6 +10,8 @@ export type TUser = {
   email: string
   password: string
   telegramId: string
+  lastModifiedDate: string
+  version: number
 }
 const useSecurityService = () => {
   const constants = useConstants()
@@ -24,7 +27,15 @@ const useSecurityService = () => {
           Authorization: `Bearer ${authContext.getAccessToken()}`,
         },
         body: JSON.stringify({
-          query: `query { getUserList { id username fullName email } }`,
+          query: `
+            query {
+              getUserList {
+                id
+                username
+                fullName
+                email
+              }
+            }`,
         }),
       })
       const responseBody = await response.json()
@@ -75,7 +86,51 @@ const useSecurityService = () => {
     }
   }
 
-  return { getUserList, createUser }
+  const getUserById = async (id: string): Promise<TUser> => {
+    try {
+      const response = await fetch(`${constants.env.apiSecurity}/graphql`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authContext.getAccessToken()}`,
+        },
+        body: JSON.stringify({
+          query: `
+            query($id: String!, $format: String) {
+              getUserById(id: $id) {
+                id
+                username
+                fullName
+                email
+                lastModifiedDate(format: $format) version
+              }
+            }`,
+          variables: {
+            id: id,
+            format: "yyyy-MM-dd HH:mm:ss",
+          },
+        }),
+      })
+      const responseBody = await response.json()
+
+      return responseBody.data.getUserById
+    } catch (e) {
+      console.error("[useSecurityService] getUserById failed!", e)
+      return {
+        email: "",
+        fullName: "",
+        id: "",
+        password: "",
+        telegramId: "",
+        username: "",
+        lastModifiedDate: "",
+        version: -1,
+      }
+    }
+  }
+
+  return { getUserList, createUser, getUserById }
 }
 
 export default useSecurityService
