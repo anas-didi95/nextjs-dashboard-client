@@ -27,6 +27,7 @@ const SecurityUserSummaryPage: React.FC<{}> = () => {
 }
 
 const UserSummaryForm: React.FC<{ id: string }> = ({ id }) => {
+  const constants = useConstants()
   const [user, setUser] = useState<TUser>({
     email: "",
     fullName: "",
@@ -51,25 +52,25 @@ const UserSummaryForm: React.FC<{ id: string }> = ({ id }) => {
   }, [])
 
   return (
-    <Card title="User Summary">
+    <Card title={constants.header.userSummary}>
       <div className="columns is-multiline is-variable is-4">
         <div className="column is-6">
-          {!loadingContext.isLoading() ? <LabelValue label="Username">{user.username}</LabelValue> : <Skeleton count={2} />}
+          {!loadingContext.isLoading() ? <LabelValue label={constants.label.username}>{user.username}</LabelValue> : <Skeleton count={2} />}
         </div>
         <div className="column is-6">
-          {!loadingContext.isLoading() ? <LabelValue label="Email">{user.email}</LabelValue> : <Skeleton count={2} />}
+          {!loadingContext.isLoading() ? <LabelValue label={constants.label.email}>{user.email}</LabelValue> : <Skeleton count={2} />}
         </div>
         <div className="column is-6">
-          {!loadingContext.isLoading() ? <LabelValue label="Full Name">{user.fullName}</LabelValue> : <Skeleton count={2} />}
+          {!loadingContext.isLoading() ? <LabelValue label={constants.label.fullName}>{user.fullName}</LabelValue> : <Skeleton count={2} />}
         </div>
         <div className="column is-6">
-          {!loadingContext.isLoading() ? <LabelValue label="Telegram Id">{user.telegramId}</LabelValue> : <Skeleton count={2} />}
+          {!loadingContext.isLoading() ? <LabelValue label={constants.label.telegramId}>{user.telegramId}</LabelValue> : <Skeleton count={2} />}
         </div>
         <div className="column is-6">
-          {!loadingContext.isLoading() ? <LabelValue label="Last Modified Date">{user.lastModifiedDate}</LabelValue> : <Skeleton count={2} />}
+          {!loadingContext.isLoading() ? <LabelValue label={constants.label.lastModifiedDate}>{user.lastModifiedDate}</LabelValue> : <Skeleton count={2} />}
         </div>
         <div className="column is-6">
-          {!loadingContext.isLoading() ? <LabelValue label="Version">{user.version}</LabelValue> : <Skeleton count={2} />}
+          {!loadingContext.isLoading() ? <LabelValue label={constants.label.version}>{user.version}</LabelValue> : <Skeleton count={2} />}
         </div>
       </div>
     </Card>

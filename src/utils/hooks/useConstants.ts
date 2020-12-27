@@ -22,6 +22,7 @@ const useConstants = () => {
     securityServerStatus: "Security Server Status",
     userListing: "User Listing",
     userForm: "User Form",
+    userSummary: "User Summary"
   }
 
   const label = {
@@ -36,6 +37,8 @@ const useConstants = () => {
     email: "Email",
     confirmPassword: "Confirm Password",
     telegramId: "Telegram Id",
+    lastModifiedDate: "Last Modified Date",
+    version: "Version"
   }
 
   const button = {
