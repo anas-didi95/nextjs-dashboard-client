@@ -83,19 +83,17 @@ const useSecurityService = () => {
       const response = await fetch(`${constants.env.apiSecurity}/graphql`, {
         method: "POST",
         headers: {
-          "Accept": "application/json",
+          Accept: "application/json",
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${authContext.getAccessToken()}`
+          Authorization: `Bearer ${authContext.getAccessToken()}`,
         },
-        body: JSON.stringify(
-          {
-            query: `query($id: String!, $format: String) { getUserById(id: $id) { id username fullName email lastModifiedDate(format: $format) version } }`,
-            variables: {
-              id: id,
-              format: "yyyy-MM-dd HH:mm:ss"
-            }
-          }
-        )
+        body: JSON.stringify({
+          query: `query($id: String!, $format: String) { getUserById(id: $id) { id username fullName email lastModifiedDate(format: $format) version } }`,
+          variables: {
+            id: id,
+            format: "yyyy-MM-dd HH:mm:ss",
+          },
+        }),
       })
       const responseBody = await response.json()
 
@@ -110,7 +108,7 @@ const useSecurityService = () => {
         telegramId: "",
         username: "",
         lastModifiedDate: "",
-        version: -1
+        version: -1,
       }
     }
   }

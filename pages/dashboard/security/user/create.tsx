@@ -53,7 +53,7 @@ const UserCreateForm: React.FC<{}> = () => {
       fullName: data.fullName,
       telegramId: data.telegramId,
       lastModifiedDate: "",
-      version: -1
+      version: -1,
     }
 
     notificationContext.clear()
@@ -62,7 +62,11 @@ const UserCreateForm: React.FC<{}> = () => {
     loadingContext.offLoading()
 
     if (responseBody.status.isSuccess) {
-      notificationContext.setSaveMessage("Create user succeed.", responseBody.status.message, "is-success")
+      notificationContext.setSaveMessage(
+        "Create user succeed.",
+        responseBody.status.message,
+        "is-success"
+      )
       router.replace(`/dashboard/security/user/${responseBody.data.id}/summary`)
     } else {
       notificationContext.setErrorMessage(

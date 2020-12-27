@@ -31,7 +31,7 @@ const UserListTable: React.FC<{}> = () => {
   const loadingContext = useContext(LoadingContext)
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       loadingContext.onLoading()
       const userList = await securityService.getUserList()
       setUserList(userList)
@@ -56,7 +56,9 @@ const UserListTable: React.FC<{}> = () => {
                 <td>{i + 1}</td>
                 <td>
                   <Link href={`/dashboard/security/user/${user.id}/summary`}>
-                    <a href={`/dashboard/security/user/${user.id}/summary`}>{user.username}</a >
+                    <a href={`/dashboard/security/user/${user.id}/summary`}>
+                      {user.username}
+                    </a>
                   </Link>
                 </td>
                 <td>{user.fullName}</td>
@@ -65,8 +67,8 @@ const UserListTable: React.FC<{}> = () => {
             ))}
         </Table>
       ) : (
-          <Skeleton count={3} />
-        )}
+        <Skeleton count={3} />
+      )}
     </Card>
   )
 }

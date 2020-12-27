@@ -10,7 +10,9 @@ import AppLayout from "../../../../../src/layouts/AppLayout"
 import DashboardLayout from "../../../../../src/layouts/DashboardLayout"
 import LoadingContext from "../../../../../src/utils/contexts/LoadingContext"
 import useConstants from "../../../../../src/utils/hooks/useConstants"
-import useSecurityService, { TUser } from "../../../../../src/utils/hooks/useSecurityService"
+import useSecurityService, {
+  TUser,
+} from "../../../../../src/utils/hooks/useSecurityService"
 
 const SecurityUserSummaryPage: React.FC<{}> = () => {
   const router = useRouter()
@@ -38,13 +40,13 @@ const UserSummaryForm: React.FC<{ id: string }> = ({ id }) => {
     telegramId: "",
     username: "",
     lastModifiedDate: "",
-    version: -1
+    version: -1,
   })
   const securityService = useSecurityService()
   const loadingContext = useContext(LoadingContext)
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       loadingContext.onLoading()
       const user = await securityService.getUserById(id)
       loadingContext.offLoading()
@@ -57,22 +59,56 @@ const UserSummaryForm: React.FC<{ id: string }> = ({ id }) => {
     <Card title={constants.header.userSummary}>
       <div className="columns is-multiline is-variable is-4">
         <div className="column is-6">
-          {!loadingContext.isLoading() ? <LabelValue label={constants.label.username}>{user.username}</LabelValue> : <Skeleton count={2} />}
+          {!loadingContext.isLoading() ? (
+            <LabelValue label={constants.label.username}>
+              {user.username}
+            </LabelValue>
+          ) : (
+            <Skeleton count={2} />
+          )}
         </div>
         <div className="column is-6">
-          {!loadingContext.isLoading() ? <LabelValue label={constants.label.email}>{user.email}</LabelValue> : <Skeleton count={2} />}
+          {!loadingContext.isLoading() ? (
+            <LabelValue label={constants.label.email}>{user.email}</LabelValue>
+          ) : (
+            <Skeleton count={2} />
+          )}
         </div>
         <div className="column is-6">
-          {!loadingContext.isLoading() ? <LabelValue label={constants.label.fullName}>{user.fullName}</LabelValue> : <Skeleton count={2} />}
+          {!loadingContext.isLoading() ? (
+            <LabelValue label={constants.label.fullName}>
+              {user.fullName}
+            </LabelValue>
+          ) : (
+            <Skeleton count={2} />
+          )}
         </div>
         <div className="column is-6">
-          {!loadingContext.isLoading() ? <LabelValue label={constants.label.telegramId}>{user.telegramId}</LabelValue> : <Skeleton count={2} />}
+          {!loadingContext.isLoading() ? (
+            <LabelValue label={constants.label.telegramId}>
+              {user.telegramId}
+            </LabelValue>
+          ) : (
+            <Skeleton count={2} />
+          )}
         </div>
         <div className="column is-6">
-          {!loadingContext.isLoading() ? <LabelValue label={constants.label.lastModifiedDate}>{user.lastModifiedDate}</LabelValue> : <Skeleton count={2} />}
+          {!loadingContext.isLoading() ? (
+            <LabelValue label={constants.label.lastModifiedDate}>
+              {user.lastModifiedDate}
+            </LabelValue>
+          ) : (
+            <Skeleton count={2} />
+          )}
         </div>
         <div className="column is-6">
-          {!loadingContext.isLoading() ? <LabelValue label={constants.label.version}>{user.version}</LabelValue> : <Skeleton count={2} />}
+          {!loadingContext.isLoading() ? (
+            <LabelValue label={constants.label.version}>
+              {user.version}
+            </LabelValue>
+          ) : (
+            <Skeleton count={2} />
+          )}
         </div>
       </div>
     </Card>
@@ -92,7 +128,5 @@ const ActionButton: React.FC<{}> = () => {
     </ButtonGroup>
   )
 }
-
-
 
 export default SecurityUserSummaryPage
