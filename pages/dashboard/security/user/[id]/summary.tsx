@@ -5,6 +5,7 @@ import ButtonGroup from "../../../../../src/components/ButtonGroup"
 import ButtonLink from "../../../../../src/components/ButtonLink"
 import Card from "../../../../../src/components/Card"
 import LabelValue from "../../../../../src/components/LabelValue"
+import Notification from "../../../../../src/components/Notification"
 import AppLayout from "../../../../../src/layouts/AppLayout"
 import DashboardLayout from "../../../../../src/layouts/DashboardLayout"
 import LoadingContext from "../../../../../src/utils/contexts/LoadingContext"
@@ -18,6 +19,7 @@ const SecurityUserSummaryPage: React.FC<{}> = () => {
   return (
     <AppLayout title="Security - User Summary" needAuth={true}>
       <DashboardLayout breadcrumbs={["Security", "User", "Summary"]}>
+        <Notification />
         <UserSummaryForm id={id as string} />
         <br />
         <ActionButton />

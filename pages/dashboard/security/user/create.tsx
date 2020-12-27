@@ -62,6 +62,7 @@ const UserCreateForm: React.FC<{}> = () => {
     loadingContext.offLoading()
 
     if (responseBody.status.isSuccess) {
+      notificationContext.setSaveMessage("Create user succeed.", responseBody.status.message, "is-success")
       router.replace(`/dashboard/security/user/${responseBody.data.id}/summary`)
     } else {
       notificationContext.setErrorMessage(

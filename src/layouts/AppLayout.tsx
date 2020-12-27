@@ -4,6 +4,7 @@ import useConstants from "../utils/hooks/useConstants"
 import AuthContext from "../utils/contexts/AuthContext"
 import { useRouter } from "next/router"
 import Navbar from "../components/Navbar"
+import NotificationContext from "../utils/contexts/NotificationContext"
 
 interface IAppLayout {
   children: ReactNode
@@ -16,6 +17,7 @@ const AppLayout: React.FC<IAppLayout> = ({ children, title, needAuth }) => {
   const [isShow, setShow] = useState<boolean>(false)
   const auth = useContext(AuthContext)
   const router = useRouter()
+  const notificationContext = useContext(NotificationContext)
 
   useEffect(() => {
     if (needAuth) {
@@ -26,6 +28,14 @@ const AppLayout: React.FC<IAppLayout> = ({ children, title, needAuth }) => {
       }
     } else {
       setShow(true)
+    }
+  }, [])
+
+  useEffect(() => {
+    notificationContext.checkSaveMessage()
+
+    return () => {
+      notificationContext.clear()
     }
   }, [])
 
