@@ -52,6 +52,8 @@ const UserCreateForm: React.FC<{}> = () => {
       password: data.password,
       fullName: data.fullName,
       telegramId: data.telegramId,
+      lastModifiedDate: "",
+      version: -1
     }
 
     notificationContext.clear()
@@ -60,7 +62,7 @@ const UserCreateForm: React.FC<{}> = () => {
     loadingContext.offLoading()
 
     if (responseBody.status.isSuccess) {
-      router.replace("/dashboard/security/user/list")
+      router.replace(`/dashboard/security/user/${responseBody.data.id}/summary`)
     } else {
       notificationContext.setErrorMessage(
         "Create user failed!",
