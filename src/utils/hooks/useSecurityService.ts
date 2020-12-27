@@ -27,7 +27,15 @@ const useSecurityService = () => {
           Authorization: `Bearer ${authContext.getAccessToken()}`,
         },
         body: JSON.stringify({
-          query: `query { getUserList { id username fullName email } }`,
+          query: `
+            query {
+              getUserList {
+                id
+                username
+                fullName
+                email
+              }
+            }`,
         }),
       })
       const responseBody = await response.json()
@@ -88,7 +96,16 @@ const useSecurityService = () => {
           Authorization: `Bearer ${authContext.getAccessToken()}`,
         },
         body: JSON.stringify({
-          query: `query($id: String!, $format: String) { getUserById(id: $id) { id username fullName email lastModifiedDate(format: $format) version } }`,
+          query: `
+            query($id: String!, $format: String) {
+              getUserById(id: $id) {
+                id
+                username
+                fullName
+                email
+                lastModifiedDate(format: $format) version
+              }
+            }`,
           variables: {
             id: id,
             format: "yyyy-MM-dd HH:mm:ss",
