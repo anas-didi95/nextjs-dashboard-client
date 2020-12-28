@@ -14,8 +14,9 @@ const ButtonLink: React.FC<IButtonLink> = ({ href, label, color }) => {
     <Link href={href}>
       <a
         href={href}
-        className={`button ${!!color ? color : ""} ${loadingContext.isLoading() ? "is-loading" : ""
-          }`}>
+        className={`button ${!!color ? color : ""} ${
+          loadingContext.isLoading() ? "is-loading" : ""
+        }`}>
         {label}
       </a>
     </Link>

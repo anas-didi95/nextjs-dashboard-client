@@ -43,7 +43,7 @@ const UserSummaryForm: React.FC<{}> = () => {
   const loadingContext = useLoadingContext()
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       loadingContext.onLoading()
       const user = await securityService.getUserById(id as string)
       loadingContext.offLoading()
@@ -61,15 +61,15 @@ const UserSummaryForm: React.FC<{}> = () => {
               {user.username}
             </LabelValue>
           ) : (
-              <Skeleton count={2} />
-            )}
+            <Skeleton count={2} />
+          )}
         </div>
         <div className="column is-6">
           {!loadingContext.isLoading() ? (
             <LabelValue label={constants.label.email}>{user.email}</LabelValue>
           ) : (
-              <Skeleton count={2} />
-            )}
+            <Skeleton count={2} />
+          )}
         </div>
         <div className="column is-6">
           {!loadingContext.isLoading() ? (
@@ -77,8 +77,8 @@ const UserSummaryForm: React.FC<{}> = () => {
               {user.fullName}
             </LabelValue>
           ) : (
-              <Skeleton count={2} />
-            )}
+            <Skeleton count={2} />
+          )}
         </div>
         <div className="column is-6">
           {!loadingContext.isLoading() ? (
@@ -86,8 +86,8 @@ const UserSummaryForm: React.FC<{}> = () => {
               {user.telegramId}
             </LabelValue>
           ) : (
-              <Skeleton count={2} />
-            )}
+            <Skeleton count={2} />
+          )}
         </div>
         <div className="column is-6">
           {!loadingContext.isLoading() ? (
@@ -95,8 +95,8 @@ const UserSummaryForm: React.FC<{}> = () => {
               {user.lastModifiedDate}
             </LabelValue>
           ) : (
-              <Skeleton count={2} />
-            )}
+            <Skeleton count={2} />
+          )}
         </div>
         <div className="column is-6">
           {!loadingContext.isLoading() ? (
@@ -104,13 +104,17 @@ const UserSummaryForm: React.FC<{}> = () => {
               {user.version}
             </LabelValue>
           ) : (
-              <Skeleton count={2} />
-            )}
+            <Skeleton count={2} />
+          )}
         </div>
       </div>
       <br />
       <ButtonGroup align="is-right">
-        <ButtonLink href={`/dashboard/security/user/${user.id}/edit`} label="Edit" color="is-success" />
+        <ButtonLink
+          href={`/dashboard/security/user/${user.id}/edit`}
+          label="Edit"
+          color="is-success"
+        />
       </ButtonGroup>
     </Card>
   )

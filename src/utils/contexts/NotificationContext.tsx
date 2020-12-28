@@ -10,12 +10,12 @@ interface INotificationContext {
   checkSaveMessage: () => void
 }
 const NotificationContext = createContext<INotificationContext>({
-  clear: () => { },
+  clear: () => {},
   hasMessage: () => false,
   getValue: () => [],
-  setErrorMessage: () => { },
-  setSaveMessage: () => { },
-  checkSaveMessage: () => { },
+  setErrorMessage: () => {},
+  setSaveMessage: () => {},
+  checkSaveMessage: () => {},
 })
 
 const NotificationProvider: React.FC<{ children: ReactNode }> = ({

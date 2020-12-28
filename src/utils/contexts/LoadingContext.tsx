@@ -7,8 +7,8 @@ interface ILoadingContext {
 }
 const LoadingContext = createContext<ILoadingContext>({
   isLoading: () => false,
-  onLoading: () => { },
-  offLoading: () => { },
+  onLoading: () => {},
+  offLoading: () => {},
 })
 
 const LoadingProvider: React.FC<{ children: ReactNode }> = ({ children }) => {

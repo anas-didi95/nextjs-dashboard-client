@@ -77,10 +77,11 @@ const NavbarMenu: React.FC<{
 
   return (
     <div
-      className={`navbar-menu ${isActive
+      className={`navbar-menu ${
+        isActive
           ? "is-active animate__animated animate__slideInDown animate__faster"
           : ""
-        }`}>
+      }`}>
       {authContext.isAuth() && (
         <div className="navbar-start">
           <Link href="/dashboard">

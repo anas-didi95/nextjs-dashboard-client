@@ -14,7 +14,9 @@ import DashboardLayout from "../../../../../src/layouts/DashboardLayout"
 import { useLoadingContext } from "../../../../../src/utils/contexts/LoadingContext"
 import { useNotificationContext } from "../../../../../src/utils/contexts/NotificationContext"
 import useConstants from "../../../../../src/utils/hooks/useConstants"
-import useSecurityService, { TUser } from "../../../../../src/utils/hooks/useSecurityService"
+import useSecurityService, {
+  TUser,
+} from "../../../../../src/utils/hooks/useSecurityService"
 
 const SecurityUserEditPage: React.FC<{}> = () => (
   <AppLayout title="Security - User Edit" needAuth={true}>
@@ -41,7 +43,7 @@ const UserEditForm: React.FC<{}> = () => {
     password: "",
     telegramId: "",
     username: "",
-    version: -1
+    version: -1,
   })
   const { register, handleSubmit, errors, setValue, reset } = useForm<TForm>()
   const securityService = useSecurityService()
@@ -60,7 +62,7 @@ const UserEditForm: React.FC<{}> = () => {
       password: "",
       telegramId: data.telegramId,
       username: user.username,
-      version: user.version
+      version: user.version,
     }
 
     loadingContext.onLoading()
@@ -76,14 +78,17 @@ const UserEditForm: React.FC<{}> = () => {
       )
       router.replace(`/dashboard/security/user/${id}/summary`)
     } else {
-      notificationContext.setErrorMessage("Update user failed!", responseBody.status.message)
+      notificationContext.setErrorMessage(
+        "Update user failed!",
+        responseBody.status.message
+      )
     }
   }
 
   const onClear = () => reset()
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       const user = await securityService.getUserById(id as string)
 
       setUser(user)
@@ -98,26 +103,60 @@ const UserEditForm: React.FC<{}> = () => {
       <Form onSubmit={handleSubmit(onUpdate)}>
         <div className="columns is-multiline is-variable is-4">
           <div className="column is-6">
-            <LabelValue label={constants.label.username}>{user.username}</LabelValue>
+            <LabelValue label={constants.label.username}>
+              {user.username}
+            </LabelValue>
           </div>
           <div className="column is-6">
-            <FormInput label={constants.label.email} name="email" register={register({
-              required: constants.error.mandatoryField(constants.label.email)
-            })} type="email" error={errors.email?.message} />
+            <FormInput
+              label={constants.label.email}
+              name="email"
+              register={register({
+                required: constants.error.mandatoryField(constants.label.email),
+              })}
+              type="email"
+              error={errors.email?.message}
+            />
           </div>
           <div className="column is-6">
-            <FormInput label={constants.label.fullName} name="fullName" register={register(
-              { required: constants.error.mandatoryField(constants.label.fullName) }
-            )} type="text" error={errors.fullName?.message} />
+            <FormInput
+              label={constants.label.fullName}
+              name="fullName"
+              register={register({
+                required: constants.error.mandatoryField(
+                  constants.label.fullName
+                ),
+              })}
+              type="text"
+              error={errors.fullName?.message}
+            />
           </div>
           <div className="column is-6">
-            <FormInput label={constants.label.telegramId} name="telegramId" register={register} type="text" error={errors.telegramId?.message} />
+            <FormInput
+              label={constants.label.telegramId}
+              name="telegramId"
+              register={register}
+              type="text"
+              error={errors.telegramId?.message}
+            />
           </div>
         </div>
         <br />
         <ButtonGroup align="is-right">
-          <Button label={constants.button.clear} onClick={onClear} type="button" color="is-light" isInverted isOutlined />
-          <Button label={constants.button.update} onClick={handleSubmit(onUpdate)} type="submit" color="is-success" />
+          <Button
+            label={constants.button.clear}
+            onClick={onClear}
+            type="button"
+            color="is-light"
+            isInverted
+            isOutlined
+          />
+          <Button
+            label={constants.button.update}
+            onClick={handleSubmit(onUpdate)}
+            type="submit"
+            color="is-success"
+          />
         </ButtonGroup>
       </Form>
     </Card>
@@ -131,7 +170,11 @@ const ActionButton: React.FC<{}> = () => {
 
   return (
     <ButtonGroup align="is-right">
-      <ButtonLink href={`/dashboard/security/user/${id}/summary`} label={constants.button.back} color="is-primary" />
+      <ButtonLink
+        href={`/dashboard/security/user/${id}/summary`}
+        label={constants.button.back}
+        color="is-primary"
+      />
     </ButtonGroup>
   )
 }

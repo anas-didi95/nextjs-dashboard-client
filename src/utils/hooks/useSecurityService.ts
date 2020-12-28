@@ -75,7 +75,7 @@ const useSecurityService = () => {
       return {
         status: {
           isSuccess: false,
-          message: constants.error.referConsoleLogDetails
+          message: constants.error.referConsoleLogDetails,
         },
         data: {
           id: "",
@@ -128,22 +128,30 @@ const useSecurityService = () => {
     }
   }
 
-  const updateUser = async (user: TUser): Promise<{ status: { isSuccess: boolean, message: string }, data: { id: string } }> => {
+  const updateUser = async (
+    user: TUser
+  ): Promise<{
+    status: { isSuccess: boolean; message: string }
+    data: { id: string }
+  }> => {
     try {
-      const response = await fetch(`${constants.env.apiSecurity}/api/user/${user.id}`, {
-        method: "PUT",
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${authContext.getAccessToken()}`
-        },
-        body: JSON.stringify({
-          fullName: user.fullName,
-          email: user.email,
-          version: user.version,
-          telegramId: user.telegramId
-        })
-      })
+      const response = await fetch(
+        `${constants.env.apiSecurity}/api/user/${user.id}`,
+        {
+          method: "PUT",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${authContext.getAccessToken()}`,
+          },
+          body: JSON.stringify({
+            fullName: user.fullName,
+            email: user.email,
+            version: user.version,
+            telegramId: user.telegramId,
+          }),
+        }
+      )
       const responseBody = await response.json()
 
       return responseBody
@@ -152,11 +160,11 @@ const useSecurityService = () => {
       return {
         status: {
           isSuccess: false,
-          message: constants.error.referConsoleLogDetails
+          message: constants.error.referConsoleLogDetails,
         },
         data: {
-          id: ""
-        }
+          id: "",
+        },
       }
     }
   }
