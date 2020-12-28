@@ -1,5 +1,5 @@
 import { useRouter } from "next/router"
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import Button from "../../../../../src/components/Button"
 import ButtonGroup from "../../../../../src/components/ButtonGroup"
@@ -8,27 +8,25 @@ import Card from "../../../../../src/components/Card"
 import Form from "../../../../../src/components/Form"
 import FormInput from "../../../../../src/components/FormInput"
 import LabelValue from "../../../../../src/components/LabelValue"
+import Notification from "../../../../../src/components/Notification"
 import AppLayout from "../../../../../src/layouts/AppLayout"
 import DashboardLayout from "../../../../../src/layouts/DashboardLayout"
+import NotificationContext from "../../../../../src/utils/contexts/NotificationContext"
 import useConstants from "../../../../../src/utils/hooks/useConstants"
 import useSecurityService, { TUser } from "../../../../../src/utils/hooks/useSecurityService"
 
-const SecurityUserEditPage: React.FC<{}> = () => {
-  const router = useRouter()
-  const { id } = router.query
+const SecurityUserEditPage: React.FC<{}> = () => (
+  <AppLayout title="Security - User Edit" needAuth={true}>
+    <DashboardLayout breadcrumbs={["Security", "User", "Edit"]}>
+      <Notification />
+      <UserEditForm />
+      <br />
+      <ActionButton />
+    </DashboardLayout>
+  </AppLayout>
+)
 
-  return (
-    <AppLayout title="Security - User Edit" needAuth={true}>
-      <DashboardLayout breadcrumbs={["Security", "User", "Edit"]}>
-        <UserEditForm id={id as string} />
-        <br />
-        <ActionButton id={id as string} />
-      </DashboardLayout>
-    </AppLayout>
-  )
-}
-
-const UserEditForm: React.FC<{ id: string }> = ({ id }) => {
+const UserEditForm: React.FC<{}> = () => {
   type TForm = {
     email: string
     fullName: string
@@ -47,6 +45,9 @@ const UserEditForm: React.FC<{ id: string }> = ({ id }) => {
   const { register, handleSubmit, errors, setValue } = useForm<TForm>()
   const securityService = useSecurityService()
   const constants = useConstants()
+  const router = useRouter()
+  const { id } = router.query
+  const notificationContext = useContext(NotificationContext)
 
   const onUpdate = async (data: TForm) => {
     const updateUser: TUser = {
@@ -60,14 +61,24 @@ const UserEditForm: React.FC<{ id: string }> = ({ id }) => {
       version: user.version
     }
 
+    notificationContext.clear()
     const responseBody = await securityService.updateUser(updateUser)
 
-    console.log("responseBody", responseBody)
+    if (responseBody.status.isSuccess) {
+      notificationContext.setSaveMessage(
+        "Update user succeed.",
+        responseBody.status.message,
+        "is-success"
+      )
+      router.replace(`/dashboard/security/user/${id}/summary`)
+    } else {
+      notificationContext.setErrorMessage("Update user failed!", responseBody.status.message)
+    }
   }
 
   useEffect(() => {
     (async () => {
-      const user = await securityService.getUserById(id)
+      const user = await securityService.getUserById(id as string)
 
       setUser(user)
       setValue("email", user.email)
@@ -106,8 +117,10 @@ const UserEditForm: React.FC<{ id: string }> = ({ id }) => {
   )
 }
 
-const ActionButton: React.FC<{ id: string }> = ({ id }) => {
+const ActionButton: React.FC<{}> = () => {
   const constants = useConstants()
+  const router = useRouter()
+  const { id } = router.query
 
   return (
     <ButtonGroup align="is-right">
