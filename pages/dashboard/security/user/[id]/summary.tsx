@@ -1,6 +1,7 @@
 import { useRouter } from "next/router"
 import React, { useContext, useEffect, useState } from "react"
 import Skeleton from "react-loading-skeleton"
+import Button from "../../../../../src/components/Button"
 import ButtonGroup from "../../../../../src/components/ButtonGroup"
 import ButtonLink from "../../../../../src/components/ButtonLink"
 import Card from "../../../../../src/components/Card"
@@ -14,23 +15,20 @@ import useSecurityService, {
   TUser,
 } from "../../../../../src/utils/hooks/useSecurityService"
 
-const SecurityUserSummaryPage: React.FC<{}> = () => {
+const SecurityUserSummaryPage: React.FC<{}> = () => (
+  <AppLayout title="Security - User Summary" needAuth={true}>
+    <DashboardLayout breadcrumbs={["Security", "User", "Summary"]}>
+      <Notification />
+      <UserSummaryForm />
+      <br />
+      <ActionButton />
+    </DashboardLayout>
+  </AppLayout>
+)
+
+const UserSummaryForm: React.FC<{}> = () => {
   const router = useRouter()
   const { id } = router.query
-
-  return (
-    <AppLayout title="Security - User Summary" needAuth={true}>
-      <DashboardLayout breadcrumbs={["Security", "User", "Summary"]}>
-        <Notification />
-        <UserSummaryForm id={id as string} />
-        <br />
-        <ActionButton />
-      </DashboardLayout>
-    </AppLayout>
-  )
-}
-
-const UserSummaryForm: React.FC<{ id: string }> = ({ id }) => {
   const constants = useConstants()
   const [user, setUser] = useState<TUser>({
     email: "",
@@ -46,9 +44,9 @@ const UserSummaryForm: React.FC<{ id: string }> = ({ id }) => {
   const loadingContext = useContext(LoadingContext)
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       loadingContext.onLoading()
-      const user = await securityService.getUserById(id)
+      const user = await securityService.getUserById(id as string)
       loadingContext.offLoading()
 
       setUser(user)
@@ -64,15 +62,15 @@ const UserSummaryForm: React.FC<{ id: string }> = ({ id }) => {
               {user.username}
             </LabelValue>
           ) : (
-            <Skeleton count={2} />
-          )}
+              <Skeleton count={2} />
+            )}
         </div>
         <div className="column is-6">
           {!loadingContext.isLoading() ? (
             <LabelValue label={constants.label.email}>{user.email}</LabelValue>
           ) : (
-            <Skeleton count={2} />
-          )}
+              <Skeleton count={2} />
+            )}
         </div>
         <div className="column is-6">
           {!loadingContext.isLoading() ? (
@@ -80,8 +78,8 @@ const UserSummaryForm: React.FC<{ id: string }> = ({ id }) => {
               {user.fullName}
             </LabelValue>
           ) : (
-            <Skeleton count={2} />
-          )}
+              <Skeleton count={2} />
+            )}
         </div>
         <div className="column is-6">
           {!loadingContext.isLoading() ? (
@@ -89,8 +87,8 @@ const UserSummaryForm: React.FC<{ id: string }> = ({ id }) => {
               {user.telegramId}
             </LabelValue>
           ) : (
-            <Skeleton count={2} />
-          )}
+              <Skeleton count={2} />
+            )}
         </div>
         <div className="column is-6">
           {!loadingContext.isLoading() ? (
@@ -98,8 +96,8 @@ const UserSummaryForm: React.FC<{ id: string }> = ({ id }) => {
               {user.lastModifiedDate}
             </LabelValue>
           ) : (
-            <Skeleton count={2} />
-          )}
+              <Skeleton count={2} />
+            )}
         </div>
         <div className="column is-6">
           {!loadingContext.isLoading() ? (
@@ -107,10 +105,14 @@ const UserSummaryForm: React.FC<{ id: string }> = ({ id }) => {
               {user.version}
             </LabelValue>
           ) : (
-            <Skeleton count={2} />
-          )}
+              <Skeleton count={2} />
+            )}
         </div>
       </div>
+      <br />
+      <ButtonGroup align="is-right">
+        <ButtonLink href={`/dashboard/security/user/${user.id}/edit`} label="Edit" color="is-success" />
+      </ButtonGroup>
     </Card>
   )
 }

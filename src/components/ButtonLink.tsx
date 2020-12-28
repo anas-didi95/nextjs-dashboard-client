@@ -5,7 +5,7 @@ import LoadingContext from "../utils/contexts/LoadingContext"
 interface IButtonLink {
   href: string
   label: string
-  color?: "is-primary"
+  color?: "is-success" | "is-primary"
 }
 const ButtonLink: React.FC<IButtonLink> = ({ href, label, color }) => {
   const loadingContext = useContext(LoadingContext)
@@ -14,9 +14,8 @@ const ButtonLink: React.FC<IButtonLink> = ({ href, label, color }) => {
     <Link href={href}>
       <a
         href={href}
-        className={`button ${!!color ? color : ""} ${
-          loadingContext.isLoading() ? "is-loading" : ""
-        }`}>
+        className={`button ${!!color ? color : ""} ${loadingContext.isLoading() ? "is-loading" : ""
+          }`}>
         {label}
       </a>
     </Link>
