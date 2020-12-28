@@ -11,6 +11,7 @@ import LabelValue from "../../../../../src/components/LabelValue"
 import Notification from "../../../../../src/components/Notification"
 import AppLayout from "../../../../../src/layouts/AppLayout"
 import DashboardLayout from "../../../../../src/layouts/DashboardLayout"
+import LoadingContext from "../../../../../src/utils/contexts/LoadingContext"
 import NotificationContext from "../../../../../src/utils/contexts/NotificationContext"
 import useConstants from "../../../../../src/utils/hooks/useConstants"
 import useSecurityService, { TUser } from "../../../../../src/utils/hooks/useSecurityService"
@@ -48,6 +49,7 @@ const UserEditForm: React.FC<{}> = () => {
   const router = useRouter()
   const { id } = router.query
   const notificationContext = useContext(NotificationContext)
+  const loadingContext = useContext(LoadingContext)
 
   const onUpdate = async (data: TForm) => {
     const updateUser: TUser = {
@@ -61,8 +63,10 @@ const UserEditForm: React.FC<{}> = () => {
       version: user.version
     }
 
+    loadingContext.onLoading()
     notificationContext.clear()
     const responseBody = await securityService.updateUser(updateUser)
+    loadingContext.offLoading()
 
     if (responseBody.status.isSuccess) {
       notificationContext.setSaveMessage(
