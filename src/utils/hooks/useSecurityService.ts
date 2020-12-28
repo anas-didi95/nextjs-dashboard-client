@@ -77,7 +77,7 @@ const useSecurityService = () => {
       return {
         status: {
           isSuccess: false,
-          message: "Kindly refer console log for details.",
+          message: constants.error.referConsoleLogDetails
         },
         data: {
           id: "",
@@ -130,7 +130,40 @@ const useSecurityService = () => {
     }
   }
 
-  return { getUserList, createUser, getUserById }
+  const updateUser = async (user: TUser): Promise<{ status: { isSuccess: boolean, message: string }, data: { id: string } }> => {
+    try {
+      const response = await fetch(`${constants.env.apiSecurity}/api/user/${user.id}`, {
+        method: "PUT",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${authContext.getAccessToken()}`
+        },
+        body: JSON.stringify({
+          fullName: user.fullName,
+          email: user.email,
+          version: user.version,
+          telegramId: user.telegramId
+        })
+      })
+      const responseBody = await response.json()
+
+      return responseBody
+    } catch (e) {
+      console.error("[useSecurityService] updateUser failed!", e)
+      return {
+        status: {
+          isSuccess: false,
+          message: constants.error.referConsoleLogDetails
+        },
+        data: {
+          id: ""
+        }
+      }
+    }
+  }
+
+  return { getUserList, createUser, getUserById, updateUser }
 }
 
 export default useSecurityService

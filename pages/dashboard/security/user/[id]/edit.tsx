@@ -49,7 +49,20 @@ const UserEditForm: React.FC<{ id: string }> = ({ id }) => {
   const constants = useConstants()
 
   const onUpdate = async (data: TForm) => {
-    console.log("data", data)
+    const updateUser: TUser = {
+      id: user.id,
+      email: data.email,
+      fullName: data.fullName,
+      lastModifiedDate: "",
+      password: "",
+      telegramId: data.telegramId,
+      username: user.username,
+      version: user.version
+    }
+
+    const responseBody = await securityService.updateUser(updateUser)
+
+    console.log("responseBody", responseBody)
   }
 
   useEffect(() => {
@@ -71,10 +84,14 @@ const UserEditForm: React.FC<{ id: string }> = ({ id }) => {
             <LabelValue label={constants.label.username}>{user.username}</LabelValue>
           </div>
           <div className="column is-6">
-            <FormInput label={constants.label.email} name="email" register={register} type="email" error={errors.email?.message} />
+            <FormInput label={constants.label.email} name="email" register={register({
+              required: constants.error.mandatoryField(constants.label.email)
+            })} type="email" error={errors.email?.message} />
           </div>
           <div className="column is-6">
-            <FormInput label={constants.label.fullName} name="fullName" register={register} type="text" error={errors.fullName?.message} />
+            <FormInput label={constants.label.fullName} name="fullName" register={register(
+              { required: constants.error.mandatoryField(constants.label.fullName) }
+            )} type="text" error={errors.fullName?.message} />
           </div>
           <div className="column is-6">
             <FormInput label={constants.label.telegramId} name="telegramId" register={register} type="text" error={errors.telegramId?.message} />
