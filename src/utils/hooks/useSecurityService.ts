@@ -1,6 +1,4 @@
-import { basename } from "path"
-import { useContext } from "react"
-import AuthContext from "../contexts/AuthContext"
+import { useAuthContext } from "../contexts/AuthContext"
 import useConstants from "./useConstants"
 
 export type TUser = {
@@ -15,7 +13,7 @@ export type TUser = {
 }
 const useSecurityService = () => {
   const constants = useConstants()
-  const authContext = useContext(AuthContext)
+  const authContext = useAuthContext()
 
   const getUserList = async (): Promise<TUser[]> => {
     try {
@@ -77,7 +75,7 @@ const useSecurityService = () => {
       return {
         status: {
           isSuccess: false,
-          message: "Kindly refer console log for details.",
+          message: constants.error.referConsoleLogDetails,
         },
         data: {
           id: "",
@@ -130,7 +128,48 @@ const useSecurityService = () => {
     }
   }
 
-  return { getUserList, createUser, getUserById }
+  const updateUser = async (
+    user: TUser
+  ): Promise<{
+    status: { isSuccess: boolean; message: string }
+    data: { id: string }
+  }> => {
+    try {
+      const response = await fetch(
+        `${constants.env.apiSecurity}/api/user/${user.id}`,
+        {
+          method: "PUT",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${authContext.getAccessToken()}`,
+          },
+          body: JSON.stringify({
+            fullName: user.fullName,
+            email: user.email,
+            version: user.version,
+            telegramId: user.telegramId,
+          }),
+        }
+      )
+      const responseBody = await response.json()
+
+      return responseBody
+    } catch (e) {
+      console.error("[useSecurityService] updateUser failed!", e)
+      return {
+        status: {
+          isSuccess: false,
+          message: constants.error.referConsoleLogDetails,
+        },
+        data: {
+          id: "",
+        },
+      }
+    }
+  }
+
+  return { getUserList, createUser, getUserById, updateUser }
 }
 
 export default useSecurityService

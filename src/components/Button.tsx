@@ -1,5 +1,5 @@
-import React, { useContext } from "react"
-import LoadingContext from "../utils/contexts/LoadingContext"
+import React from "react"
+import { useLoadingContext } from "../utils/contexts/LoadingContext"
 
 interface IButton {
   onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
@@ -18,7 +18,7 @@ const Button: React.FC<IButton> = ({
   label,
   onClick,
 }) => {
-  const loadingContext = useContext(LoadingContext)
+  const loadingContext = useLoadingContext()
 
   return (
     <button

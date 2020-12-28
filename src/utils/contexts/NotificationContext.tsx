@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useState } from "react"
+import React, { createContext, ReactNode, useContext, useState } from "react"
 
 type TDataType = "is-success" | "is-danger" | ""
 interface INotificationContext {
@@ -69,6 +69,6 @@ const NotificationProvider: React.FC<{ children: ReactNode }> = ({
     </NotificationContext.Provider>
   )
 }
+const useNotificationContext = () => useContext(NotificationContext)
 
-export default NotificationContext
-export { NotificationProvider }
+export { NotificationProvider, useNotificationContext }

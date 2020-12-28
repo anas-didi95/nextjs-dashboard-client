@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useState } from "react"
+import React, { createContext, ReactNode, useState, useContext } from "react"
 
 interface IAuthContext {
   isAuth: () => boolean
@@ -33,6 +33,6 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     </AuthContext.Provider>
   )
 }
+const useAuthContext = () => useContext(AuthContext)
 
-export default AuthContext
-export { AuthProvider }
+export { AuthProvider, useAuthContext }

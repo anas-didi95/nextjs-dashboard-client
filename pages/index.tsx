@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React from "react"
 import { useForm } from "react-hook-form"
 import Box from "../src/components/Box"
 import Button from "../src/components/Button"
@@ -8,11 +8,11 @@ import FormInput from "../src/components/FormInput"
 import AppLayout from "../src/layouts/AppLayout"
 import useConstants from "../src/utils/hooks/useConstants"
 import { useRouter } from "next/router"
-import AuthContext from "../src/utils/contexts/AuthContext"
 import useAuth from "../src/utils/hooks/useAuth"
 import Notification from "../src/components/Notification"
-import NotificationContext from "../src/utils/contexts/NotificationContext"
-import LoadingContext from "../src/utils/contexts/LoadingContext"
+import { useAuthContext } from "../src/utils/contexts/AuthContext"
+import { useNotificationContext } from "../src/utils/contexts/NotificationContext"
+import { useLoadingContext } from "../src/utils/contexts/LoadingContext"
 
 const LoginPage: React.FC<{}> = () => (
   <AppLayout title="Sign In Page">
@@ -38,10 +38,10 @@ const SignInForm: React.FC<{}> = () => {
   const constants = useConstants()
   const { register, handleSubmit, errors, reset } = useForm<TForm>()
   const router = useRouter()
-  const authContext = useContext(AuthContext)
+  const authContext = useAuthContext()
   const auth = useAuth()
-  const notificationContext = useContext(NotificationContext)
-  const loadingContext = useContext(LoadingContext)
+  const notificationContext = useNotificationContext()
+  const loadingContext = useLoadingContext()
 
   const onSignIn = async (data: TForm) => {
     notificationContext.clear()

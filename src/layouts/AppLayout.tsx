@@ -1,10 +1,10 @@
-import React, { ReactNode, useContext, useEffect, useState } from "react"
+import React, { ReactNode, useEffect, useState } from "react"
 import Head from "next/head"
 import useConstants from "../utils/hooks/useConstants"
-import AuthContext from "../utils/contexts/AuthContext"
 import { useRouter } from "next/router"
 import Navbar from "../components/Navbar"
-import NotificationContext from "../utils/contexts/NotificationContext"
+import { useAuthContext } from "../utils/contexts/AuthContext"
+import { useNotificationContext } from "../utils/contexts/NotificationContext"
 
 interface IAppLayout {
   children: ReactNode
@@ -15,9 +15,9 @@ interface IAppLayout {
 const AppLayout: React.FC<IAppLayout> = ({ children, title, needAuth }) => {
   const constants = useConstants()
   const [isShow, setShow] = useState<boolean>(false)
-  const auth = useContext(AuthContext)
+  const auth = useAuthContext()
   const router = useRouter()
-  const notificationContext = useContext(NotificationContext)
+  const notificationContext = useNotificationContext()
 
   useEffect(() => {
     if (needAuth) {

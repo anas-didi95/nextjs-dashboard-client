@@ -1,5 +1,5 @@
 import { useRouter } from "next/router"
-import React, { useContext, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import Skeleton from "react-loading-skeleton"
 import ButtonGroup from "../../../../../src/components/ButtonGroup"
 import ButtonLink from "../../../../../src/components/ButtonLink"
@@ -8,29 +8,26 @@ import LabelValue from "../../../../../src/components/LabelValue"
 import Notification from "../../../../../src/components/Notification"
 import AppLayout from "../../../../../src/layouts/AppLayout"
 import DashboardLayout from "../../../../../src/layouts/DashboardLayout"
-import LoadingContext from "../../../../../src/utils/contexts/LoadingContext"
+import { useLoadingContext } from "../../../../../src/utils/contexts/LoadingContext"
 import useConstants from "../../../../../src/utils/hooks/useConstants"
 import useSecurityService, {
   TUser,
 } from "../../../../../src/utils/hooks/useSecurityService"
 
-const SecurityUserSummaryPage: React.FC<{}> = () => {
+const SecurityUserSummaryPage: React.FC<{}> = () => (
+  <AppLayout title="Security - User Summary" needAuth={true}>
+    <DashboardLayout breadcrumbs={["Security", "User", "Summary"]}>
+      <Notification />
+      <UserSummaryForm />
+      <br />
+      <ActionButton />
+    </DashboardLayout>
+  </AppLayout>
+)
+
+const UserSummaryForm: React.FC<{}> = () => {
   const router = useRouter()
   const { id } = router.query
-
-  return (
-    <AppLayout title="Security - User Summary" needAuth={true}>
-      <DashboardLayout breadcrumbs={["Security", "User", "Summary"]}>
-        <Notification />
-        <UserSummaryForm id={id as string} />
-        <br />
-        <ActionButton />
-      </DashboardLayout>
-    </AppLayout>
-  )
-}
-
-const UserSummaryForm: React.FC<{ id: string }> = ({ id }) => {
   const constants = useConstants()
   const [user, setUser] = useState<TUser>({
     email: "",
@@ -43,12 +40,12 @@ const UserSummaryForm: React.FC<{ id: string }> = ({ id }) => {
     version: -1,
   })
   const securityService = useSecurityService()
-  const loadingContext = useContext(LoadingContext)
+  const loadingContext = useLoadingContext()
 
   useEffect(() => {
     ;(async () => {
       loadingContext.onLoading()
-      const user = await securityService.getUserById(id)
+      const user = await securityService.getUserById(id as string)
       loadingContext.offLoading()
 
       setUser(user)
@@ -111,6 +108,14 @@ const UserSummaryForm: React.FC<{ id: string }> = ({ id }) => {
           )}
         </div>
       </div>
+      <br />
+      <ButtonGroup align="is-right">
+        <ButtonLink
+          href={`/dashboard/security/user/${user.id}/edit`}
+          label="Edit"
+          color="is-success"
+        />
+      </ButtonGroup>
     </Card>
   )
 }

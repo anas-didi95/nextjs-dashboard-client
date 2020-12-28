@@ -48,11 +48,13 @@ const useConstants = () => {
     close: "Close",
     create: "Create",
     back: "Back",
+    update: "Update",
   }
 
   const error = {
     mandatoryField: (field: string) => `${field} is a mandatory field!`,
     passwordNotMatched: "Password not matched!",
+    referConsoleLogDetails: "Kindly refer console log for details.",
   }
 
   return { metadata, env, label, button, header, error }

@@ -1,8 +1,8 @@
-import React, { useContext } from "react"
-import NotificationContext from "../utils/contexts/NotificationContext"
+import React from "react"
+import { useNotificationContext } from "../utils/contexts/NotificationContext"
 
 const Notification: React.FC<{}> = () => {
-  const notificationContext = useContext(NotificationContext)
+  const notificationContext = useNotificationContext()
   const [title, message, type] = notificationContext.getValue()
 
   return (
