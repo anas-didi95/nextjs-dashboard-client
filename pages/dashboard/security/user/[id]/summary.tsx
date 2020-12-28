@@ -1,7 +1,6 @@
 import { useRouter } from "next/router"
-import React, { useContext, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import Skeleton from "react-loading-skeleton"
-import Button from "../../../../../src/components/Button"
 import ButtonGroup from "../../../../../src/components/ButtonGroup"
 import ButtonLink from "../../../../../src/components/ButtonLink"
 import Card from "../../../../../src/components/Card"
@@ -9,7 +8,7 @@ import LabelValue from "../../../../../src/components/LabelValue"
 import Notification from "../../../../../src/components/Notification"
 import AppLayout from "../../../../../src/layouts/AppLayout"
 import DashboardLayout from "../../../../../src/layouts/DashboardLayout"
-import LoadingContext from "../../../../../src/utils/contexts/LoadingContext"
+import { useLoadingContext } from "../../../../../src/utils/contexts/LoadingContext"
 import useConstants from "../../../../../src/utils/hooks/useConstants"
 import useSecurityService, {
   TUser,
@@ -41,7 +40,7 @@ const UserSummaryForm: React.FC<{}> = () => {
     version: -1,
   })
   const securityService = useSecurityService()
-  const loadingContext = useContext(LoadingContext)
+  const loadingContext = useLoadingContext()
 
   useEffect(() => {
     ; (async () => {

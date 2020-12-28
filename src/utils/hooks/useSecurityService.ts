@@ -1,6 +1,4 @@
-import { basename } from "path"
-import { useContext } from "react"
-import AuthContext from "../contexts/AuthContext"
+import { useAuthContext } from "../contexts/AuthContext"
 import useConstants from "./useConstants"
 
 export type TUser = {
@@ -15,7 +13,7 @@ export type TUser = {
 }
 const useSecurityService = () => {
   const constants = useConstants()
-  const authContext = useContext(AuthContext)
+  const authContext = useAuthContext()
 
   const getUserList = async (): Promise<TUser[]> => {
     try {

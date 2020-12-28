@@ -1,14 +1,13 @@
 import Link from "next/link"
-import React, { useContext, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import Skeleton from "react-loading-skeleton"
-import Button from "../../../../src/components/Button"
 import ButtonGroup from "../../../../src/components/ButtonGroup"
 import ButtonLink from "../../../../src/components/ButtonLink"
 import Card from "../../../../src/components/Card"
 import Table from "../../../../src/components/Table"
 import AppLayout from "../../../../src/layouts/AppLayout"
 import DashboardLayout from "../../../../src/layouts/DashboardLayout"
-import LoadingContext from "../../../../src/utils/contexts/LoadingContext"
+import { useLoadingContext } from "../../../../src/utils/contexts/LoadingContext"
 import useConstants from "../../../../src/utils/hooks/useConstants"
 import useSecurityService, {
   TUser,
@@ -28,10 +27,10 @@ const UserListTable: React.FC<{}> = () => {
   const constants = useConstants()
   const [userList, setUserList] = useState<TUser[]>([])
   const securityService = useSecurityService()
-  const loadingContext = useContext(LoadingContext)
+  const loadingContext = useLoadingContext()
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       loadingContext.onLoading()
       const userList = await securityService.getUserList()
       setUserList(userList)
@@ -67,8 +66,8 @@ const UserListTable: React.FC<{}> = () => {
             ))}
         </Table>
       ) : (
-        <Skeleton count={3} />
-      )}
+          <Skeleton count={3} />
+        )}
     </Card>
   )
 }

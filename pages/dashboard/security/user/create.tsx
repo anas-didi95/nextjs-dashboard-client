@@ -1,5 +1,5 @@
 import { useRouter } from "next/router"
-import React, { useContext } from "react"
+import React from "react"
 import { useForm } from "react-hook-form"
 import Button from "../../../../src/components/Button"
 import ButtonGroup from "../../../../src/components/ButtonGroup"
@@ -10,8 +10,8 @@ import FormInput from "../../../../src/components/FormInput"
 import Notification from "../../../../src/components/Notification"
 import AppLayout from "../../../../src/layouts/AppLayout"
 import DashboardLayout from "../../../../src/layouts/DashboardLayout"
-import LoadingContext from "../../../../src/utils/contexts/LoadingContext"
-import NotificationContext from "../../../../src/utils/contexts/NotificationContext"
+import { useLoadingContext } from "../../../../src/utils/contexts/LoadingContext"
+import { useNotificationContext } from "../../../../src/utils/contexts/NotificationContext"
 import useConstants from "../../../../src/utils/hooks/useConstants"
 import useSecurityService, {
   TUser,
@@ -41,8 +41,8 @@ const UserCreateForm: React.FC<{}> = () => {
   const { register, handleSubmit, errors, watch, reset } = useForm<TForm>()
   const securityService = useSecurityService()
   const router = useRouter()
-  const notificationContext = useContext(NotificationContext)
-  const loadingContext = useContext(LoadingContext)
+  const notificationContext = useNotificationContext()
+  const loadingContext = useLoadingContext()
 
   const onCreate = async (data: TUser) => {
     const user: TUser = {

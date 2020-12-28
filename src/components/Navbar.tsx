@@ -1,13 +1,13 @@
-import React, { useContext, useState } from "react"
+import React, { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import useConstants from "../utils/hooks/useConstants"
-import AuthContext from "../utils/contexts/AuthContext"
 import ButtonGroup from "./ButtonGroup"
 import Button from "./Button"
 import { useRouter } from "next/router"
 import Modal from "./Modal"
 import { GrPersonalComputer, GrGithub, GrLinkedin } from "react-icons/gr"
+import { useAuthContext } from "../utils/contexts/AuthContext"
 
 const Navbar = () => {
   const [isActive, setActive] = useState(false)
@@ -73,15 +73,14 @@ const NavbarMenu: React.FC<{
   toggleCredits: () => void
 }> = ({ isActive, toggleSignOut, toggleCredits }) => {
   const constants = useConstants()
-  const authContext = useContext(AuthContext)
+  const authContext = useAuthContext()
 
   return (
     <div
-      className={`navbar-menu ${
-        isActive
+      className={`navbar-menu ${isActive
           ? "is-active animate__animated animate__slideInDown animate__faster"
           : ""
-      }`}>
+        }`}>
       {authContext.isAuth() && (
         <div className="navbar-start">
           <Link href="/dashboard">
@@ -195,7 +194,7 @@ const ModalSignOut: React.FC<{
   toggleActive: () => void
 }> = ({ isActive, toggleActive }) => {
   const constants = useConstants()
-  const authContext = useContext(AuthContext)
+  const authContext = useAuthContext()
   const router = useRouter()
 
   const signOut = () => {

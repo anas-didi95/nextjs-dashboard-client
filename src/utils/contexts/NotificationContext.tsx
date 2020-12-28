@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useState } from "react"
+import React, { createContext, ReactNode, useContext, useState } from "react"
 
 type TDataType = "is-success" | "is-danger" | ""
 interface INotificationContext {
@@ -10,12 +10,12 @@ interface INotificationContext {
   checkSaveMessage: () => void
 }
 const NotificationContext = createContext<INotificationContext>({
-  clear: () => {},
+  clear: () => { },
   hasMessage: () => false,
   getValue: () => [],
-  setErrorMessage: () => {},
-  setSaveMessage: () => {},
-  checkSaveMessage: () => {},
+  setErrorMessage: () => { },
+  setSaveMessage: () => { },
+  checkSaveMessage: () => { },
 })
 
 const NotificationProvider: React.FC<{ children: ReactNode }> = ({
@@ -69,6 +69,6 @@ const NotificationProvider: React.FC<{ children: ReactNode }> = ({
     </NotificationContext.Provider>
   )
 }
+const useNotificationContext = () => useContext(NotificationContext)
 
-export default NotificationContext
-export { NotificationProvider }
+export { NotificationProvider, useNotificationContext }
