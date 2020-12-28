@@ -48,6 +48,7 @@ const useConstants = () => {
     close: "Close",
     create: "Create",
     back: "Back",
+    update: "Update"
   }
 
   const error = {

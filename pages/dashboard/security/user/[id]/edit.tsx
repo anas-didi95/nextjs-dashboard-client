@@ -1,5 +1,5 @@
 import { useRouter } from "next/router"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import Button from "../../../../../src/components/Button"
 import ButtonGroup from "../../../../../src/components/ButtonGroup"
@@ -10,7 +10,8 @@ import FormInput from "../../../../../src/components/FormInput"
 import LabelValue from "../../../../../src/components/LabelValue"
 import AppLayout from "../../../../../src/layouts/AppLayout"
 import DashboardLayout from "../../../../../src/layouts/DashboardLayout"
-import { TUser } from "../../../../../src/utils/hooks/useSecurityService"
+import useConstants from "../../../../../src/utils/hooks/useConstants"
+import useSecurityService, { TUser } from "../../../../../src/utils/hooks/useSecurityService"
 
 const SecurityUserEditPage: React.FC<{}> = () => {
   const router = useRouter()
@@ -43,42 +44,59 @@ const UserEditForm: React.FC<{ id: string }> = ({ id }) => {
     username: "",
     version: -1
   })
-  const { register, handleSubmit, errors } = useForm<TForm>()
+  const { register, handleSubmit, errors, setValue } = useForm<TForm>()
+  const securityService = useSecurityService()
+  const constants = useConstants()
 
   const onUpdate = async (data: TForm) => {
     console.log("data", data)
   }
+
+  useEffect(() => {
+    (async () => {
+      const user = await securityService.getUserById(id)
+
+      setUser(user)
+      setValue("email", user.email)
+      setValue("fullName", user.fullName)
+      setValue("telegramId", user.telegramId)
+    })()
+  }, [])
 
   return (
     <Card title="User Edit">
       <Form onSubmit={handleSubmit(onUpdate)}>
         <div className="columns is-multiline is-variable is-4">
           <div className="column is-6">
-            <LabelValue label="Username">{user.username}</LabelValue>
+            <LabelValue label={constants.label.username}>{user.username}</LabelValue>
           </div>
           <div className="column is-6">
-            <FormInput label="Email" name="email" register={register} type="email" error={errors.email?.message} />
+            <FormInput label={constants.label.email} name="email" register={register} type="email" error={errors.email?.message} />
           </div>
           <div className="column is-6">
-            <FormInput label="Full Name" name="fullName" register={register} type="text" error={errors.fullName?.message} />
+            <FormInput label={constants.label.fullName} name="fullName" register={register} type="text" error={errors.fullName?.message} />
           </div>
           <div className="column is-6">
-            <FormInput label="Telegram Id" name="telegramId" register={register} type="text" error={errors.telegramId?.message} />
+            <FormInput label={constants.label.telegramId} name="telegramId" register={register} type="text" error={errors.telegramId?.message} />
           </div>
         </div>
         <br />
         <ButtonGroup align="is-right">
-          <Button label="Update" onClick={handleSubmit(onUpdate)} type="submit" color="is-success" />
+          <Button label={constants.button.update} onClick={handleSubmit(onUpdate)} type="submit" color="is-success" />
         </ButtonGroup>
       </Form>
     </Card>
   )
 }
 
-const ActionButton: React.FC<{ id: string }> = ({ id }) => (
-  <ButtonGroup align="is-right">
-    <ButtonLink href={`/dashboard/security/user/${id}/summary`} label="Back" color="is-primary" />
-  </ButtonGroup>
-)
+const ActionButton: React.FC<{ id: string }> = ({ id }) => {
+  const constants = useConstants()
+
+  return (
+    <ButtonGroup align="is-right">
+      <ButtonLink href={`/dashboard/security/user/${id}/summary`} label={constants.button.back} color="is-primary" />
+    </ButtonGroup>
+  )
+}
 
 export default SecurityUserEditPage
