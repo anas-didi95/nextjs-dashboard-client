@@ -43,7 +43,7 @@ const UserEditForm: React.FC<{}> = () => {
     username: "",
     version: -1
   })
-  const { register, handleSubmit, errors, setValue } = useForm<TForm>()
+  const { register, handleSubmit, errors, setValue, reset } = useForm<TForm>()
   const securityService = useSecurityService()
   const constants = useConstants()
   const router = useRouter()
@@ -80,6 +80,8 @@ const UserEditForm: React.FC<{}> = () => {
     }
   }
 
+  const onClear = () => reset()
+
   useEffect(() => {
     (async () => {
       const user = await securityService.getUserById(id as string)
@@ -114,6 +116,7 @@ const UserEditForm: React.FC<{}> = () => {
         </div>
         <br />
         <ButtonGroup align="is-right">
+          <Button label={constants.button.clear} onClick={onClear} type="button" color="is-light" isInverted isOutlined />
           <Button label={constants.button.update} onClick={handleSubmit(onUpdate)} type="submit" color="is-success" />
         </ButtonGroup>
       </Form>
