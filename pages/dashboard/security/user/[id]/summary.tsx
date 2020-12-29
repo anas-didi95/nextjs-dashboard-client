@@ -132,7 +132,7 @@ const UserSummaryForm: React.FC<{}> = () => {
         </div>
         <br />
         <ButtonGroup align="is-right">
-          <Button label="Delete" onClick={toggleDelete} type="button" color="is-danger" />
+          <Button label={constants.button.delete} onClick={toggleDelete} type="button" color="is-danger" />
           <ButtonLink
             href={`/dashboard/security/user/${user.id}/edit`}
             label="Edit"
@@ -140,12 +140,12 @@ const UserSummaryForm: React.FC<{}> = () => {
           />
         </ButtonGroup>
       </Card>
-      <Modal isActive={isDelete} title="Confirm Delete" toggleActive={toggleDelete}>
+      <Modal isActive={isDelete} title={constants.header.confirmDelete} toggleActive={toggleDelete}>
         <p>Are you sure to delete?</p>
         <br />
         <ButtonGroup align="is-right">
-          <Button label="Cancel" onClick={toggleDelete} type="button" />
-          <Button label="Ok" onClick={onDelete} type="button" color="is-success" />
+          <Button label={constants.button.cancel} onClick={toggleDelete} type="button" />
+          <Button label={constants.button.ok} onClick={onDelete} type="button" color="is-success" />
         </ButtonGroup>
       </Modal>
     </>
