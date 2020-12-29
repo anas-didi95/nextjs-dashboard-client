@@ -17,7 +17,6 @@ import useSecurityService, {
 const SecurityUserListPage: React.FC<{}> = () => (
   <AppLayout title="Security - User List" needAuth={true}>
     <DashboardLayout breadcrumbs={["Security", "User"]}>
-      <Notification />
       <UserListTable />
       <br />
       <ActionButton />

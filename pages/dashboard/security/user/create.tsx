@@ -20,7 +20,6 @@ import useSecurityService, {
 const SecurityUserCreatePage: React.FC<{}> = () => (
   <AppLayout title="Security - User Create" needAuth={true}>
     <DashboardLayout breadcrumbs={["Security", "User", "Create"]}>
-      <Notification />
       <UserCreateForm />
       <br />
       <ActionButton />

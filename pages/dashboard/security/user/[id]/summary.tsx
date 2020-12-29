@@ -20,7 +20,6 @@ import useSecurityService, {
 const SecurityUserSummaryPage: React.FC<{}> = () => (
   <AppLayout title="Security - User Summary" needAuth={true}>
     <DashboardLayout breadcrumbs={["Security", "User", "Summary"]}>
-      <Notification />
       <UserSummaryForm />
       <br />
       <ActionButton />

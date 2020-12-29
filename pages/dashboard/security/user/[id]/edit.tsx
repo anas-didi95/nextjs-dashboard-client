@@ -21,7 +21,6 @@ import useSecurityService, {
 const SecurityUserEditPage: React.FC<{}> = () => (
   <AppLayout title="Security - User Edit" needAuth={true}>
     <DashboardLayout breadcrumbs={["Security", "User", "Edit"]}>
-      <Notification />
       <UserEditForm />
       <br />
       <ActionButton />
@@ -88,7 +87,7 @@ const UserEditForm: React.FC<{}> = () => {
   const onClear = () => reset()
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const user = await securityService.getUserById(id as string)
 
       setUser(user)
