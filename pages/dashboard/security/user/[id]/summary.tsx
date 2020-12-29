@@ -50,6 +50,7 @@ const UserSummaryForm: React.FC<{}> = () => {
   const toggleDelete = () => setDelete(prev => !prev)
 
   const onDelete = async () => {
+    notificationContext.clear()
     loadingContext.onLoading()
     const responseBody = await securityService.deleteUser(user)
     loadingContext.offLoading()
@@ -57,6 +58,9 @@ const UserSummaryForm: React.FC<{}> = () => {
     if (responseBody.status.isSuccess) {
       notificationContext.setSaveMessage("Delete user succeed.", responseBody.status.message, "is-success")
       router.replace("/dashboard/security/user/list")
+    } else {
+      notificationContext.setErrorMessage("Delete user failed!", responseBody.status.message)
+      setDelete(false)
     }
   }
 
