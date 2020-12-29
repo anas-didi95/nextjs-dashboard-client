@@ -21,7 +21,6 @@ import useSecurityService, {
 const SecurityUserEditPage: React.FC<{}> = () => (
   <AppLayout title="Security - User Edit" needAuth={true}>
     <DashboardLayout breadcrumbs={["Security", "User", "Edit"]}>
-      <Notification />
       <UserEditForm />
       <br />
       <ActionButton />
@@ -99,7 +98,7 @@ const UserEditForm: React.FC<{}> = () => {
   }, [])
 
   return (
-    <Card title="User Edit">
+    <Card title={constants.header.userEdit}>
       <Form onSubmit={handleSubmit(onUpdate)}>
         <div className="columns is-multiline is-variable is-4">
           <div className="column is-6">

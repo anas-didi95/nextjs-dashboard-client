@@ -1,5 +1,6 @@
 import React, { ReactNode } from "react"
 import Breadcrumb from "../components/Breadcrumb"
+import Notification from "../components/Notification"
 
 interface IDashboardLayout {
   children: ReactNode
@@ -15,6 +16,7 @@ const DashboardLayout: React.FC<IDashboardLayout> = ({
         <div className="column is-9">
           <Breadcrumb breadcrumbs={breadcrumbs} />
           <br />
+          <Notification />
           {children}
         </div>
       </div>
