@@ -47,8 +47,14 @@ const UserSummaryForm: React.FC<{}> = () => {
 
   const toggleDelete = () => setDelete(prev => !prev)
 
-  const onDelete = () => {
-    console.log("onDelete")
+  const onDelete = async () => {
+    loadingContext.onLoading()
+    const responseBody = await securityService.deleteUser(user)
+    loadingContext.offLoading()
+
+    if (responseBody.status.isSuccess) {
+      router.replace("/dashboard/security/user/list")
+    }
   }
 
   useEffect(() => {
