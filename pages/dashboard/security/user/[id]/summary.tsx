@@ -6,6 +6,7 @@ import ButtonGroup from "../../../../../src/components/ButtonGroup"
 import ButtonLink from "../../../../../src/components/ButtonLink"
 import Card from "../../../../../src/components/Card"
 import LabelValue from "../../../../../src/components/LabelValue"
+import Modal from "../../../../../src/components/Modal"
 import Notification from "../../../../../src/components/Notification"
 import AppLayout from "../../../../../src/layouts/AppLayout"
 import DashboardLayout from "../../../../../src/layouts/DashboardLayout"
@@ -27,9 +28,6 @@ const SecurityUserSummaryPage: React.FC<{}> = () => (
 )
 
 const UserSummaryForm: React.FC<{}> = () => {
-  const router = useRouter()
-  const { id } = router.query
-  const constants = useConstants()
   const [user, setUser] = useState<TUser>({
     email: "",
     fullName: "",
@@ -40,8 +38,14 @@ const UserSummaryForm: React.FC<{}> = () => {
     lastModifiedDate: "",
     version: -1,
   })
+  const [isDelete, setDelete] = useState(false)
+  const constants = useConstants()
   const securityService = useSecurityService()
   const loadingContext = useLoadingContext()
+  const router = useRouter()
+  const { id } = router.query
+
+  const toggleDelete = () => setDelete(prev => !prev)
 
   const onDelete = () => {
     console.log("onDelete")
@@ -58,71 +62,82 @@ const UserSummaryForm: React.FC<{}> = () => {
   }, [])
 
   return (
-    <Card title={constants.header.userSummary}>
-      <div className="columns is-multiline is-variable is-4">
-        <div className="column is-6">
-          {!loadingContext.isLoading() ? (
-            <LabelValue label={constants.label.username}>
-              {user.username}
-            </LabelValue>
-          ) : (
-              <Skeleton count={2} />
-            )}
+    <>
+      <Card title={constants.header.userSummary}>
+        <div className="columns is-multiline is-variable is-4">
+          <div className="column is-6">
+            {!loadingContext.isLoading() ? (
+              <LabelValue label={constants.label.username}>
+                {user.username}
+              </LabelValue>
+            ) : (
+                <Skeleton count={2} />
+              )}
+          </div>
+          <div className="column is-6">
+            {!loadingContext.isLoading() ? (
+              <LabelValue label={constants.label.email}>{user.email}</LabelValue>
+            ) : (
+                <Skeleton count={2} />
+              )}
+          </div>
+          <div className="column is-6">
+            {!loadingContext.isLoading() ? (
+              <LabelValue label={constants.label.fullName}>
+                {user.fullName}
+              </LabelValue>
+            ) : (
+                <Skeleton count={2} />
+              )}
+          </div>
+          <div className="column is-6">
+            {!loadingContext.isLoading() ? (
+              <LabelValue label={constants.label.telegramId}>
+                {user.telegramId}
+              </LabelValue>
+            ) : (
+                <Skeleton count={2} />
+              )}
+          </div>
+          <div className="column is-6">
+            {!loadingContext.isLoading() ? (
+              <LabelValue label={constants.label.lastModifiedDate}>
+                {user.lastModifiedDate}
+              </LabelValue>
+            ) : (
+                <Skeleton count={2} />
+              )}
+          </div>
+          <div className="column is-6">
+            {!loadingContext.isLoading() ? (
+              <LabelValue label={constants.label.version}>
+                {user.version}
+              </LabelValue>
+            ) : (
+                <Skeleton count={2} />
+              )}
+          </div>
         </div>
-        <div className="column is-6">
-          {!loadingContext.isLoading() ? (
-            <LabelValue label={constants.label.email}>{user.email}</LabelValue>
-          ) : (
-              <Skeleton count={2} />
-            )}
-        </div>
-        <div className="column is-6">
-          {!loadingContext.isLoading() ? (
-            <LabelValue label={constants.label.fullName}>
-              {user.fullName}
-            </LabelValue>
-          ) : (
-              <Skeleton count={2} />
-            )}
-        </div>
-        <div className="column is-6">
-          {!loadingContext.isLoading() ? (
-            <LabelValue label={constants.label.telegramId}>
-              {user.telegramId}
-            </LabelValue>
-          ) : (
-              <Skeleton count={2} />
-            )}
-        </div>
-        <div className="column is-6">
-          {!loadingContext.isLoading() ? (
-            <LabelValue label={constants.label.lastModifiedDate}>
-              {user.lastModifiedDate}
-            </LabelValue>
-          ) : (
-              <Skeleton count={2} />
-            )}
-        </div>
-        <div className="column is-6">
-          {!loadingContext.isLoading() ? (
-            <LabelValue label={constants.label.version}>
-              {user.version}
-            </LabelValue>
-          ) : (
-              <Skeleton count={2} />
-            )}
-        </div>
-      </div>
-      <br />
-      <ButtonGroup align="is-right">
-        <Button label="Delete" onClick={onDelete} type="button" color="is-danger" />
-        <ButtonLink
-          href={`/dashboard/security/user/${user.id}/edit`}
-          label="Edit"
-          color="is-success"
-        />
-      </ButtonGroup>
-    </Card>
+        <br />
+        <ButtonGroup align="is-right">
+          <Button label="Delete" onClick={toggleDelete} type="button" color="is-danger" />
+          <ButtonLink
+            href={`/dashboard/security/user/${user.id}/edit`}
+            label="Edit"
+            color="is-success"
+          />
+        </ButtonGroup>
+      </Card>
+      <Modal isActive={isDelete} title="Confirm Delete" toggleActive={toggleDelete}>
+        <p>Are you sure to delete?</p>
+        <br />
+        <ButtonGroup align="is-right">
+          <Button label="Cancel" onClick={toggleDelete} type="button" />
+          <Button label="Ok" onClick={onDelete} type="button" color="is-success" />
+        </ButtonGroup>
+      </Modal>
+    </>
+
   )
 }
 
