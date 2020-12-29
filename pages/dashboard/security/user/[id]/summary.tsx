@@ -1,6 +1,7 @@
 import { useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
 import Skeleton from "react-loading-skeleton"
+import Button from "../../../../../src/components/Button"
 import ButtonGroup from "../../../../../src/components/ButtonGroup"
 import ButtonLink from "../../../../../src/components/ButtonLink"
 import Card from "../../../../../src/components/Card"
@@ -42,8 +43,12 @@ const UserSummaryForm: React.FC<{}> = () => {
   const securityService = useSecurityService()
   const loadingContext = useLoadingContext()
 
+  const onDelete = () => {
+    console.log("onDelete")
+  }
+
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       loadingContext.onLoading()
       const user = await securityService.getUserById(id as string)
       loadingContext.offLoading()
@@ -61,15 +66,15 @@ const UserSummaryForm: React.FC<{}> = () => {
               {user.username}
             </LabelValue>
           ) : (
-            <Skeleton count={2} />
-          )}
+              <Skeleton count={2} />
+            )}
         </div>
         <div className="column is-6">
           {!loadingContext.isLoading() ? (
             <LabelValue label={constants.label.email}>{user.email}</LabelValue>
           ) : (
-            <Skeleton count={2} />
-          )}
+              <Skeleton count={2} />
+            )}
         </div>
         <div className="column is-6">
           {!loadingContext.isLoading() ? (
@@ -77,8 +82,8 @@ const UserSummaryForm: React.FC<{}> = () => {
               {user.fullName}
             </LabelValue>
           ) : (
-            <Skeleton count={2} />
-          )}
+              <Skeleton count={2} />
+            )}
         </div>
         <div className="column is-6">
           {!loadingContext.isLoading() ? (
@@ -86,8 +91,8 @@ const UserSummaryForm: React.FC<{}> = () => {
               {user.telegramId}
             </LabelValue>
           ) : (
-            <Skeleton count={2} />
-          )}
+              <Skeleton count={2} />
+            )}
         </div>
         <div className="column is-6">
           {!loadingContext.isLoading() ? (
@@ -95,8 +100,8 @@ const UserSummaryForm: React.FC<{}> = () => {
               {user.lastModifiedDate}
             </LabelValue>
           ) : (
-            <Skeleton count={2} />
-          )}
+              <Skeleton count={2} />
+            )}
         </div>
         <div className="column is-6">
           {!loadingContext.isLoading() ? (
@@ -104,12 +109,13 @@ const UserSummaryForm: React.FC<{}> = () => {
               {user.version}
             </LabelValue>
           ) : (
-            <Skeleton count={2} />
-          )}
+              <Skeleton count={2} />
+            )}
         </div>
       </div>
       <br />
       <ButtonGroup align="is-right">
+        <Button label="Delete" onClick={onDelete} type="button" color="is-danger" />
         <ButtonLink
           href={`/dashboard/security/user/${user.id}/edit`}
           label="Edit"
