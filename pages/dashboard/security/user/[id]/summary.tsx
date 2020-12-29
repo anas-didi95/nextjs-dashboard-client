@@ -46,7 +46,7 @@ const UserSummaryForm: React.FC<{}> = () => {
   const router = useRouter()
   const { id } = router.query
 
-  const toggleDelete = () => setDelete(prev => !prev)
+  const toggleDelete = () => setDelete((prev) => !prev)
 
   const onDelete = async () => {
     notificationContext.clear()
@@ -55,16 +55,23 @@ const UserSummaryForm: React.FC<{}> = () => {
     loadingContext.offLoading()
 
     if (responseBody.status.isSuccess) {
-      notificationContext.setSaveMessage("Delete user succeed.", responseBody.status.message, "is-success")
+      notificationContext.setSaveMessage(
+        "Delete user succeed.",
+        responseBody.status.message,
+        "is-success"
+      )
       router.replace("/dashboard/security/user/list")
     } else {
-      notificationContext.setErrorMessage("Delete user failed!", responseBody.status.message)
+      notificationContext.setErrorMessage(
+        "Delete user failed!",
+        responseBody.status.message
+      )
       setDelete(false)
     }
   }
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       loadingContext.onLoading()
       const user = await securityService.getUserById(id as string)
       loadingContext.offLoading()
@@ -83,15 +90,17 @@ const UserSummaryForm: React.FC<{}> = () => {
                 {user.username}
               </LabelValue>
             ) : (
-                <Skeleton count={2} />
-              )}
+              <Skeleton count={2} />
+            )}
           </div>
           <div className="column is-6">
             {!loadingContext.isLoading() ? (
-              <LabelValue label={constants.label.email}>{user.email}</LabelValue>
+              <LabelValue label={constants.label.email}>
+                {user.email}
+              </LabelValue>
             ) : (
-                <Skeleton count={2} />
-              )}
+              <Skeleton count={2} />
+            )}
           </div>
           <div className="column is-6">
             {!loadingContext.isLoading() ? (
@@ -99,8 +108,8 @@ const UserSummaryForm: React.FC<{}> = () => {
                 {user.fullName}
               </LabelValue>
             ) : (
-                <Skeleton count={2} />
-              )}
+              <Skeleton count={2} />
+            )}
           </div>
           <div className="column is-6">
             {!loadingContext.isLoading() ? (
@@ -108,8 +117,8 @@ const UserSummaryForm: React.FC<{}> = () => {
                 {user.telegramId}
               </LabelValue>
             ) : (
-                <Skeleton count={2} />
-              )}
+              <Skeleton count={2} />
+            )}
           </div>
           <div className="column is-6">
             {!loadingContext.isLoading() ? (
@@ -117,8 +126,8 @@ const UserSummaryForm: React.FC<{}> = () => {
                 {user.lastModifiedDate}
               </LabelValue>
             ) : (
-                <Skeleton count={2} />
-              )}
+              <Skeleton count={2} />
+            )}
           </div>
           <div className="column is-6">
             {!loadingContext.isLoading() ? (
@@ -126,13 +135,18 @@ const UserSummaryForm: React.FC<{}> = () => {
                 {user.version}
               </LabelValue>
             ) : (
-                <Skeleton count={2} />
-              )}
+              <Skeleton count={2} />
+            )}
           </div>
         </div>
         <br />
         <ButtonGroup align="is-right">
-          <Button label={constants.button.delete} onClick={toggleDelete} type="button" color="is-danger" />
+          <Button
+            label={constants.button.delete}
+            onClick={toggleDelete}
+            type="button"
+            color="is-danger"
+          />
           <ButtonLink
             href={`/dashboard/security/user/${user.id}/edit`}
             label="Edit"
@@ -140,16 +154,27 @@ const UserSummaryForm: React.FC<{}> = () => {
           />
         </ButtonGroup>
       </Card>
-      <Modal isActive={isDelete} title={constants.header.confirmDelete} toggleActive={toggleDelete}>
+      <Modal
+        isActive={isDelete}
+        title={constants.header.confirmDelete}
+        toggleActive={toggleDelete}>
         <p>Are you sure to delete?</p>
         <br />
         <ButtonGroup align="is-right">
-          <Button label={constants.button.cancel} onClick={toggleDelete} type="button" />
-          <Button label={constants.button.ok} onClick={onDelete} type="button" color="is-success" />
+          <Button
+            label={constants.button.cancel}
+            onClick={toggleDelete}
+            type="button"
+          />
+          <Button
+            label={constants.button.ok}
+            onClick={onDelete}
+            type="button"
+            color="is-success"
+          />
         </ButtonGroup>
       </Modal>
     </>
-
   )
 }
 

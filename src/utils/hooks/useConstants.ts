@@ -24,7 +24,7 @@ const useConstants = () => {
     userForm: "User Form",
     userSummary: "User Summary",
     confirmDelete: "Confirm Delete",
-    userEdit: "User Edit"
+    userEdit: "User Edit",
   }
 
   const label = {
@@ -53,7 +53,7 @@ const useConstants = () => {
     update: "Update",
     cancel: "Cancel",
     ok: "Ok",
-    delete: "Delete"
+    delete: "Delete",
   }
 
   const error = {
