@@ -11,6 +11,7 @@ import Notification from "../../../../../src/components/Notification"
 import AppLayout from "../../../../../src/layouts/AppLayout"
 import DashboardLayout from "../../../../../src/layouts/DashboardLayout"
 import { useLoadingContext } from "../../../../../src/utils/contexts/LoadingContext"
+import { useNotificationContext } from "../../../../../src/utils/contexts/NotificationContext"
 import useConstants from "../../../../../src/utils/hooks/useConstants"
 import useSecurityService, {
   TUser,
@@ -42,6 +43,7 @@ const UserSummaryForm: React.FC<{}> = () => {
   const constants = useConstants()
   const securityService = useSecurityService()
   const loadingContext = useLoadingContext()
+  const notificationContext = useNotificationContext()
   const router = useRouter()
   const { id } = router.query
 
@@ -53,6 +55,7 @@ const UserSummaryForm: React.FC<{}> = () => {
     loadingContext.offLoading()
 
     if (responseBody.status.isSuccess) {
+      notificationContext.setSaveMessage("Delete user succeed.", responseBody.status.message, "is-success")
       router.replace("/dashboard/security/user/list")
     }
   }

@@ -4,6 +4,7 @@ import Skeleton from "react-loading-skeleton"
 import ButtonGroup from "../../../../src/components/ButtonGroup"
 import ButtonLink from "../../../../src/components/ButtonLink"
 import Card from "../../../../src/components/Card"
+import Notification from "../../../../src/components/Notification"
 import Table from "../../../../src/components/Table"
 import AppLayout from "../../../../src/layouts/AppLayout"
 import DashboardLayout from "../../../../src/layouts/DashboardLayout"
@@ -16,6 +17,7 @@ import useSecurityService, {
 const SecurityUserListPage: React.FC<{}> = () => (
   <AppLayout title="Security - User List" needAuth={true}>
     <DashboardLayout breadcrumbs={["Security", "User"]}>
+      <Notification />
       <UserListTable />
       <br />
       <ActionButton />
@@ -30,7 +32,7 @@ const UserListTable: React.FC<{}> = () => {
   const loadingContext = useLoadingContext()
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       loadingContext.onLoading()
       const userList = await securityService.getUserList()
       setUserList(userList)
@@ -66,8 +68,8 @@ const UserListTable: React.FC<{}> = () => {
             ))}
         </Table>
       ) : (
-        <Skeleton count={3} />
-      )}
+          <Skeleton count={3} />
+        )}
     </Card>
   )
 }
