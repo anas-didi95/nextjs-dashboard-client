@@ -1,5 +1,11 @@
 import { useRouter } from "next/router"
-import React, { createContext, ReactNode, useState, useContext, useEffect } from "react"
+import React, {
+  createContext,
+  ReactNode,
+  useState,
+  useContext,
+  useEffect,
+} from "react"
 import useAuth from "../hooks/useAuth"
 import useConstants from "../hooks/useConstants"
 import { useNotificationContext } from "./NotificationContext"
@@ -13,14 +19,14 @@ interface IAuthContext {
 
 const AuthContext = createContext<IAuthContext>({
   isAuth: () => false,
-  setAuth: () => { },
-  clearAuth: () => { },
+  setAuth: () => {},
+  clearAuth: () => {},
   getAccessToken: () => "",
 })
 
 const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   type TData = {
-    accessToken: string,
+    accessToken: string
     refreshToken: string
   }
   const [data, setData] = useState<TData>({ accessToken: "", refreshToken: "" })
@@ -36,11 +42,16 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const getAccessToken = () => data.accessToken
 
   useEffect(() => {
-    let refreshInterval: NodeJS.Timeout | null = null;
+    let refreshInterval: NodeJS.Timeout | null = null
     if (!!data.refreshToken) {
-      const refreshIntervalInMinutes = Number(constants.env.refreshIntervalInMinute)
+      const refreshIntervalInMinutes = Number(
+        constants.env.refreshIntervalInMinute
+      )
       refreshInterval = setInterval(async () => {
-        const responseBody = await auth.refresh(data.accessToken, data.refreshToken)
+        const responseBody = await auth.refresh(
+          data.accessToken,
+          data.refreshToken
+        )
 
         if (responseBody.status.isSuccess) {
           const { accessToken, refreshToken } = responseBody.data
@@ -49,7 +60,11 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         } else {
           console.error("[AuthContext] responseBody", responseBody)
           clearAuth()
-          notificationContext.setSaveMessage("Refresh token failed!", responseBody.status.message, "is-danger")
+          notificationContext.setSaveMessage(
+            "Refresh token failed!",
+            responseBody.status.message,
+            "is-danger"
+          )
           router.replace("/")
         }
       }, refreshIntervalInMinutes * 60 * 1000)

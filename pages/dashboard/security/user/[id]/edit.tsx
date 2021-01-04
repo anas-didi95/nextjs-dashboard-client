@@ -88,7 +88,7 @@ const UserEditForm: React.FC<{}> = () => {
   const onClear = () => reset()
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       const user = await securityService.getUserById(id as string)
 
       setUser(user)

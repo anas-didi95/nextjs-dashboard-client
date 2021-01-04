@@ -10,7 +10,7 @@ const useAuth = () => {
     password: string
   ): Promise<{
     status: { isSuccess: boolean; message: string }
-    data: { accessToken: string, refreshToken: string }
+    data: { accessToken: string; refreshToken: string }
   }> => {
     try {
       const response = await fetch(`${baseUrl}/login`, {
@@ -36,7 +36,7 @@ const useAuth = () => {
         },
         data: {
           accessToken: "",
-          refreshToken: ""
+          refreshToken: "",
         },
       }
     }
@@ -47,7 +47,7 @@ const useAuth = () => {
     refreshToken: string
   ): Promise<{
     status: { isSuccess: boolean; message: string }
-    data: { accessToken: string, refreshToken: string }
+    data: { accessToken: string; refreshToken: string }
   }> => {
     try {
       const response = await fetch(`${baseUrl}/refresh`, {
@@ -55,10 +55,10 @@ const useAuth = () => {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${accessToken}`
+          Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({
-          refreshToken: refreshToken
+          refreshToken: refreshToken,
         }),
       })
       const responseBody = await response.json()
@@ -73,7 +73,7 @@ const useAuth = () => {
         },
         data: {
           accessToken: "",
-          refreshToken: ""
+          refreshToken: "",
         },
       }
     }

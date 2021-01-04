@@ -72,7 +72,7 @@ const UserSummaryForm: React.FC<{}> = () => {
   }
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       loadingContext.onLoading()
       const user = await securityService.getUserById(id as string)
       loadingContext.offLoading()
@@ -91,8 +91,8 @@ const UserSummaryForm: React.FC<{}> = () => {
                 {user.username}
               </LabelValue>
             ) : (
-                <Skeleton count={2} />
-              )}
+              <Skeleton count={2} />
+            )}
           </div>
           <div className="column is-6">
             {!loadingContext.isLoading() ? (
@@ -100,8 +100,8 @@ const UserSummaryForm: React.FC<{}> = () => {
                 {user.email}
               </LabelValue>
             ) : (
-                <Skeleton count={2} />
-              )}
+              <Skeleton count={2} />
+            )}
           </div>
           <div className="column is-6">
             {!loadingContext.isLoading() ? (
@@ -109,8 +109,8 @@ const UserSummaryForm: React.FC<{}> = () => {
                 {user.fullName}
               </LabelValue>
             ) : (
-                <Skeleton count={2} />
-              )}
+              <Skeleton count={2} />
+            )}
           </div>
           <div className="column is-6">
             {!loadingContext.isLoading() ? (
@@ -118,8 +118,8 @@ const UserSummaryForm: React.FC<{}> = () => {
                 {user.telegramId}
               </LabelValue>
             ) : (
-                <Skeleton count={2} />
-              )}
+              <Skeleton count={2} />
+            )}
           </div>
           <div className="column is-6">
             {!loadingContext.isLoading() ? (
@@ -127,8 +127,8 @@ const UserSummaryForm: React.FC<{}> = () => {
                 {user.lastModifiedDate}
               </LabelValue>
             ) : (
-                <Skeleton count={2} />
-              )}
+              <Skeleton count={2} />
+            )}
           </div>
           <div className="column is-6">
             {!loadingContext.isLoading() ? (
@@ -136,8 +136,8 @@ const UserSummaryForm: React.FC<{}> = () => {
                 {user.version}
               </LabelValue>
             ) : (
-                <Skeleton count={2} />
-              )}
+              <Skeleton count={2} />
+            )}
           </div>
         </div>
         <br />

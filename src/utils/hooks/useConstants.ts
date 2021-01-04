@@ -12,7 +12,8 @@ const useConstants = () => {
 
   const env = {
     apiSecurity: process.env.NEXT_PUBLIC_API_SECURITY ?? "",
-    refreshIntervalInMinute: process.env.NEXT_PUBLIC_REFRESH_INTERVAL_MINUTE ?? 20
+    refreshIntervalInMinute:
+      process.env.NEXT_PUBLIC_REFRESH_INTERVAL_MINUTE ?? 20,
   }
 
   const header = {
