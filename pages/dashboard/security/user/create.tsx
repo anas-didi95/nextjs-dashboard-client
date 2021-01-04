@@ -68,6 +68,7 @@ const UserCreateForm: React.FC<{}> = () => {
       )
       router.replace(`/dashboard/security/user/${responseBody.data.id}/summary`)
     } else {
+      console.error("[SecurityUserCreatePage] responseBody", responseBody)
       notificationContext.setErrorMessage(
         "Create user failed!",
         responseBody.status.message

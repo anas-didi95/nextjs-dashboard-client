@@ -77,6 +77,7 @@ const UserEditForm: React.FC<{}> = () => {
       )
       router.replace(`/dashboard/security/user/${id}/summary`)
     } else {
+      console.error("[SecurityUserEditPage] responseBody", responseBody)
       notificationContext.setErrorMessage(
         "Update user failed!",
         responseBody.status.message

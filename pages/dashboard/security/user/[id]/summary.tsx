@@ -62,6 +62,7 @@ const UserSummaryForm: React.FC<{}> = () => {
       )
       router.replace("/dashboard/security/user/list")
     } else {
+      console.error("[SecurityUserSummaryPage] responseBody", responseBody)
       notificationContext.setErrorMessage(
         "Delete user failed!",
         responseBody.status.message
