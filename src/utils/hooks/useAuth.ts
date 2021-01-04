@@ -9,7 +9,7 @@ const useAuth = () => {
     password: string
   ): Promise<{
     status: { isSuccess: boolean; message: string }
-    data: { accessToken: string }
+    data: { accessToken: string, refreshToken: string }
   }> => {
     try {
       const response = await fetch(`${baseUrl}/login`, {
@@ -35,6 +35,7 @@ const useAuth = () => {
         },
         data: {
           accessToken: "",
+          refreshToken: ""
         },
       }
     }
