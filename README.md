@@ -11,6 +11,7 @@ The application is deployed at https://dashboard.anasdidi.dev/.
 ## Table of context
 * [Technologies](#technologies)
 * [Features](#features)
+* [Environment Variables](#environment-variables)
 * [Getting Started](#getting-started)
 * [Learn More](#learn-more)
 * [Deploy on Vercel](#deploy-on-vercel)
@@ -32,6 +33,16 @@ The application is deployed at https://dashboard.anasdidi.dev/.
 
 * Sign in user using JWT authentication to access the dashboard.
 * Sign out user from the dashboard.
+
+---
+
+## Environment Variables
+Following table is list of environment variables used in this project.
+
+| Variable Name | Datatype | Description | Default Value |
+| --- | --- | --- | --- |
+| NEXT_PUBLIC_API_SECURITY | String | Server URL of security-related service | |
+| NEXT_PUBLIC_REFRESH_INTERVAL_MINUTE | Number | Refresh token interval duration (in minutes) | 20 |
 
 ---
 
