@@ -1,6 +1,7 @@
 import { useRouter } from "next/router"
 import React, { createContext, ReactNode, useState, useContext, useEffect } from "react"
 import useAuth from "../hooks/useAuth"
+import useConstants from "../hooks/useConstants"
 import { useNotificationContext } from "./NotificationContext"
 
 interface IAuthContext {
@@ -26,6 +27,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const auth = useAuth()
   const notificationContext = useNotificationContext()
   const router = useRouter()
+  const constants = useConstants()
 
   const isAuth = () => !!data.accessToken
   const setAuth = (accessToken: string, refreshToken: string) =>
@@ -36,6 +38,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   useEffect(() => {
     let refreshInterval: NodeJS.Timeout | null = null;
     if (!!data.refreshToken) {
+      const refreshIntervalInMinutes = Number(constants.env.refreshIntervalInMinute)
       refreshInterval = setInterval(async () => {
         const responseBody = await auth.refresh(data.accessToken, data.refreshToken)
 
@@ -49,7 +52,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
           notificationContext.setSaveMessage("Refresh token failed!", responseBody.status.message, "is-danger")
           router.replace("/")
         }
-      }, 10 * 1000)
+      }, refreshIntervalInMinutes * 60 * 1000)
       console.log("[AuthContext] Refresh interval start")
     }
 
