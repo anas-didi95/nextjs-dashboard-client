@@ -69,7 +69,7 @@ const useAuth = () => {
       return {
         status: {
           isSuccess: false,
-          message: "Unable to authenticate with server!",
+          message: "Unable to refresh token with server!",
         },
         data: {
           accessToken: "",

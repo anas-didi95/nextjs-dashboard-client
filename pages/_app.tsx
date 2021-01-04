@@ -5,13 +5,13 @@ import { LoadingProvider } from "../src/utils/contexts/LoadingContext"
 import type { AppProps } from "next/app"
 
 const App = ({ Component, pageProps }: AppProps) => (
-  <AuthProvider>
-    <NotificationProvider>
+  <NotificationProvider>
+    <AuthProvider>
       <LoadingProvider>
         <Component {...pageProps} />
       </LoadingProvider>
-    </NotificationProvider>
-  </AuthProvider>
+    </AuthProvider>
+  </NotificationProvider>
 )
 
 export default App
