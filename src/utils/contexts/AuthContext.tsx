@@ -44,6 +44,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
           setData({ accessToken, refreshToken })
           console.log("[AuthContext] " + responseBody.status.message)
         } else {
+          console.error("[AuthContext] responseBody", responseBody)
           clearAuth()
           notificationContext.setSaveMessage("Refresh token failed!", responseBody.status.message, "is-danger")
           router.replace("/")
