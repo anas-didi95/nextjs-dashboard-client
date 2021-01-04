@@ -50,7 +50,8 @@ const SignInForm: React.FC<{}> = () => {
     loadingContext.offLoading()
 
     if (responseBody.status.isSuccess) {
-      authContext.setAuth(responseBody.data.accessToken, responseBody.data.refreshToken)
+      const { accessToken, refreshToken } = responseBody.data
+      authContext.setAuth(accessToken, refreshToken)
       router.replace("/dashboard")
     } else {
       console.error("[LoginPage] responseBody", responseBody)
