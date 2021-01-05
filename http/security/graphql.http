@@ -23,7 +23,7 @@ Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
 {
-  "query": "query ($format: String) { getUserList { id username fullName email lastModifiedDate(format: $format) version } }",
+  "query": "query ($format: String) { getUserList { id username fullName email lastModifiedDate(format: $format) version telegramId } }",
   "variables": {
     "format": "yyyy-MM-dd HH:mm:ss"
   }
@@ -38,7 +38,7 @@ Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
 {
-  "query": "query($id: String!, $format: String) { getUserById(id: $id) { id username fullName email lastModifiedDate(format: $format) version } }",
+  "query": "query($id: String!, $format: String) { getUserById(id: $id) { id username fullName email lastModifiedDate(format: $format) version telegramId } }",
   "variables": {
     "id": "5fb8d7fafdaf9e6c6f63616f",
     "format": "yyyy-MM-dd HH:mm:ss"
@@ -54,7 +54,7 @@ Content-Type: application/json
 Authorization: Bearer {{accessToken}}
 
 {
-  "query": "query($username: String!, $format: String) { getUserByUsername(username: $username) { id username fullName email lastModifiedDate(format: $format) version } }",
+  "query": "query($username: String!, $format: String) { getUserByUsername(username: $username) { id username fullName email lastModifiedDate(format: $format) version telegramId } }",
   "variables": {
     "username": "superadmin",
     "format": "yyyy-MM-dd HH:mm:ss"
