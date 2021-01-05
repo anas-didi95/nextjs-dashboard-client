@@ -9,7 +9,7 @@ import Modal from "./Modal"
 import { GrPersonalComputer, GrGithub, GrLinkedin } from "react-icons/gr"
 import { useAuthContext } from "../utils/contexts/AuthContext"
 import useAuth from "../utils/hooks/useAuth"
-import { useLoadingContext } from "../utils/contexts/LoadingContext"
+import { useNotificationContext } from "../utils/contexts/NotificationContext"
 
 const Navbar = () => {
   const [isActive, setActive] = useState(false)
@@ -80,8 +80,8 @@ const NavbarMenu: React.FC<{
   return (
     <div
       className={`navbar-menu ${isActive
-          ? "is-active animate__animated animate__slideInDown animate__faster"
-          : ""
+        ? "is-active animate__animated animate__slideInDown animate__faster"
+        : ""
         }`}>
       {authContext.isAuth() && (
         <div className="navbar-start">
@@ -199,14 +199,18 @@ const ModalSignOut: React.FC<{
   const authContext = useAuthContext()
   const router = useRouter()
   const auth = useAuth()
+  const notificationContext = useNotificationContext()
 
   const signOut = async () => {
     const responseBody = await auth.signOut(authContext.getAccessToken())
 
-    if (responseBody.status.isSuccess) {
-      authContext.clearAuth()
-      router.replace("/")
+    if (!responseBody.status.isSuccess) {
+      console.error("[Navbar] responseBody", responseBody)
+      notificationContext.setSaveMessage("Sign out failed!", responseBody.status.message, "is-danger")
     }
+
+    authContext.clearAuth()
+    router.replace("/")
   }
 
   return (
