@@ -10,6 +10,7 @@ import { GrPersonalComputer, GrGithub, GrLinkedin } from "react-icons/gr"
 import { useAuthContext } from "../utils/contexts/AuthContext"
 import useAuth from "../utils/hooks/useAuth"
 import { useNotificationContext } from "../utils/contexts/NotificationContext"
+import { useLoadingContext } from "../utils/contexts/LoadingContext"
 
 const Navbar = () => {
   const [isActive, setActive] = useState(false)
@@ -200,9 +201,12 @@ const ModalSignOut: React.FC<{
   const router = useRouter()
   const auth = useAuth()
   const notificationContext = useNotificationContext()
+  const loadingContext = useLoadingContext()
 
   const signOut = async () => {
+    loadingContext.onLoading()
     const responseBody = await auth.signOut(authContext.getAccessToken())
+    loadingContext.offLoading()
 
     if (!responseBody.status.isSuccess) {
       console.error("[Navbar] responseBody", responseBody)

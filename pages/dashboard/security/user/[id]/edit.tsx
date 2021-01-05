@@ -64,8 +64,8 @@ const UserEditForm: React.FC<{}> = () => {
       version: user.version,
     }
 
-    loadingContext.onLoading()
     notificationContext.clear()
+    loadingContext.onLoading()
     const responseBody = await securityService.updateUser(updateUser)
     loadingContext.offLoading()
 
@@ -88,8 +88,10 @@ const UserEditForm: React.FC<{}> = () => {
   const onClear = () => reset()
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
+      loadingContext.onLoading()
       const user = await securityService.getUserById(id as string)
+      loadingContext.offLoading()
 
       setUser(user)
       setValue("email", user.email)
