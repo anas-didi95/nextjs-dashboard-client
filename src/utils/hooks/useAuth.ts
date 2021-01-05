@@ -1,4 +1,3 @@
-import { useAuthContext } from "../contexts/AuthContext"
 import useConstants from "./useConstants"
 
 const useAuth = () => {
@@ -79,7 +78,35 @@ const useAuth = () => {
     }
   }
 
-  return { signIn, refresh }
+  const signOut = async (
+    accessToken: string
+  ): Promise<{
+    status: { isSuccess: boolean; message: string }
+  }> => {
+    try {
+      const response = await fetch(`${baseUrl}/logout`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      const responseBody = await response.json()
+
+      return responseBody
+    } catch (e) {
+      console.error("[useAuth] signOut failed!", e)
+      return {
+        status: {
+          isSuccess: false,
+          message: "Unable to sign out with server!",
+        }
+      }
+    }
+  }
+
+  return { signIn, refresh, signOut }
 }
 
 export default useAuth
