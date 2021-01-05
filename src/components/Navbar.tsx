@@ -8,6 +8,8 @@ import { useRouter } from "next/router"
 import Modal from "./Modal"
 import { GrPersonalComputer, GrGithub, GrLinkedin } from "react-icons/gr"
 import { useAuthContext } from "../utils/contexts/AuthContext"
+import useAuth from "../utils/hooks/useAuth"
+import { useLoadingContext } from "../utils/contexts/LoadingContext"
 
 const Navbar = () => {
   const [isActive, setActive] = useState(false)
@@ -77,11 +79,10 @@ const NavbarMenu: React.FC<{
 
   return (
     <div
-      className={`navbar-menu ${
-        isActive
+      className={`navbar-menu ${isActive
           ? "is-active animate__animated animate__slideInDown animate__faster"
           : ""
-      }`}>
+        }`}>
       {authContext.isAuth() && (
         <div className="navbar-start">
           <Link href="/dashboard">
@@ -197,10 +198,15 @@ const ModalSignOut: React.FC<{
   const constants = useConstants()
   const authContext = useAuthContext()
   const router = useRouter()
+  const auth = useAuth()
 
-  const signOut = () => {
-    authContext.clearAuth()
-    router.replace("/")
+  const signOut = async () => {
+    const responseBody = await auth.signOut(authContext.getAccessToken())
+
+    if (responseBody.status.isSuccess) {
+      authContext.clearAuth()
+      router.replace("/")
+    }
   }
 
   return (
