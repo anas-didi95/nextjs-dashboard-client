@@ -34,8 +34,9 @@ const UserListTable: React.FC<{}> = () => {
     ;(async () => {
       loadingContext.onLoading()
       const userList = await securityService.getUserList()
-      setUserList(userList)
       loadingContext.offLoading()
+
+      setUserList(userList)
     })()
   }, [])
 

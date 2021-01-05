@@ -8,6 +8,9 @@ import { useRouter } from "next/router"
 import Modal from "./Modal"
 import { GrPersonalComputer, GrGithub, GrLinkedin } from "react-icons/gr"
 import { useAuthContext } from "../utils/contexts/AuthContext"
+import useAuth from "../utils/hooks/useAuth"
+import { useNotificationContext } from "../utils/contexts/NotificationContext"
+import { useLoadingContext } from "../utils/contexts/LoadingContext"
 
 const Navbar = () => {
   const [isActive, setActive] = useState(false)
@@ -197,8 +200,24 @@ const ModalSignOut: React.FC<{
   const constants = useConstants()
   const authContext = useAuthContext()
   const router = useRouter()
+  const auth = useAuth()
+  const notificationContext = useNotificationContext()
+  const loadingContext = useLoadingContext()
 
-  const signOut = () => {
+  const signOut = async () => {
+    loadingContext.onLoading()
+    const responseBody = await auth.signOut(authContext.getAccessToken())
+    loadingContext.offLoading()
+
+    if (!responseBody.status.isSuccess) {
+      console.error("[Navbar] responseBody", responseBody)
+      notificationContext.setSaveMessage(
+        "Sign out failed!",
+        responseBody.status.message,
+        "is-danger"
+      )
+    }
+
     authContext.clearAuth()
     router.replace("/")
   }
