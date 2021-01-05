@@ -101,7 +101,7 @@ const useAuth = () => {
         status: {
           isSuccess: false,
           message: "Unable to sign out with server!",
-        }
+        },
       }
     }
   }

@@ -21,7 +21,8 @@ const FormInput: React.FC<IFormInput> = ({
   return (
     <div className="field">
       <label className="label">{label}</label>
-      <div className={`control ${loadingContext.isLoading() ? "is-loading" : ""}`}>
+      <div
+        className={`control ${loadingContext.isLoading() ? "is-loading" : ""}`}>
         <input
           className={`input ${!!error ? "is-danger" : "is-hovered"}`}
           type={type}

@@ -80,10 +80,11 @@ const NavbarMenu: React.FC<{
 
   return (
     <div
-      className={`navbar-menu ${isActive
-        ? "is-active animate__animated animate__slideInDown animate__faster"
-        : ""
-        }`}>
+      className={`navbar-menu ${
+        isActive
+          ? "is-active animate__animated animate__slideInDown animate__faster"
+          : ""
+      }`}>
       {authContext.isAuth() && (
         <div className="navbar-start">
           <Link href="/dashboard">
@@ -210,7 +211,11 @@ const ModalSignOut: React.FC<{
 
     if (!responseBody.status.isSuccess) {
       console.error("[Navbar] responseBody", responseBody)
-      notificationContext.setSaveMessage("Sign out failed!", responseBody.status.message, "is-danger")
+      notificationContext.setSaveMessage(
+        "Sign out failed!",
+        responseBody.status.message,
+        "is-danger"
+      )
     }
 
     authContext.clearAuth()
