@@ -12,15 +12,15 @@ import { useNotificationContext } from "./NotificationContext"
 
 interface IAuthContext {
   isAuth: () => boolean
-  setAuth: (accessToken: string, refreshToken: string) => void
+  setAuth: (accessToken: string, refreshToken: string, username: string) => void
   clearAuth: () => void
   getAccessToken: () => string
 }
 
 const AuthContext = createContext<IAuthContext>({
   isAuth: () => false,
-  setAuth: () => {},
-  clearAuth: () => {},
+  setAuth: () => { },
+  clearAuth: () => { },
   getAccessToken: () => "",
 })
 
@@ -28,17 +28,18 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   type TData = {
     accessToken: string
     refreshToken: string
+    username: string
   }
-  const [data, setData] = useState<TData>({ accessToken: "", refreshToken: "" })
+  const [data, setData] = useState<TData>({ accessToken: "", refreshToken: "", username: "" })
   const auth = useAuth()
   const notificationContext = useNotificationContext()
   const router = useRouter()
   const constants = useConstants()
 
   const isAuth = () => !!data.accessToken
-  const setAuth = (accessToken: string, refreshToken: string) =>
+  const setAuth = (accessToken: string, refreshToken: string, username: string) =>
     setData((prev) => ({ ...prev, accessToken, refreshToken }))
-  const clearAuth = () => setData({ accessToken: "", refreshToken: "" })
+  const clearAuth = () => setData({ accessToken: "", refreshToken: "", username: "" })
   const getAccessToken = () => data.accessToken
 
   useEffect(() => {
@@ -55,8 +56,8 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
         if (responseBody.status.isSuccess) {
           const { accessToken, refreshToken } = responseBody.data
-          setData({ accessToken, refreshToken })
-          console.log("[AuthContext] " + responseBody.status.message)
+          setData(prev => ({ ...prev, accessToken, refreshToken }))
+          //console.log("[AuthContext] " + responseBody.status.message)
         } else {
           console.error("[AuthContext] responseBody", responseBody)
           clearAuth()
@@ -68,13 +69,13 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
           router.replace("/")
         }
       }, refreshIntervalInMinutes * 60 * 1000)
-      console.log("[AuthContext] Refresh interval start")
+      //console.log("[AuthContext] Refresh interval start")
     }
 
     return () => {
       if (!!refreshInterval) {
         clearInterval(refreshInterval)
-        console.log("[AuthContext] Refresh interval end")
+        //console.log("[AuthContext] Refresh interval end")
       }
     }
   }, [data.refreshToken])
