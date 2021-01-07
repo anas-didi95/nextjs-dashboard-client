@@ -7,9 +7,9 @@ import ButtonLink from "../../../../../src/components/ButtonLink"
 import Card from "../../../../../src/components/Card"
 import LabelValue from "../../../../../src/components/LabelValue"
 import Modal from "../../../../../src/components/Modal"
-import Notification from "../../../../../src/components/Notification"
 import AppLayout from "../../../../../src/layouts/AppLayout"
 import DashboardLayout from "../../../../../src/layouts/DashboardLayout"
+import { useAuthContext } from "../../../../../src/utils/contexts/AuthContext"
 import { useLoadingContext } from "../../../../../src/utils/contexts/LoadingContext"
 import { useNotificationContext } from "../../../../../src/utils/contexts/NotificationContext"
 import useConstants from "../../../../../src/utils/hooks/useConstants"
@@ -45,6 +45,7 @@ const UserSummaryForm: React.FC<{}> = () => {
   const notificationContext = useNotificationContext()
   const router = useRouter()
   const { id } = router.query
+  const authContext = useAuthContext()
 
   const toggleDelete = () => setDelete((prev) => !prev)
 
@@ -142,12 +143,14 @@ const UserSummaryForm: React.FC<{}> = () => {
         </div>
         <br />
         <ButtonGroup align="is-right">
-          <Button
-            label={constants.button.delete}
-            onClick={toggleDelete}
-            type="button"
-            color="is-danger"
-          />
+          {authContext.getUsername() !== user.username && (
+            <Button
+              label={constants.button.delete}
+              onClick={toggleDelete}
+              type="button"
+              color="is-danger"
+            />
+          )}
           <ButtonLink
             href={`/dashboard/security/user/${user.id}/edit`}
             label="Edit"
