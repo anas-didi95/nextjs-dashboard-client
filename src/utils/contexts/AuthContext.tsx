@@ -15,6 +15,7 @@ interface IAuthContext {
   setAuth: (accessToken: string, refreshToken: string, username: string) => void
   clearAuth: () => void
   getAccessToken: () => string
+  getUsername: () => string
 }
 
 const AuthContext = createContext<IAuthContext>({
@@ -22,6 +23,7 @@ const AuthContext = createContext<IAuthContext>({
   setAuth: () => { },
   clearAuth: () => { },
   getAccessToken: () => "",
+  getUsername: () => ""
 })
 
 const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -38,9 +40,10 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   const isAuth = () => !!data.accessToken
   const setAuth = (accessToken: string, refreshToken: string, username: string) =>
-    setData((prev) => ({ ...prev, accessToken, refreshToken }))
+    setData({ accessToken, refreshToken, username })
   const clearAuth = () => setData({ accessToken: "", refreshToken: "", username: "" })
   const getAccessToken = () => data.accessToken
+  const getUsername = () => data.username
 
   useEffect(() => {
     let refreshInterval: NodeJS.Timeout | null = null
@@ -82,7 +85,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuth, setAuth, clearAuth, getAccessToken }}>
+      value={{ isAuth, setAuth, clearAuth, getAccessToken, getUsername }}>
       {children}
     </AuthContext.Provider>
   )
