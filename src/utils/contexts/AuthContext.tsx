@@ -27,11 +27,16 @@ interface IAuthContext {
 
 const AuthContext = createContext<IAuthContext>({
   isAuth: () => false,
-  setAuth: () => { },
-  clearAuth: () => { },
+  setAuth: () => {},
+  clearAuth: () => {},
   getAccessToken: () => "",
   getUsername: () => "",
-  getClaims: async () => ({ fullName: "", permissions: [], userId: "", username: "" })
+  getClaims: async () => ({
+    fullName: "",
+    permissions: [],
+    userId: "",
+    username: "",
+  }),
 })
 
 const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -62,18 +67,18 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const getUsername = () => data.username
 
   const getClaims = async (): Promise<{
-    userId: string,
-    username: string,
-    fullName: string,
+    userId: string
+    username: string
+    fullName: string
     permissions: string[]
   }> => {
     const response = await fetch(`${constants.env.apiSecurity}/api/jwt/check`, {
       method: "GET",
       headers: {
-        "Accept": "application/json",
+        Accept: "application/json",
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${data.accessToken}`
-      }
+        Authorization: `Bearer ${data.accessToken}`,
+      },
     })
     const responseBody = await response.json()
 
@@ -120,7 +125,14 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuth, setAuth, clearAuth, getAccessToken, getUsername, getClaims }}>
+      value={{
+        isAuth,
+        setAuth,
+        clearAuth,
+        getAccessToken,
+        getUsername,
+        getClaims,
+      }}>
       {children}
     </AuthContext.Provider>
   )

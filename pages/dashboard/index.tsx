@@ -24,11 +24,12 @@ const DashboardPage: React.FC<{}> = () => {
   }, [])
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       const claims = await authContext.getClaims()
       setUser(claims)
     })()
   }, [])
+
   return (
     <AppLayout title="Home" needAuth={true}>
       <DashboardLayout breadcrumbs={["Home"]}>
@@ -63,7 +64,7 @@ const ServerStatus: React.FC<{ url: string; title: string }> = ({
   })
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       const response = await fetch(`${url}/ping`, { method: "GET" })
       const responseBody = await response.json()
 
@@ -87,8 +88,8 @@ const ServerStatus: React.FC<{ url: string; title: string }> = ({
             {server.isOnline ? (
               <Tag value="Online" color="is-success" />
             ) : (
-                <Tag value="Checking" color="is-warning" />
-              )}
+              <Tag value="Checking" color="is-warning" />
+            )}
           </LabelValue>
         </div>
         <div className="column is-12">
