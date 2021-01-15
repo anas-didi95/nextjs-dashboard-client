@@ -10,20 +10,28 @@ import useAuth from "../hooks/useAuth"
 import useConstants from "../hooks/useConstants"
 import { useNotificationContext } from "./NotificationContext"
 
+type TClaim = {
+  userId: string
+  username: string
+  fullName: string
+  permissions: string[]
+}
 interface IAuthContext {
   isAuth: () => boolean
   setAuth: (accessToken: string, refreshToken: string, username: string) => void
   clearAuth: () => void
   getAccessToken: () => string
   getUsername: () => string
+  getClaims: () => Promise<TClaim>
 }
 
 const AuthContext = createContext<IAuthContext>({
   isAuth: () => false,
-  setAuth: () => {},
-  clearAuth: () => {},
+  setAuth: () => { },
+  clearAuth: () => { },
   getAccessToken: () => "",
   getUsername: () => "",
+  getClaims: async () => ({ fullName: "", permissions: [], userId: "", username: "" })
 })
 
 const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -52,6 +60,25 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     setData({ accessToken: "", refreshToken: "", username: "" })
   const getAccessToken = () => data.accessToken
   const getUsername = () => data.username
+
+  const getClaims = async (): Promise<{
+    userId: string,
+    username: string,
+    fullName: string,
+    permissions: string[]
+  }> => {
+    const response = await fetch(`${constants.env.apiSecurity}/api/jwt/check`, {
+      method: "GET",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${data.accessToken}`
+      }
+    })
+    const responseBody = await response.json()
+
+    return responseBody.data
+  }
 
   useEffect(() => {
     let refreshInterval: NodeJS.Timeout | null = null
@@ -93,7 +120,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuth, setAuth, clearAuth, getAccessToken, getUsername }}>
+      value={{ isAuth, setAuth, clearAuth, getAccessToken, getUsername, getClaims }}>
       {children}
     </AuthContext.Provider>
   )

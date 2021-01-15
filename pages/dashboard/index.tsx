@@ -4,11 +4,14 @@ import LabelValue from "../../src/components/LabelValue"
 import Tag from "../../src/components/Tag"
 import AppLayout from "../../src/layouts/AppLayout"
 import DashboardLayout from "../../src/layouts/DashboardLayout"
+import { useAuthContext } from "../../src/utils/contexts/AuthContext"
 import useConstants from "../../src/utils/hooks/useConstants"
 
 const DashboardPage: React.FC<{}> = () => {
   const constants = useConstants()
   const [currentTime, setCurrentTime] = useState("Refreshing...")
+  const authContext = useAuthContext()
+  const [user, setUser] = useState<{ fullName: string }>({ fullName: "" })
 
   useEffect(() => {
     const refreshTime = setInterval(() => {
@@ -20,11 +23,17 @@ const DashboardPage: React.FC<{}> = () => {
     }
   }, [])
 
+  useEffect(() => {
+    (async () => {
+      const claims = await authContext.getClaims()
+      setUser(claims)
+    })()
+  }, [])
   return (
     <AppLayout title="Home" needAuth={true}>
       <DashboardLayout breadcrumbs={["Home"]}>
         <Card title={constants.header.welcome}>
-          <p className="title is-4">Hi, Anas Juwaidi</p>
+          <p className="title is-4">Hi, {user.fullName}</p>
           <LabelValue label={constants.label.currentTime}>
             <p>{currentTime}</p>
           </LabelValue>
@@ -54,7 +63,7 @@ const ServerStatus: React.FC<{ url: string; title: string }> = ({
   })
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const response = await fetch(`${url}/ping`, { method: "GET" })
       const responseBody = await response.json()
 
@@ -78,8 +87,8 @@ const ServerStatus: React.FC<{ url: string; title: string }> = ({
             {server.isOnline ? (
               <Tag value="Online" color="is-success" />
             ) : (
-              <Tag value="Checking" color="is-warning" />
-            )}
+                <Tag value="Checking" color="is-warning" />
+              )}
           </LabelValue>
         </div>
         <div className="column is-12">
