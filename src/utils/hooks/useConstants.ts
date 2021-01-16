@@ -44,7 +44,7 @@ const useConstants = () => {
     lastModifiedDate: "Last Modified Date",
     version: "Version",
     lastModifiedBy: "Last Modified By",
-    permissions: "Permissions"
+    permissions: "Permissions",
   }
 
   const button = {

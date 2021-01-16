@@ -142,8 +142,8 @@ const useSecurityService = () => {
         lastModifiedBy: {
           id: "",
           username: "",
-          fullName: ""
-        }
+          fullName: "",
+        },
       }
     }
   }
