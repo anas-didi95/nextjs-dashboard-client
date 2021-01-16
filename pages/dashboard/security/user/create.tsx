@@ -53,6 +53,12 @@ const UserCreateForm: React.FC<{}> = () => {
       telegramId: data.telegramId,
       lastModifiedDate: "",
       version: -1,
+      permissions: [],
+      lastModifiedBy: {
+        id: "",
+        username: "",
+        fullName: "",
+      },
     }
 
     notificationContext.clear()

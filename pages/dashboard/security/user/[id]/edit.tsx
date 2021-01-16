@@ -43,6 +43,12 @@ const UserEditForm: React.FC<{}> = () => {
     telegramId: "",
     username: "",
     version: -1,
+    permissions: [],
+    lastModifiedBy: {
+      id: "",
+      username: "",
+      fullName: "",
+    },
   })
   const { register, handleSubmit, errors, setValue, reset } = useForm<TForm>()
   const securityService = useSecurityService()
@@ -62,6 +68,12 @@ const UserEditForm: React.FC<{}> = () => {
       telegramId: data.telegramId,
       username: user.username,
       version: user.version,
+      permissions: [],
+      lastModifiedBy: {
+        id: "",
+        username: "",
+        fullName: "",
+      },
     }
 
     notificationContext.clear()

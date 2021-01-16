@@ -37,6 +37,12 @@ const UserSummaryForm: React.FC<{}> = () => {
     username: "",
     lastModifiedDate: "",
     version: -1,
+    permissions: [],
+    lastModifiedBy: {
+      id: "",
+      username: "",
+      fullName: "",
+    },
   })
   const [isDelete, setDelete] = useState(false)
   const constants = useConstants()
@@ -135,6 +141,28 @@ const UserSummaryForm: React.FC<{}> = () => {
             {!loadingContext.isLoading() ? (
               <LabelValue label={constants.label.version}>
                 {user.version}
+              </LabelValue>
+            ) : (
+              <Skeleton count={2} />
+            )}
+          </div>
+          <div className="column is-6">
+            {!loadingContext.isLoading() ? (
+              <LabelValue label={constants.label.lastModifiedBy}>
+                {!!user.lastModifiedBy.username
+                  ? user.lastModifiedBy.username +
+                    " - " +
+                    user.lastModifiedBy.fullName
+                  : user.lastModifiedBy.id}
+              </LabelValue>
+            ) : (
+              <Skeleton count={2} />
+            )}
+          </div>
+          <div className="column is-6">
+            {!loadingContext.isLoading() ? (
+              <LabelValue label={constants.label.permissions}>
+                [ {!!user.permissions && user.permissions.join(", ")} ]
               </LabelValue>
             ) : (
               <Skeleton count={2} />

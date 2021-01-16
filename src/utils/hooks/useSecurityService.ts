@@ -10,6 +10,12 @@ export type TUser = {
   telegramId: string
   lastModifiedDate: string
   version: number
+  permissions: string[]
+  lastModifiedBy: {
+    id: string
+    username: string
+    fullName: string
+  }
 }
 const useSecurityService = () => {
   const constants = useConstants()
@@ -104,6 +110,12 @@ const useSecurityService = () => {
                 lastModifiedDate(format: $format)
                 version
                 telegramId
+                permissions
+                lastModifiedBy {
+                  id
+                  username
+                  fullName
+                }
               }
             }`,
           variables: {
@@ -126,6 +138,12 @@ const useSecurityService = () => {
         username: "",
         lastModifiedDate: "",
         version: -1,
+        permissions: [],
+        lastModifiedBy: {
+          id: "",
+          username: "",
+          fullName: "",
+        },
       }
     }
   }
@@ -193,7 +211,7 @@ const useSecurityService = () => {
 
       return responseBody
     } catch (e) {
-      console.log("[useSecurityService] deleteUser failed!", e)
+      console.error("[useSecurityService] deleteUser failed!", e)
       return {
         status: {
           isSuccess: false,
