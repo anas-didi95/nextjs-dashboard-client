@@ -47,8 +47,8 @@ const UserEditForm: React.FC<{}> = () => {
     lastModifiedBy: {
       id: "",
       username: "",
-      fullName: ""
-    }
+      fullName: "",
+    },
   })
   const { register, handleSubmit, errors, setValue, reset } = useForm<TForm>()
   const securityService = useSecurityService()
@@ -72,8 +72,8 @@ const UserEditForm: React.FC<{}> = () => {
       lastModifiedBy: {
         id: "",
         username: "",
-        fullName: ""
-      }
+        fullName: "",
+      },
     }
 
     notificationContext.clear()
@@ -100,7 +100,7 @@ const UserEditForm: React.FC<{}> = () => {
   const onClear = () => reset()
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       loadingContext.onLoading()
       const user = await securityService.getUserById(id as string)
       loadingContext.offLoading()

@@ -57,8 +57,8 @@ const UserCreateForm: React.FC<{}> = () => {
       lastModifiedBy: {
         id: "",
         username: "",
-        fullName: ""
-      }
+        fullName: "",
+      },
     }
 
     notificationContext.clear()
