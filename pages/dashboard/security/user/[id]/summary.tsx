@@ -148,7 +148,7 @@ const UserSummaryForm: React.FC<{}> = () => {
           </div>
           <div className="column is-6">
             {!loadingContext.isLoading() ? (
-              <LabelValue label="Last Modified By">
+              <LabelValue label={constants.label.lastModifiedBy}>
                 {!!user.lastModifiedBy.username ? user.lastModifiedBy.username + " - " + user.lastModifiedBy.fullName : user.lastModifiedBy.id}
               </LabelValue>
             ) : (
@@ -157,7 +157,7 @@ const UserSummaryForm: React.FC<{}> = () => {
           </div>
           <div className="column is-6">
             {!loadingContext.isLoading() ? (
-              <LabelValue label="Permissions">
+              <LabelValue label={constants.label.permissions}>
                 [ {!!user.permissions && user.permissions.join(", ")} ]
               </LabelValue>
             ) : (

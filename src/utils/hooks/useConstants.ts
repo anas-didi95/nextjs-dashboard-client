@@ -43,6 +43,8 @@ const useConstants = () => {
     telegramId: "Telegram Id",
     lastModifiedDate: "Last Modified Date",
     version: "Version",
+    lastModifiedBy: "Last Modified By",
+    permissions: "Permissions"
   }
 
   const button = {
