@@ -211,7 +211,7 @@ const useSecurityService = () => {
 
       return responseBody
     } catch (e) {
-      console.log("[useSecurityService] deleteUser failed!", e)
+      console.error("[useSecurityService] deleteUser failed!", e)
       return {
         status: {
           isSuccess: false,
