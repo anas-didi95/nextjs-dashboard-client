@@ -10,6 +10,12 @@ export type TUser = {
   telegramId: string
   lastModifiedDate: string
   version: number
+  permissions: string[]
+  lastModifiedBy: {
+    id: string
+    username: string
+    fullName: string
+  }
 }
 const useSecurityService = () => {
   const constants = useConstants()
@@ -132,6 +138,12 @@ const useSecurityService = () => {
         username: "",
         lastModifiedDate: "",
         version: -1,
+        permissions: [],
+        lastModifiedBy: {
+          id: "",
+          username: "",
+          fullName: ""
+        }
       }
     }
   }
