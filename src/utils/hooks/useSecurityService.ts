@@ -104,6 +104,12 @@ const useSecurityService = () => {
                 lastModifiedDate(format: $format)
                 version
                 telegramId
+                permissions
+                lastModifiedBy {
+                  id
+                  username
+                  fullName
+                }
               }
             }`,
           variables: {
