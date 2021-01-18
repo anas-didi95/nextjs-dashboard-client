@@ -49,7 +49,12 @@ const UserCreateForm: React.FC<{}> = () => {
   const [permissions, setPermissions] = useState<Permission[]>([])
 
   const onCreate = async (data: TUser) => {
-    data.permissions = data.permissions.filter((permission) => !!permission)
+    if (!!data.permissions) {
+      data.permissions = data.permissions.filter((permission) => !!permission)
+    } else {
+      data.permissions = []
+    }
+
     const user: TUser = {
       id: "",
       username: data.username,
@@ -91,7 +96,7 @@ const UserCreateForm: React.FC<{}> = () => {
   const onClear = () => reset()
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const permissions = await securityService.getPermissionList()
       setPermissions(permissions)
     })()
