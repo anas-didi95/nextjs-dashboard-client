@@ -1,12 +1,14 @@
 import { useRouter } from "next/router"
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import Button from "../../../../src/components/Button"
 import ButtonGroup from "../../../../src/components/ButtonGroup"
 import ButtonLink from "../../../../src/components/ButtonLink"
 import Card from "../../../../src/components/Card"
 import Form from "../../../../src/components/Form"
+import FormCheckBox from "../../../../src/components/FormCheckbox"
 import FormInput from "../../../../src/components/FormInput"
+import LabelValue from "../../../../src/components/LabelValue"
 import Notification from "../../../../src/components/Notification"
 import AppLayout from "../../../../src/layouts/AppLayout"
 import DashboardLayout from "../../../../src/layouts/DashboardLayout"
@@ -14,6 +16,7 @@ import { useLoadingContext } from "../../../../src/utils/contexts/LoadingContext
 import { useNotificationContext } from "../../../../src/utils/contexts/NotificationContext"
 import useConstants from "../../../../src/utils/hooks/useConstants"
 import useSecurityService, {
+  Permission,
   TUser,
 } from "../../../../src/utils/hooks/useSecurityService"
 
@@ -35,6 +38,7 @@ const UserCreateForm: React.FC<{}> = () => {
     confirmPassword: string
     fullName: string
     telegramId: string
+    permissions: string[]
   }
   const constants = useConstants()
   const { register, handleSubmit, errors, watch, reset } = useForm<TForm>()
@@ -42,8 +46,15 @@ const UserCreateForm: React.FC<{}> = () => {
   const router = useRouter()
   const notificationContext = useNotificationContext()
   const loadingContext = useLoadingContext()
+  const [permissions, setPermissions] = useState<Permission[]>([])
 
   const onCreate = async (data: TUser) => {
+    if (!!data.permissions) {
+      data.permissions = data.permissions.filter((permission) => !!permission)
+    } else {
+      data.permissions = []
+    }
+
     const user: TUser = {
       id: "",
       username: data.username,
@@ -53,7 +64,7 @@ const UserCreateForm: React.FC<{}> = () => {
       telegramId: data.telegramId,
       lastModifiedDate: "",
       version: -1,
-      permissions: [],
+      permissions: data.permissions,
       lastModifiedBy: {
         id: "",
         username: "",
@@ -83,6 +94,13 @@ const UserCreateForm: React.FC<{}> = () => {
   }
 
   const onClear = () => reset()
+
+  useEffect(() => {
+    ;(async () => {
+      const permissions = await securityService.getPermissionList()
+      setPermissions(permissions)
+    })()
+  }, [])
 
   return (
     <Card title={constants.header.userForm}>
@@ -155,10 +173,24 @@ const UserCreateForm: React.FC<{}> = () => {
             <FormInput
               label={constants.label.telegramId}
               name="telegramId"
-              register={register}
+              register={register()}
               type="text"
               error={errors.telegramId?.message}
             />
+          </div>
+          <div className="column is-6">
+            <LabelValue label={constants.label.permissions}>
+              {!!permissions &&
+                permissions.length > 0 &&
+                permissions.map((permission, i) => (
+                  <FormCheckBox
+                    key={permission.id}
+                    value={permission.id}
+                    name={`permissions[${i}]`}
+                    register={register()}
+                  />
+                ))}
+            </LabelValue>
           </div>
         </div>
         <br />

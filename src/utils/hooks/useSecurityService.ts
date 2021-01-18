@@ -17,6 +17,9 @@ export type TUser = {
     fullName: string
   }
 }
+export type Permission = {
+  id: string
+}
 const useSecurityService = () => {
   const constants = useConstants()
   const authContext = useAuthContext()
@@ -71,6 +74,7 @@ const useSecurityService = () => {
           fullName: user.fullName,
           email: user.email,
           telegramId: user.telegramId,
+          permissions: user.permissions,
         }),
       })
       const responseBody = await response.json()
@@ -221,7 +225,42 @@ const useSecurityService = () => {
     }
   }
 
-  return { getUserList, createUser, getUserById, updateUser, deleteUser }
+  const getPermissionList = async (): Promise<Permission[]> => {
+    try {
+      const response = await fetch(`${constants.env.apiSecurity}/graphql`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authContext.getAccessToken()}`,
+        },
+        body: JSON.stringify({
+          query: `
+            query {
+              getPermissionList {
+                id
+              }
+            }`,
+          variables: {},
+        }),
+      })
+      const responseBody = await response.json()
+
+      return responseBody.data.getPermissionList
+    } catch (e) {
+      console.error("[useSecurityService] getPermissionList failed!", e)
+      return []
+    }
+  }
+
+  return {
+    getUserList,
+    createUser,
+    getUserById,
+    updateUser,
+    deleteUser,
+    getPermissionList,
+  }
 }
 
 export default useSecurityService
