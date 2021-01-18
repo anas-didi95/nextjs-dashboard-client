@@ -49,7 +49,7 @@ const UserCreateForm: React.FC<{}> = () => {
   const [permissions, setPermissions] = useState<Permission[]>([])
 
   const onCreate = async (data: TUser) => {
-    data.permissions = data.permissions.filter(permission => !!permission);
+    data.permissions = data.permissions.filter((permission) => !!permission)
     const user: TUser = {
       id: "",
       username: data.username,
@@ -91,7 +91,7 @@ const UserCreateForm: React.FC<{}> = () => {
   const onClear = () => reset()
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       const permissions = await securityService.getPermissionList()
       setPermissions(permissions)
     })()
@@ -175,9 +175,16 @@ const UserCreateForm: React.FC<{}> = () => {
           </div>
           <div className="column is-6">
             <LabelValue label={constants.label.permissions}>
-              {!!permissions && permissions.length > 0 && permissions.map((permission, i) => (
-                <FormCheckBox key={permission.id} value={permission.id} name={`permissions[${i}]`} register={register()} />
-              ))}
+              {!!permissions &&
+                permissions.length > 0 &&
+                permissions.map((permission, i) => (
+                  <FormCheckBox
+                    key={permission.id}
+                    value={permission.id}
+                    name={`permissions[${i}]`}
+                    register={register()}
+                  />
+                ))}
             </LabelValue>
           </div>
         </div>

@@ -74,7 +74,7 @@ const useSecurityService = () => {
           fullName: user.fullName,
           email: user.email,
           telegramId: user.telegramId,
-          permissions: user.permissions
+          permissions: user.permissions,
         }),
       })
       const responseBody = await response.json()
@@ -230,9 +230,9 @@ const useSecurityService = () => {
       const response = await fetch(`${constants.env.apiSecurity}/graphql`, {
         method: "POST",
         headers: {
-          "Accept": "application/json",
+          Accept: "application/json",
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${authContext.getAccessToken()}`
+          Authorization: `Bearer ${authContext.getAccessToken()}`,
         },
         body: JSON.stringify({
           query: `
@@ -241,8 +241,8 @@ const useSecurityService = () => {
                 id
               }
             }`,
-          variables: {}
-        })
+          variables: {},
+        }),
       })
       const responseBody = await response.json()
 
@@ -253,7 +253,14 @@ const useSecurityService = () => {
     }
   }
 
-  return { getUserList, createUser, getUserById, updateUser, deleteUser, getPermissionList }
+  return {
+    getUserList,
+    createUser,
+    getUserById,
+    updateUser,
+    deleteUser,
+    getPermissionList,
+  }
 }
 
 export default useSecurityService
