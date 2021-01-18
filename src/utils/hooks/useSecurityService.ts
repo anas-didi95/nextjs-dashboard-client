@@ -71,6 +71,7 @@ const useSecurityService = () => {
           fullName: user.fullName,
           email: user.email,
           telegramId: user.telegramId,
+          permissions: user.permissions
         }),
       })
       const responseBody = await response.json()
