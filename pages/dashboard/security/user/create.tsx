@@ -37,6 +37,7 @@ const UserCreateForm: React.FC<{}> = () => {
     confirmPassword: string
     fullName: string
     telegramId: string
+    permissions: string[]
   }
   const constants = useConstants()
   const { register, handleSubmit, errors, watch, reset } = useForm<TForm>()
@@ -47,6 +48,7 @@ const UserCreateForm: React.FC<{}> = () => {
   const permissions = ["dummy1", "dummy2"]
 
   const onCreate = async (data: TUser) => {
+    data.permissions = data.permissions.filter(permission => !!permission);
     const user: TUser = {
       id: "",
       username: data.username,
@@ -56,7 +58,7 @@ const UserCreateForm: React.FC<{}> = () => {
       telegramId: data.telegramId,
       lastModifiedDate: "",
       version: -1,
-      permissions: [],
+      permissions: data.permissions,
       lastModifiedBy: {
         id: "",
         username: "",
@@ -158,15 +160,15 @@ const UserCreateForm: React.FC<{}> = () => {
             <FormInput
               label={constants.label.telegramId}
               name="telegramId"
-              register={register}
+              register={register()}
               type="text"
               error={errors.telegramId?.message}
             />
           </div>
           <div className="column is-6">
             <LabelValue label="Permissions">
-              {permissions.map(permission => (
-                <FormCheckBox key={permission} value={permission} />
+              {permissions.map((permission, i) => (
+                <FormCheckBox key={permission} value={permission} name={`permissions[${i}]`} register={register()} />
               ))}
             </LabelValue>
           </div>
