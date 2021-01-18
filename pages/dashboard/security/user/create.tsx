@@ -1,5 +1,5 @@
 import { useRouter } from "next/router"
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import Button from "../../../../src/components/Button"
 import ButtonGroup from "../../../../src/components/ButtonGroup"
@@ -16,6 +16,7 @@ import { useLoadingContext } from "../../../../src/utils/contexts/LoadingContext
 import { useNotificationContext } from "../../../../src/utils/contexts/NotificationContext"
 import useConstants from "../../../../src/utils/hooks/useConstants"
 import useSecurityService, {
+  Permission,
   TUser,
 } from "../../../../src/utils/hooks/useSecurityService"
 
@@ -45,7 +46,7 @@ const UserCreateForm: React.FC<{}> = () => {
   const router = useRouter()
   const notificationContext = useNotificationContext()
   const loadingContext = useLoadingContext()
-  const permissions = ["dummy1", "dummy2"]
+  const [permissions, setPermissions] = useState<Permission[]>([])
 
   const onCreate = async (data: TUser) => {
     data.permissions = data.permissions.filter(permission => !!permission);
@@ -88,6 +89,13 @@ const UserCreateForm: React.FC<{}> = () => {
   }
 
   const onClear = () => reset()
+
+  useEffect(() => {
+    (async () => {
+      const permissions = await securityService.getPermissionList()
+      setPermissions(permissions)
+    })()
+  }, [])
 
   return (
     <Card title={constants.header.userForm}>
@@ -167,8 +175,8 @@ const UserCreateForm: React.FC<{}> = () => {
           </div>
           <div className="column is-6">
             <LabelValue label="Permissions">
-              {permissions.map((permission, i) => (
-                <FormCheckBox key={permission} value={permission} name={`permissions[${i}]`} register={register()} />
+              {!!permissions && permissions.length > 0 && permissions.map((permission, i) => (
+                <FormCheckBox key={permission.id} value={permission.id} name={`permissions[${i}]`} register={register()} />
               ))}
             </LabelValue>
           </div>
