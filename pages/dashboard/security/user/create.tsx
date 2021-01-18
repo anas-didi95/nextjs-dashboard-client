@@ -6,7 +6,9 @@ import ButtonGroup from "../../../../src/components/ButtonGroup"
 import ButtonLink from "../../../../src/components/ButtonLink"
 import Card from "../../../../src/components/Card"
 import Form from "../../../../src/components/Form"
+import FormCheckBox from "../../../../src/components/FormCheckbox"
 import FormInput from "../../../../src/components/FormInput"
+import LabelValue from "../../../../src/components/LabelValue"
 import Notification from "../../../../src/components/Notification"
 import AppLayout from "../../../../src/layouts/AppLayout"
 import DashboardLayout from "../../../../src/layouts/DashboardLayout"
@@ -42,6 +44,7 @@ const UserCreateForm: React.FC<{}> = () => {
   const router = useRouter()
   const notificationContext = useNotificationContext()
   const loadingContext = useLoadingContext()
+  const permissions = ["dummy1", "dummy2"]
 
   const onCreate = async (data: TUser) => {
     const user: TUser = {
@@ -159,6 +162,13 @@ const UserCreateForm: React.FC<{}> = () => {
               type="text"
               error={errors.telegramId?.message}
             />
+          </div>
+          <div className="column is-6">
+            <LabelValue label="Permissions">
+              {permissions.map(permission => (
+                <FormCheckBox key={permission} value={permission} />
+              ))}
+            </LabelValue>
           </div>
         </div>
         <br />
