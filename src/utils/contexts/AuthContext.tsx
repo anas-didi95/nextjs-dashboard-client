@@ -6,7 +6,7 @@ import React, {
   useContext,
   useEffect,
 } from "react"
-import useAuth from "../hooks/useAuth"
+import useAuth, { Claims } from "../hooks/useAuth"
 import useConstants from "../hooks/useConstants"
 import { useNotificationContext } from "./NotificationContext"
 
@@ -27,8 +27,8 @@ interface IAuthContext {
 
 const AuthContext = createContext<IAuthContext>({
   isAuth: () => false,
-  setAuth: () => {},
-  clearAuth: () => {},
+  setAuth: () => { },
+  clearAuth: () => { },
   getAccessToken: () => "",
   getUsername: () => "",
   getClaims: async () => ({
@@ -66,23 +66,9 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const getAccessToken = () => data.accessToken
   const getUsername = () => data.username
 
-  const getClaims = async (): Promise<{
-    userId: string
-    username: string
-    fullName: string
-    permissions: string[]
-  }> => {
-    const response = await fetch(`${constants.env.apiSecurity}/api/jwt/check`, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${data.accessToken}`,
-      },
-    })
-    const responseBody = await response.json()
-
-    return responseBody.data
+  const getClaims = async (): Promise<Claims> => {
+    const claims = await auth.check(data.accessToken)
+    return claims
   }
 
   useEffect(() => {
