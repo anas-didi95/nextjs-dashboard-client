@@ -6,6 +6,7 @@ import ButtonGroup from "../../../../../src/components/ButtonGroup"
 import ButtonLink from "../../../../../src/components/ButtonLink"
 import Card from "../../../../../src/components/Card"
 import Form from "../../../../../src/components/Form"
+import FormCheckBox from "../../../../../src/components/FormCheckbox"
 import FormInput from "../../../../../src/components/FormInput"
 import LabelValue from "../../../../../src/components/LabelValue"
 import Notification from "../../../../../src/components/Notification"
@@ -15,6 +16,7 @@ import { useLoadingContext } from "../../../../../src/utils/contexts/LoadingCont
 import { useNotificationContext } from "../../../../../src/utils/contexts/NotificationContext"
 import useConstants from "../../../../../src/utils/hooks/useConstants"
 import useSecurityService, {
+  Permission,
   TUser,
 } from "../../../../../src/utils/hooks/useSecurityService"
 
@@ -33,6 +35,7 @@ const UserEditForm: React.FC<{}> = () => {
     email: string
     fullName: string
     telegramId: string
+    permissions: string[]
   }
   const [user, setUser] = useState<TUser>({
     email: "",
@@ -57,8 +60,14 @@ const UserEditForm: React.FC<{}> = () => {
   const { id } = router.query
   const notificationContext = useNotificationContext()
   const loadingContext = useLoadingContext()
+  const [permissions, setPermissions] = useState<Permission[]>()
 
   const onUpdate = async (data: TForm) => {
+    if (!!data.permissions) {
+      data.permissions = data.permissions.filter((permission) => !!permission)
+    } else {
+      data.permissions = []
+    }
     const updateUser: TUser = {
       id: user.id,
       email: data.email,
@@ -68,7 +77,7 @@ const UserEditForm: React.FC<{}> = () => {
       telegramId: data.telegramId,
       username: user.username,
       version: user.version,
-      permissions: [],
+      permissions: data.permissions,
       lastModifiedBy: {
         id: "",
         username: "",
@@ -102,13 +111,16 @@ const UserEditForm: React.FC<{}> = () => {
   useEffect(() => {
     ;(async () => {
       loadingContext.onLoading()
+      const permissions = await securityService.getPermissionList()
       const user = await securityService.getUserById(id as string)
       loadingContext.offLoading()
 
+      setPermissions(permissions)
       setUser(user)
       setValue("email", user.email)
       setValue("fullName", user.fullName)
       setValue("telegramId", user.telegramId)
+      setValue("permissions", user.permissions)
     })()
   }, [])
 
@@ -153,6 +165,20 @@ const UserEditForm: React.FC<{}> = () => {
               type="text"
               error={errors.telegramId?.message}
             />
+          </div>
+          <div className="column is-6">
+            <LabelValue label={constants.label.permissions}>
+              {!!permissions &&
+                permissions.length > 0 &&
+                permissions.map((permission, i) => (
+                  <FormCheckBox
+                    key={permission.id}
+                    name={`permissions[${i}]`}
+                    register={register()}
+                    value={permission.id}
+                  />
+                ))}
+            </LabelValue>
           </div>
         </div>
         <br />

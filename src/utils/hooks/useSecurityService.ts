@@ -173,6 +173,7 @@ const useSecurityService = () => {
             email: user.email,
             version: user.version,
             telegramId: user.telegramId,
+            permissions: user.permissions,
           }),
         }
       )

@@ -1,5 +1,11 @@
 import useConstants from "./useConstants"
 
+export type Claims = {
+  userId: string
+  username: string
+  fullName: string
+  permissions: string[]
+}
 const useAuth = () => {
   const constants = useConstants()
   const baseUrl = `${constants.env.apiSecurity}/api/jwt`
@@ -106,7 +112,31 @@ const useAuth = () => {
     }
   }
 
-  return { signIn, refresh, signOut }
+  const check = async (accessToken: string): Promise<Claims> => {
+    try {
+      const response = await fetch(`${baseUrl}/check`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      const responseBody = await response.json()
+
+      return responseBody.data
+    } catch (e) {
+      console.error("[useAuth] check failed!", e)
+      return {
+        userId: "",
+        fullName: "",
+        permissions: [],
+        username: "",
+      }
+    }
+  }
+
+  return { signIn, refresh, signOut, check }
 }
 
 export default useAuth
