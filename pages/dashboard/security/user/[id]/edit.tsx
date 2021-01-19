@@ -64,7 +64,7 @@ const UserEditForm: React.FC<{}> = () => {
 
   const onUpdate = async (data: TForm) => {
     if (!!data.permissions) {
-      data.permissions = data.permissions.filter(permission => !!permission)
+      data.permissions = data.permissions.filter((permission) => !!permission)
     } else {
       data.permissions = []
     }
@@ -109,7 +109,7 @@ const UserEditForm: React.FC<{}> = () => {
   const onClear = () => reset()
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       loadingContext.onLoading()
       const permissions = await securityService.getPermissionList()
       const user = await securityService.getUserById(id as string)
@@ -168,9 +168,16 @@ const UserEditForm: React.FC<{}> = () => {
           </div>
           <div className="column is-6">
             <LabelValue label={constants.label.permissions}>
-              {!!permissions && permissions.length > 0 && permissions.map((permission, i) => (
-                <FormCheckBox key={permission.id} name={`permissions[${i}]`} register={register()} value={permission.id} />
-              ))}
+              {!!permissions &&
+                permissions.length > 0 &&
+                permissions.map((permission, i) => (
+                  <FormCheckBox
+                    key={permission.id}
+                    name={`permissions[${i}]`}
+                    register={register()}
+                    value={permission.id}
+                  />
+                ))}
             </LabelValue>
           </div>
         </div>
