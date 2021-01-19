@@ -6,6 +6,7 @@ import ButtonGroup from "../../../../../src/components/ButtonGroup"
 import ButtonLink from "../../../../../src/components/ButtonLink"
 import Card from "../../../../../src/components/Card"
 import Form from "../../../../../src/components/Form"
+import FormCheckBox from "../../../../../src/components/FormCheckbox"
 import FormInput from "../../../../../src/components/FormInput"
 import LabelValue from "../../../../../src/components/LabelValue"
 import Notification from "../../../../../src/components/Notification"
@@ -100,7 +101,7 @@ const UserEditForm: React.FC<{}> = () => {
   const onClear = () => reset()
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       loadingContext.onLoading()
       const user = await securityService.getUserById(id as string)
       loadingContext.offLoading()
@@ -153,6 +154,11 @@ const UserEditForm: React.FC<{}> = () => {
               type="text"
               error={errors.telegramId?.message}
             />
+          </div>
+          <div className="column is-6">
+            <LabelValue label="Permissions">
+              <FormCheckBox name="" register={null} value="Value" />
+            </LabelValue>
           </div>
         </div>
         <br />
