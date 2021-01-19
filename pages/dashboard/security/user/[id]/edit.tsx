@@ -77,7 +77,7 @@ const UserEditForm: React.FC<{}> = () => {
       telegramId: data.telegramId,
       username: user.username,
       version: user.version,
-      permissions: [],
+      permissions: data.permissions,
       lastModifiedBy: {
         id: "",
         username: "",
