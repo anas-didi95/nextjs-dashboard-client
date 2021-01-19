@@ -16,6 +16,7 @@ import { useLoadingContext } from "../../../../../src/utils/contexts/LoadingCont
 import { useNotificationContext } from "../../../../../src/utils/contexts/NotificationContext"
 import useConstants from "../../../../../src/utils/hooks/useConstants"
 import useSecurityService, {
+  Permission,
   TUser,
 } from "../../../../../src/utils/hooks/useSecurityService"
 
@@ -58,6 +59,7 @@ const UserEditForm: React.FC<{}> = () => {
   const { id } = router.query
   const notificationContext = useNotificationContext()
   const loadingContext = useLoadingContext()
+  const [permissions, setPermissions] = useState<Permission[]>()
 
   const onUpdate = async (data: TForm) => {
     const updateUser: TUser = {
@@ -103,13 +105,15 @@ const UserEditForm: React.FC<{}> = () => {
   useEffect(() => {
     ; (async () => {
       loadingContext.onLoading()
+      const permissions = await securityService.getPermissionList()
       const user = await securityService.getUserById(id as string)
       loadingContext.offLoading()
 
+      setPermissions(permissions)
       setUser(user)
-      setValue("email", user.email)
-      setValue("fullName", user.fullName)
-      setValue("telegramId", user.telegramId)
+      //setValue("email", user.email)
+      //setValue("fullName", user.fullName)
+      //setValue("telegramId", user.telegramId)
     })()
   }, [])
 
@@ -157,7 +161,9 @@ const UserEditForm: React.FC<{}> = () => {
           </div>
           <div className="column is-6">
             <LabelValue label="Permissions">
-              <FormCheckBox name="" register={null} value="Value" />
+              {!!permissions && permissions.length > 0 && permissions.map((permission, i) => (
+                <FormCheckBox key={permission.id} name={`permissions${i}`} register={register()} value={permission.id} />
+              ))}
             </LabelValue>
           </div>
         </div>
