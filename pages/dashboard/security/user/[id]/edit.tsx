@@ -35,6 +35,7 @@ const UserEditForm: React.FC<{}> = () => {
     email: string
     fullName: string
     telegramId: string
+    permissions: string[]
   }
   const [user, setUser] = useState<TUser>({
     email: "",
@@ -62,6 +63,11 @@ const UserEditForm: React.FC<{}> = () => {
   const [permissions, setPermissions] = useState<Permission[]>()
 
   const onUpdate = async (data: TForm) => {
+    if (!!data.permissions) {
+      data.permissions = data.permissions.filter(permission => !!permission)
+    } else {
+      data.permissions = []
+    }
     const updateUser: TUser = {
       id: user.id,
       email: data.email,
@@ -111,9 +117,10 @@ const UserEditForm: React.FC<{}> = () => {
 
       setPermissions(permissions)
       setUser(user)
-      //setValue("email", user.email)
-      //setValue("fullName", user.fullName)
-      //setValue("telegramId", user.telegramId)
+      setValue("email", user.email)
+      setValue("fullName", user.fullName)
+      setValue("telegramId", user.telegramId)
+      setValue("permissions", user.permissions)
     })()
   }, [])
 
@@ -162,7 +169,7 @@ const UserEditForm: React.FC<{}> = () => {
           <div className="column is-6">
             <LabelValue label="Permissions">
               {!!permissions && permissions.length > 0 && permissions.map((permission, i) => (
-                <FormCheckBox key={permission.id} name={`permissions${i}`} register={register()} value={permission.id} />
+                <FormCheckBox key={permission.id} name={`permissions[${i}]`} register={register()} value={permission.id} />
               ))}
             </LabelValue>
           </div>
