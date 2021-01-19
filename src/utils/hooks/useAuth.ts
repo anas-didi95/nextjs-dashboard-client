@@ -131,7 +131,7 @@ const useAuth = () => {
         userId: "",
         fullName: "",
         permissions: [],
-        username: ""
+        username: "",
       }
     }
   }

@@ -27,8 +27,8 @@ interface IAuthContext {
 
 const AuthContext = createContext<IAuthContext>({
   isAuth: () => false,
-  setAuth: () => { },
-  clearAuth: () => { },
+  setAuth: () => {},
+  clearAuth: () => {},
   getAccessToken: () => "",
   getUsername: () => "",
   getClaims: async () => ({
