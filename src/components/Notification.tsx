@@ -3,7 +3,7 @@ import { useNotificationContext } from "../utils/contexts/NotificationContext"
 
 const Notification: React.FC<{}> = () => {
   const notificationContext = useNotificationContext()
-  const [title, message, type] = notificationContext.getValue()
+  const { errorList, message, title, type } = notificationContext.getValue()
 
   return (
     <>
@@ -11,13 +11,15 @@ const Notification: React.FC<{}> = () => {
         <div className={`notification ${type}`}>
           <p className="is-size-5 has-text-weight-semibold">{title}</p>
           <p className="mt-1">{message}</p>
-          <div className="content is-small">
-            <ul className="mt-2">
-              <li>1</li>
-              <li>1</li>
-              <li>1</li>
-            </ul>
-          </div>
+          {!!errorList && errorList.length > 0 && (
+            <div className="content is-small">
+              <ul className="mt-1">
+                {errorList.map((error, i) => (
+                  <li key={`error${i}`}>{error}</li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       )}
     </>
