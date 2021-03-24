@@ -57,7 +57,8 @@ const SignInForm: React.FC<{}> = () => {
       console.error("[LoginPage] responseBody", responseBody)
       notificationContext.setErrorMessage(
         "Sign in failed!",
-        responseBody.status.message
+        responseBody.status.message,
+        responseBody.data.errorList ?? []
       )
     }
   }

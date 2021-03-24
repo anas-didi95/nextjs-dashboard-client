@@ -93,7 +93,8 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
           notificationContext.setSaveMessage(
             "Refresh token failed!",
             responseBody.status.message,
-            "is-danger"
+            "is-danger",
+            []
           )
           router.replace("/")
         }

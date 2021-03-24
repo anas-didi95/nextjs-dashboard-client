@@ -81,14 +81,16 @@ const UserCreateForm: React.FC<{}> = () => {
       notificationContext.setSaveMessage(
         "Create user succeed.",
         responseBody.status.message,
-        "is-success"
+        "is-success",
+        []
       )
       router.replace(`/dashboard/security/user/${responseBody.data.id}/summary`)
     } else {
       console.error("[SecurityUserCreatePage] responseBody", responseBody)
       notificationContext.setErrorMessage(
         "Create user failed!",
-        responseBody.status.message
+        responseBody.status.message,
+        responseBody.data.errorList ?? []
       )
     }
   }

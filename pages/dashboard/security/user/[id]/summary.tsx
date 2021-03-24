@@ -65,14 +65,16 @@ const UserSummaryForm: React.FC<{}> = () => {
       notificationContext.setSaveMessage(
         "Delete user succeed.",
         responseBody.status.message,
-        "is-success"
+        "is-success",
+        []
       )
       router.replace("/dashboard/security/user/list")
     } else {
       console.error("[SecurityUserSummaryPage] responseBody", responseBody)
       notificationContext.setErrorMessage(
         "Delete user failed!",
-        responseBody.status.message
+        responseBody.status.message,
+        responseBody.data.errorList ?? []
       )
       setDelete(false)
     }

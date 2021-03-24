@@ -15,7 +15,7 @@ const useAuth = () => {
     password: string
   ): Promise<{
     status: { isSuccess: boolean; message: string }
-    data: { accessToken: string; refreshToken: string }
+    data: { accessToken: string; refreshToken: string; errorList?: string[] }
   }> => {
     try {
       const response = await fetch(`${baseUrl}/login`, {
