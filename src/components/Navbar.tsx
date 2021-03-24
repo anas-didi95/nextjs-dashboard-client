@@ -214,7 +214,8 @@ const ModalSignOut: React.FC<{
       notificationContext.setSaveMessage(
         "Sign out failed!",
         responseBody.status.message,
-        "is-danger"
+        "is-danger",
+        []
       )
     }
 

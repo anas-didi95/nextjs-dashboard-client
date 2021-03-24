@@ -58,7 +58,7 @@ const useSecurityService = () => {
     user: TUser
   ): Promise<{
     status: { isSuccess: boolean; message: string }
-    data: { id: string }
+    data: { id: string; errorList?: string[] }
   }> => {
     try {
       const response = await fetch(`${constants.env.apiSecurity}/api/user`, {
@@ -156,7 +156,7 @@ const useSecurityService = () => {
     user: TUser
   ): Promise<{
     status: { isSuccess: boolean; message: string }
-    data: { id: string }
+    data: { id: string; errorList?: string[] }
   }> => {
     try {
       const response = await fetch(
@@ -196,7 +196,10 @@ const useSecurityService = () => {
 
   const deleteUser = async (
     user: TUser
-  ): Promise<{ status: { isSuccess: boolean; message: string } }> => {
+  ): Promise<{
+    status: { isSuccess: boolean; message: string }
+    data: { errorList?: string[] }
+  }> => {
     try {
       const response = await fetch(
         `${constants.env.apiSecurity}/api/user/${user.id}`,
@@ -222,6 +225,7 @@ const useSecurityService = () => {
           isSuccess: false,
           message: constants.error.referConsoleLogDetails,
         },
+        data: {},
       }
     }
   }
