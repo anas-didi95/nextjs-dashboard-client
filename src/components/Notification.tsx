@@ -11,6 +11,13 @@ const Notification: React.FC<{}> = () => {
         <div className={`notification ${type}`}>
           <p className="is-size-5 has-text-weight-semibold">{title}</p>
           <p className="mt-1">{message}</p>
+          <div className="content is-small">
+            <ul className="mt-2">
+              <li>1</li>
+              <li>1</li>
+              <li>1</li>
+            </ul>
+          </div>
         </div>
       )}
     </>
