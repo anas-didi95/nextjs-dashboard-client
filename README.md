@@ -22,7 +22,7 @@ The application is deployed at https://dashboard.anasdidi.dev/.
 
 ## Technologies
 
-* Next - version 10.0.6
+* Next - version 10.0.9
 * React - version 17.0.1
 * TypeScript - version 4.2.3
 * Bulma - version 0.9.2
