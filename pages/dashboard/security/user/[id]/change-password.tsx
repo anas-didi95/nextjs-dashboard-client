@@ -1,5 +1,6 @@
 import { useRouter } from "next/router"
 import React from "react"
+import { useForm } from "react-hook-form"
 import Button from "../../../../../src/components/Button"
 import ButtonGroup from "../../../../../src/components/ButtonGroup"
 import ButtonLink from "../../../../../src/components/ButtonLink"
@@ -20,30 +21,41 @@ const SecurityUserChangePasswordPage: React.FC<{}> = () => (
   </AppLayout>
 )
 
-const UserChangePasswordForm: React.FC<{}> = () => (
-  <Card title="User Change Password">
-    <Form onSubmit={() => { }}>
-      <div className="columns is-multiline is-variable is-4">
-        <div className="column is-6">
-          <FormInput label="Old Password" name="oldPassword" register={null} type="password" error={undefined} />
-        </div>
-        <div className="column is-6">
-          <FormInput label="New Password" name="newPassword" register={null} type="password" error={undefined} />
+const UserChangePasswordForm: React.FC<{}> = () => {
+  type TForm = {
+    oldPassword: string,
+    newPassword: string,
+    confirmPassword: string
+  }
+  const { handleSubmit, register, errors } = useForm<TForm>()
 
+  const onUpdate = (data: TForm) => console.log("data", data)
+
+  return (
+    <Card title="User Change Password">
+      <Form onSubmit={handleSubmit(onUpdate)}>
+        <div className="columns is-multiline is-variable is-4">
+          <div className="column is-6">
+            <FormInput label="Old Password" name="oldPassword" type="password" error={errors.oldPassword?.message} register={register({})} />
+          </div>
+          <div className="column is-6">
+            <FormInput label="New Password" name="newPassword" type="password" error={errors.newPassword?.message} register={register({})} />
+
+          </div>
+          <div className="column is-6" />
+          <div className="column is-6">
+            <FormInput label="Confirm Password" name="confirmPassword" type="password" error={errors.confirmPassword?.message} register={register({})} />
+          </div>
         </div>
-        <div className="column is-6" />
-        <div className="column is-6">
-          <FormInput label="Confirm Password" name="confirmPassword" register={null} type="password" error={undefined} />
-        </div>
-      </div>
-      <br />
-      <ButtonGroup align="is-right">
-        <Button label="Clear" onClick={() => { }} type="submit" color="is-light" isInverted isOutlined />
-        <Button label="Update" onClick={() => { }} type="submit" color="is-success" />
-      </ButtonGroup>
-    </Form>
-  </Card>
-)
+        <br />
+        <ButtonGroup align="is-right">
+          <Button label="Clear" onClick={() => { }} type="button" color="is-light" isInverted isOutlined />
+          <Button label="Update" onClick={handleSubmit(onUpdate)} type="submit" color="is-success" />
+        </ButtonGroup>
+      </Form>
+    </Card>
+  )
+}
 
 const ActionButton: React.FC<{}> = () => {
   const constants = useConstants()
