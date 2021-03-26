@@ -173,17 +173,23 @@ const UserSummaryForm: React.FC<{}> = () => {
         </div>
         <br />
         <ButtonGroup align="is-right">
-          {authContext.getUsername() !== user.username && (
+          {authContext.getUsername() !== user.username ? (
             <Button
               label={constants.button.delete}
               onClick={toggleDelete}
               type="button"
               color="is-danger"
             />
+          ) : (
+            <ButtonLink
+              href={`/dashboard/security/user/${user.id}/change-password`}
+              label={constants.button.changePassword}
+              color="is-danger"
+            />
           )}
           <ButtonLink
             href={`/dashboard/security/user/${user.id}/edit`}
-            label="Edit"
+            label={constants.button.edit}
             color="is-success"
           />
         </ButtonGroup>

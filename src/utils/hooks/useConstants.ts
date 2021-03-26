@@ -27,6 +27,7 @@ const useConstants = () => {
     userSummary: "User Summary",
     confirmDelete: "Confirm Delete",
     userEdit: "User Edit",
+    changePassword: "Change Password",
   }
 
   const label = {
@@ -45,6 +46,8 @@ const useConstants = () => {
     version: "Version",
     lastModifiedBy: "Last Modified By",
     permissions: "Permissions",
+    oldPassword: "Old Password",
+    newPassword: "New Password",
   }
 
   const button = {
@@ -58,6 +61,8 @@ const useConstants = () => {
     cancel: "Cancel",
     ok: "Ok",
     delete: "Delete",
+    edit: "Edit",
+    changePassword: "Change Password",
   }
 
   const error = {
