@@ -27,7 +27,8 @@ const UserChangePasswordForm: React.FC<{}> = () => {
     newPassword: string,
     confirmPassword: string
   }
-  const { handleSubmit, register, errors } = useForm<TForm>()
+  const constants = useConstants();
+  const { handleSubmit, register, errors, watch } = useForm<TForm>()
 
   const onUpdate = (data: TForm) => console.log("data", data)
 
@@ -36,15 +37,21 @@ const UserChangePasswordForm: React.FC<{}> = () => {
       <Form onSubmit={handleSubmit(onUpdate)}>
         <div className="columns is-multiline is-variable is-4">
           <div className="column is-6">
-            <FormInput label="Old Password" name="oldPassword" type="password" error={errors.oldPassword?.message} register={register({})} />
+            <FormInput label={constants.label.oldPassword} name="oldPassword" type="password" error={errors.oldPassword?.message} register={register({
+              required: constants.error.mandatoryField(constants.label.oldPassword)
+            })} />
           </div>
           <div className="column is-6">
-            <FormInput label="New Password" name="newPassword" type="password" error={errors.newPassword?.message} register={register({})} />
-
+            <FormInput label={constants.label.newPassword} name="newPassword" type="password" error={errors.newPassword?.message} register={register({
+              required: constants.error.mandatoryField(constants.label.newPassword)
+            })} />
           </div>
           <div className="column is-6" />
           <div className="column is-6">
-            <FormInput label="Confirm Password" name="confirmPassword" type="password" error={errors.confirmPassword?.message} register={register({})} />
+            <FormInput label={constants.label.confirmPassword} name="confirmPassword" type="password" error={errors.confirmPassword?.message} register={register({
+              required: constants.error.mandatoryField(constants.label.confirmPassword),
+              validate: value => watch().newPassword === value || constants.error.passwordNotMatched
+            })} />
           </div>
         </div>
         <br />

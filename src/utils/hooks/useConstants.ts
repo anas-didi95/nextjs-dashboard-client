@@ -45,6 +45,8 @@ const useConstants = () => {
     version: "Version",
     lastModifiedBy: "Last Modified By",
     permissions: "Permissions",
+    oldPassword: "Old Password",
+    newPassword: "New Password"
   }
 
   const button = {
