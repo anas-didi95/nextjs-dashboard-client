@@ -181,11 +181,11 @@ const UserSummaryForm: React.FC<{}> = () => {
               color="is-danger"
             />
           ) : (
-            <ButtonLink href={`/dashboard/security/user/${user.id}/change-password`} label="Change Password" color="is-danger" />
+            <ButtonLink href={`/dashboard/security/user/${user.id}/change-password`} label={constants.button.changePassword} color="is-danger" />
           )}
           <ButtonLink
             href={`/dashboard/security/user/${user.id}/edit`}
-            label="Edit"
+            label={constants.button.edit}
             color="is-success"
           />
         </ButtonGroup>

@@ -27,6 +27,7 @@ const useConstants = () => {
     userSummary: "User Summary",
     confirmDelete: "Confirm Delete",
     userEdit: "User Edit",
+    changePassword: "Change Password"
   }
 
   const label = {
@@ -60,6 +61,8 @@ const useConstants = () => {
     cancel: "Cancel",
     ok: "Ok",
     delete: "Delete",
+    edit: "Edit",
+    changePassword: "Change Password"
   }
 
   const error = {

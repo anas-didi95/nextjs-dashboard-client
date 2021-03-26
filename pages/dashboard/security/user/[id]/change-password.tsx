@@ -12,7 +12,7 @@ import DashboardLayout from "../../../../../src/layouts/DashboardLayout"
 import useConstants from "../../../../../src/utils/hooks/useConstants"
 
 const SecurityUserChangePasswordPage: React.FC<{}> = () => (
-  <AppLayout title="Change Password" needAuth={true}>
+  <AppLayout title="Security - Change Password" needAuth={true}>
     <DashboardLayout breadcrumbs={["Security", "User", "Change Password"]}>
       <UserChangePasswordForm />
       <br />
@@ -28,12 +28,14 @@ const UserChangePasswordForm: React.FC<{}> = () => {
     confirmPassword: string
   }
   const constants = useConstants();
-  const { handleSubmit, register, errors, watch } = useForm<TForm>()
+  const { handleSubmit, register, errors, watch, reset } = useForm<TForm>()
 
   const onUpdate = (data: TForm) => console.log("data", data)
 
+  const onClear = () => reset()
+
   return (
-    <Card title="User Change Password">
+    <Card title={constants.header.changePassword}>
       <Form onSubmit={handleSubmit(onUpdate)}>
         <div className="columns is-multiline is-variable is-4">
           <div className="column is-6">
@@ -56,7 +58,7 @@ const UserChangePasswordForm: React.FC<{}> = () => {
         </div>
         <br />
         <ButtonGroup align="is-right">
-          <Button label="Clear" onClick={() => { }} type="button" color="is-light" isInverted isOutlined />
+          <Button label="Clear" onClick={onClear} type="button" color="is-light" isInverted isOutlined />
           <Button label="Update" onClick={handleSubmit(onUpdate)} type="submit" color="is-success" />
         </ButtonGroup>
       </Form>
