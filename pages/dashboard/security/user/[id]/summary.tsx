@@ -81,7 +81,7 @@ const UserSummaryForm: React.FC<{}> = () => {
   }
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       loadingContext.onLoading()
       const user = await securityService.getUserById(id as string)
       loadingContext.offLoading()
@@ -153,8 +153,8 @@ const UserSummaryForm: React.FC<{}> = () => {
               <LabelValue label={constants.label.lastModifiedBy}>
                 {!!user.lastModifiedBy.username
                   ? user.lastModifiedBy.username +
-                    " - " +
-                    user.lastModifiedBy.fullName
+                  " - " +
+                  user.lastModifiedBy.fullName
                   : user.lastModifiedBy.id}
               </LabelValue>
             ) : (
@@ -173,13 +173,15 @@ const UserSummaryForm: React.FC<{}> = () => {
         </div>
         <br />
         <ButtonGroup align="is-right">
-          {authContext.getUsername() !== user.username && (
+          {authContext.getUsername() !== user.username ? (
             <Button
               label={constants.button.delete}
               onClick={toggleDelete}
               type="button"
               color="is-danger"
             />
+          ) : (
+            <Button label="Change Password" onClick={() => console.log('change password')} type="button" color="is-danger" />
           )}
           <ButtonLink
             href={`/dashboard/security/user/${user.id}/edit`}
