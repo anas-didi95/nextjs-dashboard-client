@@ -181,7 +181,7 @@ const UserSummaryForm: React.FC<{}> = () => {
               color="is-danger"
             />
           ) : (
-            <Button label="Change Password" onClick={() => console.log('change password')} type="button" color="is-danger" />
+            <ButtonLink href={`/dashboard/security/user/${user.id}/change-password`} label="Change Password" color="is-danger" />
           )}
           <ButtonLink
             href={`/dashboard/security/user/${user.id}/edit`}
