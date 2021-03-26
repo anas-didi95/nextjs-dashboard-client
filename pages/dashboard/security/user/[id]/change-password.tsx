@@ -23,11 +23,11 @@ const SecurityUserChangePasswordPage: React.FC<{}> = () => (
 
 const UserChangePasswordForm: React.FC<{}> = () => {
   type TForm = {
-    oldPassword: string,
-    newPassword: string,
+    oldPassword: string
+    newPassword: string
     confirmPassword: string
   }
-  const constants = useConstants();
+  const constants = useConstants()
   const { handleSubmit, register, errors, watch, reset } = useForm<TForm>()
 
   const onUpdate = (data: TForm) => console.log("data", data)
@@ -39,27 +39,65 @@ const UserChangePasswordForm: React.FC<{}> = () => {
       <Form onSubmit={handleSubmit(onUpdate)}>
         <div className="columns is-multiline is-variable is-4">
           <div className="column is-6">
-            <FormInput label={constants.label.oldPassword} name="oldPassword" type="password" error={errors.oldPassword?.message} register={register({
-              required: constants.error.mandatoryField(constants.label.oldPassword)
-            })} />
+            <FormInput
+              label={constants.label.oldPassword}
+              name="oldPassword"
+              type="password"
+              error={errors.oldPassword?.message}
+              register={register({
+                required: constants.error.mandatoryField(
+                  constants.label.oldPassword
+                ),
+              })}
+            />
           </div>
           <div className="column is-6">
-            <FormInput label={constants.label.newPassword} name="newPassword" type="password" error={errors.newPassword?.message} register={register({
-              required: constants.error.mandatoryField(constants.label.newPassword)
-            })} />
+            <FormInput
+              label={constants.label.newPassword}
+              name="newPassword"
+              type="password"
+              error={errors.newPassword?.message}
+              register={register({
+                required: constants.error.mandatoryField(
+                  constants.label.newPassword
+                ),
+              })}
+            />
           </div>
           <div className="column is-6" />
           <div className="column is-6">
-            <FormInput label={constants.label.confirmPassword} name="confirmPassword" type="password" error={errors.confirmPassword?.message} register={register({
-              required: constants.error.mandatoryField(constants.label.confirmPassword),
-              validate: value => watch().newPassword === value || constants.error.passwordNotMatched
-            })} />
+            <FormInput
+              label={constants.label.confirmPassword}
+              name="confirmPassword"
+              type="password"
+              error={errors.confirmPassword?.message}
+              register={register({
+                required: constants.error.mandatoryField(
+                  constants.label.confirmPassword
+                ),
+                validate: (value) =>
+                  watch().newPassword === value ||
+                  constants.error.passwordNotMatched,
+              })}
+            />
           </div>
         </div>
         <br />
         <ButtonGroup align="is-right">
-          <Button label="Clear" onClick={onClear} type="button" color="is-light" isInverted isOutlined />
-          <Button label="Update" onClick={handleSubmit(onUpdate)} type="submit" color="is-success" />
+          <Button
+            label="Clear"
+            onClick={onClear}
+            type="button"
+            color="is-light"
+            isInverted
+            isOutlined
+          />
+          <Button
+            label="Update"
+            onClick={handleSubmit(onUpdate)}
+            type="submit"
+            color="is-success"
+          />
         </ButtonGroup>
       </Form>
     </Card>
