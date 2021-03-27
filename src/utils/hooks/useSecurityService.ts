@@ -258,6 +258,16 @@ const useSecurityService = () => {
     }
   }
 
+  const changePassword = async (id: string, oldPassword: string, newPassword: string): Promise<boolean> => {
+    try {
+      console.log(`[useSecurityService] id=${id}, oldPassword=${oldPassword}, newPassword=${newPassword}`)
+      return Promise.resolve(true)
+    } catch (e) {
+      console.error("[useSecurityService] changePassword failed!", e)
+      return Promise.reject(false)
+    }
+  }
+
   return {
     getUserList,
     createUser,
@@ -265,6 +275,7 @@ const useSecurityService = () => {
     updateUser,
     deleteUser,
     getPermissionList,
+    changePassword
   }
 }
 
