@@ -12,7 +12,10 @@ import DashboardLayout from "../../../../../src/layouts/DashboardLayout"
 import { useLoadingContext } from "../../../../../src/utils/contexts/LoadingContext"
 import { useNotificationContext } from "../../../../../src/utils/contexts/NotificationContext"
 import useConstants from "../../../../../src/utils/hooks/useConstants"
-import useSecurityService, { blankTUser, TUser } from "../../../../../src/utils/hooks/useSecurityService"
+import useSecurityService, {
+  blankTUser,
+  TUser,
+} from "../../../../../src/utils/hooks/useSecurityService"
 
 const SecurityUserChangePasswordPage: React.FC<{}> = () => (
   <AppLayout title="Security - Change Password" needAuth={true}>
@@ -44,21 +47,34 @@ const UserChangePasswordForm: React.FC<{}> = () => {
 
     notificationContext.clear()
     loadingContext.onLoading()
-    const responseBody = await securityService.changePassword(user, oldPassword, newPassword)
+    const responseBody = await securityService.changePassword(
+      user,
+      oldPassword,
+      newPassword
+    )
     loadingContext.offLoading()
 
     if (responseBody.status.isSuccess) {
-      notificationContext.setSaveMessage("Operation completed.", responseBody.status.message, "is-success", [])
+      notificationContext.setSaveMessage(
+        "Operation completed.",
+        responseBody.status.message,
+        "is-success",
+        []
+      )
       router.replace(`/dashboard/security/user/${id}/summary`)
     } else {
-      notificationContext.setErrorMessage("Operation failed!", responseBody.status.message, responseBody.data?.errorList ?? []);
+      notificationContext.setErrorMessage(
+        "Operation failed!",
+        responseBody.status.message,
+        responseBody.data?.errorList ?? []
+      )
     }
   }
 
   const onClear = () => reset()
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       const { id } = router.query
 
       loadingContext.onLoading()
@@ -94,9 +110,11 @@ const UserChangePasswordForm: React.FC<{}> = () => {
               error={errors.newPassword?.message}
               register={register({
                 required: constants.error.mandatoryField(
-                  constants.label.newPassword,
+                  constants.label.newPassword
                 ),
-                validate: (value) => watch().oldPassword !== value || constants.error.passwordCannotSimilar
+                validate: (value) =>
+                  watch().oldPassword !== value ||
+                  constants.error.passwordCannotSimilar,
               })}
             />
           </div>

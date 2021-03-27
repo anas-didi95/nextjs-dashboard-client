@@ -245,21 +245,31 @@ export default () => {
     }
   }
 
-  const changePassword = async (user: TUser, oldPassword: string, newPassword: string): Promise<{ status: { isSuccess: boolean, message: string }, data?: { errorList?: string[] } }> => {
+  const changePassword = async (
+    user: TUser,
+    oldPassword: string,
+    newPassword: string
+  ): Promise<{
+    status: { isSuccess: boolean; message: string }
+    data?: { errorList?: string[] }
+  }> => {
     try {
-      const response = await fetch(`${constants.env.apiSecurity}/api/user/${user.id}/changePassword`, {
-        method: "POST",
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${authContext.getAccessToken()}`
-        },
-        body: JSON.stringify({
-          version: user.version,
-          oldPassword: oldPassword,
-          newPassword: newPassword
-        })
-      })
+      const response = await fetch(
+        `${constants.env.apiSecurity}/api/user/${user.id}/changePassword`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${authContext.getAccessToken()}`,
+          },
+          body: JSON.stringify({
+            version: user.version,
+            oldPassword: oldPassword,
+            newPassword: newPassword,
+          }),
+        }
+      )
       const responseBody = await response.json()
 
       return responseBody
@@ -268,7 +278,7 @@ export default () => {
       return {
         status: {
           isSuccess: false,
-          message: constants.error.referConsoleLogDetails
+          message: constants.error.referConsoleLogDetails,
         },
       }
     }
@@ -281,7 +291,7 @@ export default () => {
     updateUser,
     deleteUser,
     getPermissionList,
-    changePassword
+    changePassword,
   }
 }
 

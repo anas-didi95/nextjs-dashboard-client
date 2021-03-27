@@ -98,7 +98,7 @@ const UserCreateForm: React.FC<{}> = () => {
   const onClear = () => reset()
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       const permissions = await securityService.getPermissionList()
       setPermissions(permissions)
     })()

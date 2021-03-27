@@ -67,7 +67,7 @@ const UserSummaryForm: React.FC<{}> = () => {
   }
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       loadingContext.onLoading()
       const user = await securityService.getUserById(id as string)
       loadingContext.offLoading()
@@ -139,8 +139,8 @@ const UserSummaryForm: React.FC<{}> = () => {
               <LabelValue label={constants.label.lastModifiedBy}>
                 {!!user.lastModifiedBy.username
                   ? user.lastModifiedBy.username +
-                  " - " +
-                  user.lastModifiedBy.fullName
+                    " - " +
+                    user.lastModifiedBy.fullName
                   : user.lastModifiedBy.id}
               </LabelValue>
             ) : (
