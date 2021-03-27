@@ -14,6 +14,7 @@ import { useLoadingContext } from "../../../../../src/utils/contexts/LoadingCont
 import { useNotificationContext } from "../../../../../src/utils/contexts/NotificationContext"
 import useConstants from "../../../../../src/utils/hooks/useConstants"
 import useSecurityService, {
+  blankTUser,
   TUser,
 } from "../../../../../src/utils/hooks/useSecurityService"
 
@@ -28,22 +29,7 @@ const SecurityUserSummaryPage: React.FC<{}> = () => (
 )
 
 const UserSummaryForm: React.FC<{}> = () => {
-  const [user, setUser] = useState<TUser>({
-    email: "",
-    fullName: "",
-    id: "",
-    password: "",
-    telegramId: "",
-    username: "",
-    lastModifiedDate: "",
-    version: -1,
-    permissions: [],
-    lastModifiedBy: {
-      id: "",
-      username: "",
-      fullName: "",
-    },
-  })
+  const [user, setUser] = useState<TUser>(blankTUser)
   const [isDelete, setDelete] = useState(false)
   const constants = useConstants()
   const securityService = useSecurityService()
@@ -81,7 +67,7 @@ const UserSummaryForm: React.FC<{}> = () => {
   }
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       loadingContext.onLoading()
       const user = await securityService.getUserById(id as string)
       loadingContext.offLoading()
@@ -153,8 +139,8 @@ const UserSummaryForm: React.FC<{}> = () => {
               <LabelValue label={constants.label.lastModifiedBy}>
                 {!!user.lastModifiedBy.username
                   ? user.lastModifiedBy.username +
-                    " - " +
-                    user.lastModifiedBy.fullName
+                  " - " +
+                  user.lastModifiedBy.fullName
                   : user.lastModifiedBy.id}
               </LabelValue>
             ) : (

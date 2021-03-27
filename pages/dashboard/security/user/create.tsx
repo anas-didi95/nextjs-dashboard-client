@@ -16,7 +16,7 @@ import { useLoadingContext } from "../../../../src/utils/contexts/LoadingContext
 import { useNotificationContext } from "../../../../src/utils/contexts/NotificationContext"
 import useConstants from "../../../../src/utils/hooks/useConstants"
 import useSecurityService, {
-  Permission,
+  TPermission,
   TUser,
 } from "../../../../src/utils/hooks/useSecurityService"
 
@@ -46,7 +46,7 @@ const UserCreateForm: React.FC<{}> = () => {
   const router = useRouter()
   const notificationContext = useNotificationContext()
   const loadingContext = useLoadingContext()
-  const [permissions, setPermissions] = useState<Permission[]>([])
+  const [permissions, setPermissions] = useState<TPermission[]>([])
 
   const onCreate = async (data: TUser) => {
     if (!!data.permissions) {
@@ -98,7 +98,7 @@ const UserCreateForm: React.FC<{}> = () => {
   const onClear = () => reset()
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const permissions = await securityService.getPermissionList()
       setPermissions(permissions)
     })()

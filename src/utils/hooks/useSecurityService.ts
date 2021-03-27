@@ -18,11 +18,11 @@ export type TUser = {
   }
 }
 
-export type Permission = {
+export type TPermission = {
   id: string
 }
 
-const useSecurityService = () => {
+export default () => {
   const constants = useConstants()
   const authContext = useAuthContext()
 
@@ -135,22 +135,7 @@ const useSecurityService = () => {
       return responseBody.data.getUserById
     } catch (e) {
       console.error("[useSecurityService] getUserById failed!", e)
-      return {
-        email: "",
-        fullName: "",
-        id: "",
-        password: "",
-        telegramId: "",
-        username: "",
-        lastModifiedDate: "",
-        version: -1,
-        permissions: [],
-        lastModifiedBy: {
-          id: "",
-          username: "",
-          fullName: "",
-        },
-      }
+      return blankTUser
     }
   }
 
@@ -232,7 +217,7 @@ const useSecurityService = () => {
     }
   }
 
-  const getPermissionList = async (): Promise<Permission[]> => {
+  const getPermissionList = async (): Promise<TPermission[]> => {
     try {
       const response = await fetch(`${constants.env.apiSecurity}/graphql`, {
         method: "POST",
@@ -316,5 +301,3 @@ export const blankTUser: TUser = {
     fullName: "",
   },
 }
-
-export default useSecurityService
