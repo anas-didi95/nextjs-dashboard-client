@@ -1,5 +1,5 @@
 import { useRouter } from "next/router"
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import Button from "../../../../../src/components/Button"
 import ButtonGroup from "../../../../../src/components/ButtonGroup"
@@ -12,7 +12,7 @@ import DashboardLayout from "../../../../../src/layouts/DashboardLayout"
 import { useLoadingContext } from "../../../../../src/utils/contexts/LoadingContext"
 import { useNotificationContext } from "../../../../../src/utils/contexts/NotificationContext"
 import useConstants from "../../../../../src/utils/hooks/useConstants"
-import useSecurityService from "../../../../../src/utils/hooks/useSecurityService"
+import useSecurityService, { blankTUser, TUser } from "../../../../../src/utils/hooks/useSecurityService"
 
 const SecurityUserChangePasswordPage: React.FC<{}> = () => (
   <AppLayout title="Security - Change Password" needAuth={true}>
@@ -36,6 +36,7 @@ const UserChangePasswordForm: React.FC<{}> = () => {
   const router = useRouter()
   const notificationContext = useNotificationContext()
   const loadingContext = useLoadingContext()
+  const [user, setUser] = useState<TUser>(blankTUser)
 
   const onUpdate = async (data: TForm) => {
     const { id } = router.query
@@ -43,18 +44,30 @@ const UserChangePasswordForm: React.FC<{}> = () => {
 
     notificationContext.clear()
     loadingContext.onLoading()
-    const responseBody = await securityService.changePassword(id as string, oldPassword, newPassword)
+    const responseBody = await securityService.changePassword(user, oldPassword, newPassword)
     loadingContext.offLoading()
 
-    if (responseBody) {
-      notificationContext.setSaveMessage("Operation completed.", "true", "is-success", [])
+    if (responseBody.status.isSuccess) {
+      notificationContext.setSaveMessage("Operation completed.", responseBody.status.message, "is-success", [])
       router.replace(`/dashboard/security/user/${id}/summary`)
     } else {
-      notificationContext.setErrorMessage("Operation failed!", "false", []);
+      notificationContext.setErrorMessage("Operation failed!", responseBody.status.message, responseBody.data?.errorList ?? []);
     }
   }
 
   const onClear = () => reset()
+
+  useEffect(() => {
+    ; (async () => {
+      const { id } = router.query
+
+      loadingContext.onLoading()
+      const user = await securityService.getUserById(id as string)
+      loadingContext.offLoading()
+
+      setUser(user)
+    })()
+  }, [])
 
   return (
     <Card title={constants.header.changePassword}>

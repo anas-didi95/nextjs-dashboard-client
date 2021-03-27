@@ -17,9 +17,11 @@ export type TUser = {
     fullName: string
   }
 }
+
 export type Permission = {
   id: string
 }
+
 const useSecurityService = () => {
   const constants = useConstants()
   const authContext = useAuthContext()
@@ -258,13 +260,33 @@ const useSecurityService = () => {
     }
   }
 
-  const changePassword = async (id: string, oldPassword: string, newPassword: string): Promise<boolean> => {
+  const changePassword = async (user: TUser, oldPassword: string, newPassword: string): Promise<{ status: { isSuccess: boolean, message: string }, data?: { errorList?: string[] } }> => {
     try {
-      console.log(`[useSecurityService] id=${id}, oldPassword=${oldPassword}, newPassword=${newPassword}`)
-      return Promise.resolve(true)
+      const response = await fetch(`${constants.env.apiSecurity}/api/user/${user.id}/changePassword`, {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${authContext.getAccessToken()}`
+        },
+        body: JSON.stringify({
+          version: user.version,
+          oldPassword: oldPassword,
+          newPassword: newPassword
+        })
+      })
+      const responseBody = await response.json()
+
+      console.log("responseBody", responseBody)
+      return responseBody
     } catch (e) {
       console.error("[useSecurityService] changePassword failed!", e)
-      return Promise.reject(false)
+      return {
+        status: {
+          isSuccess: false,
+          message: constants.error.referConsoleLogDetails
+        },
+      }
     }
   }
 
@@ -277,6 +299,23 @@ const useSecurityService = () => {
     getPermissionList,
     changePassword
   }
+}
+
+export const blankTUser: TUser = {
+  email: "",
+  fullName: "",
+  id: "",
+  lastModifiedDate: "",
+  password: "",
+  telegramId: "",
+  username: "",
+  version: -1,
+  permissions: [],
+  lastModifiedBy: {
+    id: "",
+    username: "",
+    fullName: "",
+  },
 }
 
 export default useSecurityService
