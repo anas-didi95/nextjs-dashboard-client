@@ -16,7 +16,8 @@ import { useLoadingContext } from "../../../../../src/utils/contexts/LoadingCont
 import { useNotificationContext } from "../../../../../src/utils/contexts/NotificationContext"
 import useConstants from "../../../../../src/utils/hooks/useConstants"
 import useSecurityService, {
-  Permission,
+  blankTUser,
+  TPermission,
   TUser,
 } from "../../../../../src/utils/hooks/useSecurityService"
 
@@ -37,22 +38,7 @@ const UserEditForm: React.FC<{}> = () => {
     telegramId: string
     permissions: string[]
   }
-  const [user, setUser] = useState<TUser>({
-    email: "",
-    fullName: "",
-    id: "",
-    lastModifiedDate: "",
-    password: "",
-    telegramId: "",
-    username: "",
-    version: -1,
-    permissions: [],
-    lastModifiedBy: {
-      id: "",
-      username: "",
-      fullName: "",
-    },
-  })
+  const [user, setUser] = useState<TUser>(blankTUser)
   const { register, handleSubmit, errors, setValue, reset } = useForm<TForm>()
   const securityService = useSecurityService()
   const constants = useConstants()
@@ -60,7 +46,7 @@ const UserEditForm: React.FC<{}> = () => {
   const { id } = router.query
   const notificationContext = useNotificationContext()
   const loadingContext = useLoadingContext()
-  const [permissions, setPermissions] = useState<Permission[]>()
+  const [permissions, setPermissions] = useState<TPermission[]>()
 
   const onUpdate = async (data: TForm) => {
     if (!!data.permissions) {

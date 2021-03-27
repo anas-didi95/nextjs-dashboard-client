@@ -69,6 +69,7 @@ const useConstants = () => {
     mandatoryField: (field: string) => `${field} is a mandatory field!`,
     passwordNotMatched: "Password not matched!",
     referConsoleLogDetails: "Kindly refer console log for details.",
+    passwordCannotSimilar: "New Password cannot similar to Old Password!",
   }
 
   return { metadata, env, label, button, header, error }

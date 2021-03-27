@@ -14,6 +14,7 @@ import { useLoadingContext } from "../../../../../src/utils/contexts/LoadingCont
 import { useNotificationContext } from "../../../../../src/utils/contexts/NotificationContext"
 import useConstants from "../../../../../src/utils/hooks/useConstants"
 import useSecurityService, {
+  blankTUser,
   TUser,
 } from "../../../../../src/utils/hooks/useSecurityService"
 
@@ -28,22 +29,7 @@ const SecurityUserSummaryPage: React.FC<{}> = () => (
 )
 
 const UserSummaryForm: React.FC<{}> = () => {
-  const [user, setUser] = useState<TUser>({
-    email: "",
-    fullName: "",
-    id: "",
-    password: "",
-    telegramId: "",
-    username: "",
-    lastModifiedDate: "",
-    version: -1,
-    permissions: [],
-    lastModifiedBy: {
-      id: "",
-      username: "",
-      fullName: "",
-    },
-  })
+  const [user, setUser] = useState<TUser>(blankTUser)
   const [isDelete, setDelete] = useState(false)
   const constants = useConstants()
   const securityService = useSecurityService()

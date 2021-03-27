@@ -17,10 +17,12 @@ export type TUser = {
     fullName: string
   }
 }
-export type Permission = {
+
+export type TPermission = {
   id: string
 }
-const useSecurityService = () => {
+
+export default () => {
   const constants = useConstants()
   const authContext = useAuthContext()
 
@@ -133,22 +135,7 @@ const useSecurityService = () => {
       return responseBody.data.getUserById
     } catch (e) {
       console.error("[useSecurityService] getUserById failed!", e)
-      return {
-        email: "",
-        fullName: "",
-        id: "",
-        password: "",
-        telegramId: "",
-        username: "",
-        lastModifiedDate: "",
-        version: -1,
-        permissions: [],
-        lastModifiedBy: {
-          id: "",
-          username: "",
-          fullName: "",
-        },
-      }
+      return blankTUser
     }
   }
 
@@ -230,7 +217,7 @@ const useSecurityService = () => {
     }
   }
 
-  const getPermissionList = async (): Promise<Permission[]> => {
+  const getPermissionList = async (): Promise<TPermission[]> => {
     try {
       const response = await fetch(`${constants.env.apiSecurity}/graphql`, {
         method: "POST",
@@ -258,6 +245,45 @@ const useSecurityService = () => {
     }
   }
 
+  const changePassword = async (
+    user: TUser,
+    oldPassword: string,
+    newPassword: string
+  ): Promise<{
+    status: { isSuccess: boolean; message: string }
+    data?: { errorList?: string[] }
+  }> => {
+    try {
+      const response = await fetch(
+        `${constants.env.apiSecurity}/api/user/${user.id}/changePassword`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${authContext.getAccessToken()}`,
+          },
+          body: JSON.stringify({
+            version: user.version,
+            oldPassword: oldPassword,
+            newPassword: newPassword,
+          }),
+        }
+      )
+      const responseBody = await response.json()
+
+      return responseBody
+    } catch (e) {
+      console.error("[useSecurityService] changePassword failed!", e)
+      return {
+        status: {
+          isSuccess: false,
+          message: constants.error.referConsoleLogDetails,
+        },
+      }
+    }
+  }
+
   return {
     getUserList,
     createUser,
@@ -265,7 +291,23 @@ const useSecurityService = () => {
     updateUser,
     deleteUser,
     getPermissionList,
+    changePassword,
   }
 }
 
-export default useSecurityService
+export const blankTUser: TUser = {
+  email: "",
+  fullName: "",
+  id: "",
+  lastModifiedDate: "",
+  password: "",
+  telegramId: "",
+  username: "",
+  version: -1,
+  permissions: [],
+  lastModifiedBy: {
+    id: "",
+    username: "",
+    fullName: "",
+  },
+}
