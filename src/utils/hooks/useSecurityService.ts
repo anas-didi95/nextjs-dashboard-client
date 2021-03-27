@@ -277,7 +277,6 @@ const useSecurityService = () => {
       })
       const responseBody = await response.json()
 
-      console.log("responseBody", responseBody)
       return responseBody
     } catch (e) {
       console.error("[useSecurityService] changePassword failed!", e)

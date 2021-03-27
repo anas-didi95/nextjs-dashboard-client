@@ -94,8 +94,9 @@ const UserChangePasswordForm: React.FC<{}> = () => {
               error={errors.newPassword?.message}
               register={register({
                 required: constants.error.mandatoryField(
-                  constants.label.newPassword
+                  constants.label.newPassword,
                 ),
+                validate: (value) => watch().oldPassword !== value || "New Password cannot similar to Old Password!"
               })}
             />
           </div>
