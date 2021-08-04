@@ -9,7 +9,5 @@ services:
         # Update 'VARIANT' to pick a Node version: 10, 12, 14
         VARIANT: 14
     command: sleep infinity
-    env_file:
-      - .env.local
     volumes:
       - ./:/workspace
