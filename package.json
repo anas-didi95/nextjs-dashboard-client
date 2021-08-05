@@ -6,10 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "format": "prettier --write '{pages,styles,src}/**/*.{js,jsx,ts,tsx,css}'",
+    "format": "prettier --write '{pages,styles,src,cypress}/**/*.{js,jsx,ts,tsx,css}'",
     "type-check": "tsc --noEmit",
     "lint": "next lint",
-    "cypress": "cypress"
+    "cypress": "cypress",
+    "test": "yarn format && yarn type-check && yarn lint && yarn cypress run"
   },
   "dependencies": {
     "next": "11.0.1",

@@ -2,6 +2,8 @@
 
 *.bak
 .cypress/
+cypress/screenshots/
+cypress/videos/
 
 # dependencies
 /node_modules

@@ -12,8 +12,11 @@ const Home = () => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
+        <h1 className={styles.title} data-testid="header">
+          Welcome to{" "}
+          <a href="https://nextjs.org" data-test="header-link">
+            Next.js!
+          </a>
         </h1>
 
         <p className={styles.description}>
