@@ -16,6 +16,7 @@ The application is deployed at https://dashboard.anasdidi.dev/.
 * [Learn More](#learn-more)
 * [Deploy on Vercel](#deploy-on-vercel)
 * [Credits](#credits)
+* [References](#references)
 * [Contact](#contact)
 
 ---
@@ -89,6 +90,12 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 * Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
 
 ---
+
+## References
+
+* [Execute `cypress open` from Docker container open browser](https://github.com/cypress-io/cypress/issues/4462)
+
+--
 
 ## Contact
 
