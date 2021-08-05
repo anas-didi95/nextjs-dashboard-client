@@ -1,0 +1,9 @@
+@charset "utf-8";
+
+@import "~bulmaswatch/united/_variables.scss";
+$body-size: 16px;
+$body-background-color: hsl(0, 0%, 90%);
+
+@import "~bulma/bulma.sass";
+@import "~bulmaswatch/united/_overrides.scss";
+@import "~animate.css/animate.min.css";
