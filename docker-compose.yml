@@ -9,7 +9,9 @@ services:
         # Update 'VARIANT' to pick a Node version: 10, 12, 14
         VARIANT: 14
     command: sleep infinity
-    env_file:
-      - .env.local
+    environment:
+      DISPLAY: unix${DISPLAY}
     volumes:
       - ./:/workspace
+      - .cypress/:/home/node/.cache/Cypress
+      - /tmp/.X11-unix:/tmp/.X11-unix
