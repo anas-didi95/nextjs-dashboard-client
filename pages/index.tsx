@@ -1,4 +1,5 @@
 import React from "react"
+import FormInput from "../src/components/FormInput"
 
 const HomePage: React.FC<{}> = () => {
   return (
@@ -14,36 +15,16 @@ const HomePage: React.FC<{}> = () => {
                   Login Form
                 </p>
                 <form>
-                  <div className="field">
-                    <label
-                      className="label"
-                      data-testid="login-form-label-username">
-                      Username
-                    </label>
-                    <div className="control">
-                      <input
-                        className="input"
-                        type="text"
-                        placeholder="Text input"
-                      />
-                    </div>
-                    <p className="help">This is a help text</p>
-                  </div>
-                  <div className="field">
-                    <label
-                      className="label"
-                      data-testid="login-form-label-password">
-                      Password
-                    </label>
-                    <div className="control">
-                      <input
-                        className="input"
-                        type="text"
-                        placeholder="Text input"
-                      />
-                    </div>
-                    <p className="help">This is a help text</p>
-                  </div>
+                  <FormInput
+                    label="Username"
+                    type="text"
+                    testidLabel="login-form-label-username"
+                  />
+                  <FormInput
+                    label="Password"
+                    type="password"
+                    testidLabel="login-form-label-password"
+                  />
                   <button
                     className="button"
                     data-testid="login-form-button-login">
