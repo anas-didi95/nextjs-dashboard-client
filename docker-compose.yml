@@ -13,5 +13,5 @@ services:
       DISPLAY: unix${DISPLAY}
     volumes:
       - ./:/workspace
-      - .cypress/:/home/node/.cache/Cypress
+      - .cache/:/home/node/.cache
       - /tmp/.X11-unix:/tmp/.X11-unix
