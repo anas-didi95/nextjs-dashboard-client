@@ -3,6 +3,13 @@ describe("Home page", () => {
     cy.visit("/")
   })
 
+  it("has a navbar", () => {
+    cy.get("[data-testid=navbar-image")
+      .should("have.attr", "src")
+      .should("include", "dashboard")
+    cy.get("[data-testid=navbar-title").should("have.text", "Dashboard")
+  })
+
   it("has a login form", () => {
     cy.get("[data-testid=login-form-header]").should("have.text", "Login Form")
     cy.get("[data-testid=login-form-label-username").should(
