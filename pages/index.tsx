@@ -1,31 +1,11 @@
 import React from "react"
-import Image from "next/image"
 import FormInput from "../src/components/FormInput"
+import Navbar from "../src/components/Navbar"
 
 const HomePage: React.FC<{}> = () => {
   return (
     <>
-      <nav
-        className="navbar is-info is-spaced"
-        role="navigation"
-        aria-label="main navigation">
-        <div className="navbar-brand">
-          <div className="navbar-item">
-            <Image
-              src="/images/dashboard.png"
-              alt="Dashboard logo"
-              width={64}
-              height={64}
-              data-testid="navbar-image"
-            />
-            <p
-              className="title has-text-white is-3 ml-2"
-              data-testid="navbar-title">
-              Dashboard
-            </p>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
       <section className="hero is-info is-fullheight-with-navbar">
         <div className="hero-body">
           <div className="container">
