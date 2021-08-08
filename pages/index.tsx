@@ -1,11 +1,10 @@
 import React from "react"
 import FormInput from "../src/components/FormInput"
-import Navbar from "../src/components/Navbar"
+import AppLayout from "../src/layouts/AppLayout"
 
-const HomePage: React.FC<{}> = () => {
+const LoginPage: React.FC<{}> = () => {
   return (
-    <>
-      <Navbar />
+    <AppLayout title="Login">
       <section className="hero is-info is-fullheight-with-navbar">
         <div className="hero-body">
           <div className="container">
@@ -40,8 +39,8 @@ const HomePage: React.FC<{}> = () => {
           </div>
         </div>
       </section>
-    </>
+    </AppLayout>
   )
 }
 
-export default HomePage
+export default LoginPage

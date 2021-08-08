@@ -1,6 +1,10 @@
-describe("Home page", () => {
+describe("Login page", () => {
   beforeEach(() => {
     cy.visit("/")
+  })
+
+  it("has title", () => {
+    cy.title().should("eq", "Login | Dashboard")
   })
 
   it("has a navbar", () => {
