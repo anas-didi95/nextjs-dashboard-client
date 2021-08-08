@@ -1,10 +1,13 @@
 import React from "react"
 import FormInput from "../src/components/FormInput"
 import AppLayout from "../src/layouts/AppLayout"
+import useConstants from "../src/utils/hooks/useConstants"
 
-const LoginPage: React.FC<{}> = () => {
+const SignInPage: React.FC<{}> = () => {
+  const constants = useConstants()
+
   return (
-    <AppLayout title="Login">
+    <AppLayout title="Sign In">
       <section className="hero is-info is-fullheight-with-navbar">
         <div className="hero-body">
           <div className="container">
@@ -13,24 +16,24 @@ const LoginPage: React.FC<{}> = () => {
                 <div className="box">
                   <p
                     className="is-size-4 has-text-weight-bold mb-4"
-                    data-testid="login-form-header">
-                    Login Form
+                    data-testid="signin-form-header">
+                    {constants.header.signInForm}
                   </p>
                   <form>
                     <FormInput
-                      label="Username"
+                      label={constants.label.username}
                       type="text"
-                      testidLabel="login-form-label-username"
+                      testidLabel="signin-form-label-username"
                     />
                     <FormInput
-                      label="Password"
+                      label={constants.label.password}
                       type="password"
-                      testidLabel="login-form-label-password"
+                      testidLabel="signin-form-label-password"
                     />
                     <button
                       className="button"
-                      data-testid="login-form-button-login">
-                      Login
+                      data-testid="signin-form-button-signin">
+                      {constants.button.signIn}
                     </button>
                   </form>
                 </div>
@@ -43,4 +46,4 @@ const LoginPage: React.FC<{}> = () => {
   )
 }
 
-export default LoginPage
+export default SignInPage
