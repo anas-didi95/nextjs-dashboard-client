@@ -1,19 +1,40 @@
 import React from "react"
 
 interface IFormInput {
+  register: any
   label: string
   type: "text" | "password"
+  error?: string
   testidLabel?: string
+  testidInput?: string
+  testidError?: string
 }
-const FormInput: React.FC<IFormInput> = ({ label, type, testidLabel }) => (
+const FormInput: React.FC<IFormInput> = ({
+  register,
+  label,
+  type,
+  error,
+  testidLabel,
+  testidInput,
+  testidError,
+}) => (
   <div className="field">
     <label className="label" data-testid={testidLabel}>
       {label}
     </label>
     <div className="control">
-      <input className="input" type={type} />
+      <input
+        {...register}
+        className={`input ${!!error ? "is-danger" : ""}`}
+        type={type}
+        data-testid={testidInput}
+      />
     </div>
-    <p className="help">This is a help text</p>
+    {!!error && (
+      <p className="help is-danger" data-testid={testidError}>
+        {error}
+      </p>
+    )}
   </div>
 )
 
