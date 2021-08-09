@@ -25,7 +25,7 @@ const FormInput: React.FC<IFormInput> = ({
     <div className="control">
       <input
         {...register}
-        className={`input ${!!error ? "is-danger" : ""}`}
+        className={`input is-hovered ${!!error ? "is-danger" : ""}`}
         type={type}
         data-testid={testidInput}
       />

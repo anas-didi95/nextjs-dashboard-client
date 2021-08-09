@@ -1,5 +1,7 @@
 import React from "react"
 import { useForm } from "react-hook-form"
+import Button from "../src/components/Button"
+import ButtonGroup from "../src/components/ButtonGroup"
 import FormInput from "../src/components/FormInput"
 import AppLayout from "../src/layouts/AppLayout"
 import useConstants from "../src/utils/hooks/useConstants"
@@ -66,12 +68,15 @@ const LoginForm: React.FC<{}> = () => {
           testidInput="signin-form-input-password"
           testidError="signin-form-error-password"
         />
-        <button
-          type="submit"
-          className="button"
-          data-testid="signin-form-button-signin">
-          {constants.button.signIn}
-        </button>
+        <br />
+        <ButtonGroup align="is-right">
+          <Button
+            label={constants.button.signIn}
+            type="submit"
+            color="is-primary"
+            testId="signin-form-button-signin"
+          />
+        </ButtonGroup>
       </form>
     </div>
   )
