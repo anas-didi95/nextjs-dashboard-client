@@ -11,6 +11,8 @@ services:
     command: sleep infinity
     environment:
       DISPLAY: unix${DISPLAY}
+    env_file:
+      - .env.local
     volumes:
       - ./:/workspace
       - .cache/:/home/node/.cache

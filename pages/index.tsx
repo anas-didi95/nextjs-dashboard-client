@@ -1,3 +1,4 @@
+import { useRouter } from "next/dist/client/router"
 import React from "react"
 import { useForm } from "react-hook-form"
 import Button from "../src/components/Button"
@@ -28,14 +29,33 @@ const SignInPage: React.FC<{}> = () => {
 
 const LoginForm: React.FC<{}> = () => {
   const constants = useConstants()
+  const router = useRouter()
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<TLoginForm>()
 
-  const onSubmit = (data: TLoginForm) => {
-    console.log(data)
+  const onSubmit = async (data: TLoginForm) => {
+    const response = await fetch(
+      "https://api.anasdidi.dev/security/auth/login",
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: data.username,
+          password: data.password,
+        }),
+      }
+    )
+    if (response.ok) {
+      router.push("/dashboard")
+    } else {
+      alert("ERROR")
+    }
   }
 
   return (
