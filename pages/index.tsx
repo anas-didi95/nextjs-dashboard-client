@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form"
 import Button from "../src/components/Button"
 import ButtonGroup from "../src/components/ButtonGroup"
 import FormInput from "../src/components/FormInput"
+import Notification from "../src/components/Notification"
 import AppLayout from "../src/layouts/AppLayout"
 import useConstants from "../src/utils/hooks/useConstants"
 
@@ -65,6 +66,7 @@ const LoginForm: React.FC<{}> = () => {
         data-testid="signin-form-header">
         {constants.header.signInForm}
       </p>
+      <Notification />
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormInput
           register={register("username", {

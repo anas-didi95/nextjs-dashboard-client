@@ -9,6 +9,9 @@ const testId = {
   signInFormInputPassword: "[data-testid=signin-form-input-password]",
   signInFormErrorPassword: "[data-testid=signin-form-error-password]",
   signInFormButtonSignIn: "[data-testid=signin-form-button-signin]",
+  notification: "[data-testid=notification]",
+  notificationTitle: "[data-testid=notification-title]",
+  notificationMessage: "[data-testid=notification-message]",
 }
 
 describe("Sign In page", () => {
@@ -53,6 +56,16 @@ describe("Sign In page", () => {
     cy.get(testId.signInFormInputPassword).type(Cypress.env("LOGIN_PASSWORD"))
     cy.get(testId.signInFormButtonSignIn).click()
     cy.url().should("include", "/dashboard")
+  })
+
+  it("can notify login failed", () => {
+    const rnd = `index${new Date().getMilliseconds().toString()}`
+    cy.get(testId.signInFormInputUsername).type(rnd)
+    cy.get(testId.signInFormInputPassword).type(rnd)
+    cy.get(testId.signInFormButtonSignIn).click()
+    cy.get(testId.notification)
+      .should("have.attr", "class")
+      .should("include", "is-danger")
   })
 
   it("screenshot", () => {
