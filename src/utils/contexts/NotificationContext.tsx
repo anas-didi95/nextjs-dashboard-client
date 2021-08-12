@@ -15,7 +15,7 @@ const initialState: TState = {
 
 const NotificationContext = createContext<TContext>({
   state: initialState,
-  setMessage: (state: TState) => {},
+  setError: (title: string, message: string, errors: string[]) => {},
   hasMessage: () => false,
 })
 
@@ -26,20 +26,21 @@ const NotificationProvider: React.FC<{ children: ReactNode }> = ({
     (state: TState, action: TAction) => {
       const { type } = action
       switch (type) {
-        case "SET_MESSAGE":
-          return { ...action }
+        case "SET_ERROR":
+          const { title, message, errors } = action
+          return { title, message, errors, messageType: "is-danger" }
       }
     },
     initialState
   )
 
-  const setMessage = (state: TState) =>
-    dispatch({ ...state, type: "SET_MESSAGE" })
+  const setError = (title: string, message: string, errors: string[]) =>
+    dispatch({ type: "SET_ERROR", errors, message, title })
   const hasMessage = () =>
     !!state.title && !!state.message && !!state.messageType
 
   return (
-    <NotificationContext.Provider value={{ state, setMessage, hasMessage }}>
+    <NotificationContext.Provider value={{ state, setError, hasMessage }}>
       {children}
     </NotificationContext.Provider>
   )
@@ -51,7 +52,7 @@ export { NotificationProvider, useNotificationContext }
 
 type TContext = {
   state: TState
-  setMessage: (state: TState) => void
+  setError: (title: string, message: string, errors: string[]) => void
   hasMessage: () => boolean
 }
 type TType = "is-danger" | ""
@@ -62,9 +63,8 @@ type TState = {
   errors: string[]
 }
 type TAction = {
-  type: "SET_MESSAGE"
+  type: "SET_ERROR"
   title: string
   message: string
-  messageType: TType
   errors: string[]
 }

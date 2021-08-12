@@ -6,6 +6,7 @@ import ButtonGroup from "../src/components/ButtonGroup"
 import FormInput from "../src/components/FormInput"
 import Notification from "../src/components/Notification"
 import AppLayout from "../src/layouts/AppLayout"
+import { useNotificationContext } from "../src/utils/contexts/NotificationContext"
 import useConstants from "../src/utils/hooks/useConstants"
 
 const SignInPage: React.FC<{}> = () => {
@@ -31,6 +32,7 @@ const SignInPage: React.FC<{}> = () => {
 const LoginForm: React.FC<{}> = () => {
   const constants = useConstants()
   const router = useRouter()
+  const notificationContext = useNotificationContext()
   const {
     register,
     handleSubmit,
@@ -55,7 +57,8 @@ const LoginForm: React.FC<{}> = () => {
     if (response.ok) {
       router.push("/dashboard")
     } else {
-      alert("ERROR")
+      const responseBody: { code: string, message: string, traceId: string, errors: string[] } = await response.json()
+      notificationContext.setError("Login Failed!", responseBody.message, responseBody.errors)
     }
   }
 
