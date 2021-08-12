@@ -55,7 +55,7 @@ describe("Sign In page", () => {
     cy.get(testId.signInFormInputUsername).type(Cypress.env("LOGIN_USERNAME"))
     cy.get(testId.signInFormInputPassword).type(Cypress.env("LOGIN_PASSWORD"))
     cy.get(testId.signInFormButtonSignIn).click()
-    cy.url().should("include", "/dashboard")
+    cy.url({ timeout: 10000 }).should("include", "/dashboard")
   })
 
   it("can notify login failed", () => {

@@ -8,6 +8,9 @@ import Notification from "../src/components/Notification"
 import AppLayout from "../src/layouts/AppLayout"
 import { useNotificationContext } from "../src/utils/contexts/NotificationContext"
 import useConstants from "../src/utils/hooks/useConstants"
+import useSecurityService, {
+  TResponseError,
+} from "../src/utils/hooks/useSecurityService"
 
 const SignInPage: React.FC<{}> = () => {
   const constants = useConstants()
@@ -33,32 +36,21 @@ const LoginForm: React.FC<{}> = () => {
   const constants = useConstants()
   const router = useRouter()
   const notificationContext = useNotificationContext()
+  const { signIn } = useSecurityService()
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<TLoginForm>()
 
-  const onSubmit = async (data: TLoginForm) => {
-    const response = await fetch(
-      "https://api.anasdidi.dev/security/auth/login",
-      {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: data.username,
-          password: data.password,
-        }),
-      }
-    )
-    if (response.ok) {
-      router.push("/dashboard")
+  const onSignIn = async (data: TLoginForm) => {
+    notificationContext.clear()
+    const responseBody = await signIn(data.username, data.password)
+    if (!responseBody.accessToken) {
+      const { errors, message } = responseBody as any as TResponseError
+      notificationContext.setError("Sign In Failed!", message, errors)
     } else {
-      const responseBody: { code: string, message: string, traceId: string, errors: string[] } = await response.json()
-      notificationContext.setError("Login Failed!", responseBody.message, responseBody.errors)
+      router.push("/dashboard")
     }
   }
 
@@ -70,7 +62,7 @@ const LoginForm: React.FC<{}> = () => {
         {constants.header.signInForm}
       </p>
       <Notification />
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSignIn)}>
         <FormInput
           register={register("username", {
             required: constants.error.mandatoryField(constants.label.username),
