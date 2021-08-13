@@ -6,52 +6,56 @@ import ButtonGroup from "../src/components/ButtonGroup"
 import FormInput from "../src/components/FormInput"
 import Notification from "../src/components/Notification"
 import AppLayout from "../src/layouts/AppLayout"
+import { useLoadingContext } from "../src/utils/contexts/LoadingContext"
 import { useNotificationContext } from "../src/utils/contexts/NotificationContext"
 import useConstants from "../src/utils/hooks/useConstants"
 import useSecurityService, {
   TResponseError,
 } from "../src/utils/hooks/useSecurityService"
 
-const SignInPage: React.FC<{}> = () => {
-  const constants = useConstants()
-
-  return (
-    <AppLayout title="Sign In">
-      <section className="hero is-info is-fullheight-with-navbar">
-        <div className="hero-body">
-          <div className="container">
-            <div className="columns is-centered">
-              <div className="column is-half">
-                <LoginForm />
-              </div>
+const SignInPage: React.FC<{}> = () => (
+  <AppLayout title="Sign In">
+    <section className="hero is-info is-fullheight-with-navbar">
+      <div className="hero-body">
+        <div className="container">
+          <div className="columns is-centered">
+            <div className="column is-half">
+              <LoginForm />
             </div>
           </div>
         </div>
-      </section>
-    </AppLayout>
-  )
-}
+      </div>
+    </section>
+  </AppLayout>
+)
 
 const LoginForm: React.FC<{}> = () => {
   const constants = useConstants()
   const router = useRouter()
   const notificationContext = useNotificationContext()
-  const { signIn } = useSecurityService()
+  const securityService = useSecurityService()
+  const loadingContext = useLoadingContext()
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<TLoginForm>()
 
-  const onSignIn = async (data: TLoginForm) => {
-    notificationContext.clear()
-    const responseBody = await signIn(data.username, data.password)
-    if (!responseBody.accessToken) {
-      const { errors, message } = responseBody as any as TResponseError
-      notificationContext.setError("Sign In Failed!", message, errors)
-    } else {
-      router.push("/dashboard")
-    }
+  const onSignIn = (data: TLoginForm) => {
+    loadingContext.run(async () => {
+      notificationContext.clear()
+      const responseBody = await securityService.signIn(
+        data.username,
+        data.password
+      )
+
+      if ("accessToken" in responseBody) {
+        router.push("/dashboard")
+      } else {
+        const { errors, message } = responseBody as TResponseError
+        notificationContext.setError("Sign In Failed!", message, errors)
+      }
+    })
   }
 
   return (

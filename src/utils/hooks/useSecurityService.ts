@@ -2,7 +2,9 @@ const useSecurityService = () => {
   const signIn = async (
     username: string,
     password: string
-  ): Promise<{ accessToken: string; refreshToken: string }> => {
+  ): Promise<
+    { accessToken: string; refreshToken: string } | TResponseError
+  > => {
     try {
       const response = await fetch(
         "https://api.anasdidi.dev/security/auth/login",
