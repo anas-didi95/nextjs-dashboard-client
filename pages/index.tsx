@@ -38,6 +38,7 @@ const LoginForm: React.FC<{}> = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<TLoginForm>()
 
@@ -57,6 +58,7 @@ const LoginForm: React.FC<{}> = () => {
       }
     })
   }
+  const onClear = () => reset({ username: "", password: "" })
 
   return (
     <div className="box">
@@ -92,8 +94,15 @@ const LoginForm: React.FC<{}> = () => {
         <br />
         <ButtonGroup align="is-right">
           <Button
+            label={constants.button.clear}
+            type="button"
+            onClick={onClear}
+            testId="signin-form-button-clear"
+          />
+          <Button
             label={constants.button.signIn}
             type="submit"
+            onClick={handleSubmit(onSignIn)}
             color="is-primary"
             testId="signin-form-button-signin"
           />

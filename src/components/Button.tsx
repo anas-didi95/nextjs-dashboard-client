@@ -4,15 +4,17 @@ import { useLoadingContext } from "../utils/contexts/LoadingContext"
 interface IButton {
   label: string
   type: "button" | "submit"
+  onClick: React.MouseEventHandler<HTMLButtonElement>
   color?: "is-primary"
   testId?: string
 }
-const Button: React.FC<IButton> = ({ label, type, color, testId }) => {
+const Button: React.FC<IButton> = ({ label, type, onClick, color, testId }) => {
   const loadingContext = useLoadingContext()
 
   return (
     <button
       type={type}
+      onClick={onClick}
       className={`button ${!!color ? color : ""} ${
         loadingContext.isLoading() ? "is-loading" : ""
       }`}

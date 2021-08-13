@@ -9,6 +9,7 @@ const testId = {
   signInFormInputPassword: "[data-testid=signin-form-input-password]",
   signInFormErrorPassword: "[data-testid=signin-form-error-password]",
   signInFormButtonSignIn: "[data-testid=signin-form-button-signin]",
+  signInFormButtonClear: "[data-testid=signin-form-button-clear]",
   notification: "[data-testid=notification]",
   notificationTitle: "[data-testid=notification-title]",
   notificationMessage: "[data-testid=notification-message]",
@@ -49,6 +50,14 @@ describe("Sign In page", () => {
       "have.text",
       "Password is a mandatory field!"
     )
+  })
+
+  it("can clear form", () => {
+    cy.get(testId.signInFormInputUsername).type(Cypress.env("LOGIN_USERNAME"))
+    cy.get(testId.signInFormInputPassword).type(Cypress.env("LOGIN_PASSWORD"))
+    cy.get(testId.signInFormButtonClear).click()
+    cy.get(testId.signInFormInputUsername).should("have.value", "")
+    cy.get(testId.signInFormInputPassword).should("have.value", "")
   })
 
   it("can login", () => {
