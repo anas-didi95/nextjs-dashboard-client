@@ -53,12 +53,15 @@ const LoginForm: React.FC<{}> = () => {
       if ("accessToken" in responseBody) {
         router.push("/dashboard")
       } else {
-        const { errors, message } = responseBody as TResponseError
-        notificationContext.setError("Sign In Failed!", message, errors)
+        const { code, errors, message, traceId } = responseBody as TResponseError
+        notificationContext.setError(message, errors[0], code, traceId, [])
       }
     })
   }
-  const onClear = () => reset({ username: "", password: "" })
+  const onClear = () => {
+    reset({ username: "", password: "" })
+    notificationContext.clear()
+  }
 
   return (
     <div className="box">

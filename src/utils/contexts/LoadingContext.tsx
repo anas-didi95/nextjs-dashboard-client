@@ -2,16 +2,16 @@ import React, { createContext, ReactNode, useContext, useState } from "react"
 
 const LoadingContext = createContext<TContext>({
   isLoading: () => false,
-  run: (callback) => {},
+  run: (callback) => { },
 })
 
 const LoadingProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [loading, setLoading] = useState<boolean>(false)
 
   const isLoading = () => loading
-  const run = (callback: Function) => {
+  const run = async (callback: Function) => {
     setLoading(true)
-    callback()
+    await callback()
     setLoading(false)
   }
 
