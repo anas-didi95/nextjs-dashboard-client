@@ -3,7 +3,8 @@ import { useNotificationContext } from "../utils/contexts/NotificationContext"
 
 const Notification: React.FC<{}> = () => {
   const notification = useNotificationContext()
-  const { title, message, messageType, errors, code, traceId } = notification.state
+  const { title, message, messageType, errors, code, traceId } =
+    notification.state
 
   return (
     <>

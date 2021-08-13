@@ -2,7 +2,7 @@ import React, { createContext, ReactNode, useContext, useState } from "react"
 
 const LoadingContext = createContext<TContext>({
   isLoading: () => false,
-  run: (callback) => { },
+  run: (callback) => {},
 })
 
 const LoadingProvider: React.FC<{ children: ReactNode }> = ({ children }) => {

@@ -23,10 +23,10 @@ const useSecurityService = () => {
       const responseBody = await response.json()
       return responseBody
     } catch (error) {
-      console.error("[useSecurityService] sign failed!", error)
+      console.error("[useSecurityService] signIn failed!", error)
       return {
-        accessToken: "",
-        refreshToken: "",
+        ...initialResponseError,
+        message: error.message,
       }
     }
   }
@@ -34,6 +34,13 @@ const useSecurityService = () => {
   return {
     signIn,
   }
+}
+
+const initialResponseError: TResponseError = {
+  code: "",
+  message: "",
+  traceId: "",
+  errors: [""],
 }
 
 export default useSecurityService
