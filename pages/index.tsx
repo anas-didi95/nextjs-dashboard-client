@@ -6,6 +6,7 @@ import ButtonGroup from "../src/components/ButtonGroup"
 import FormInput from "../src/components/FormInput"
 import Notification from "../src/components/Notification"
 import AppLayout from "../src/layouts/AppLayout"
+import { useAuthContext } from "../src/utils/contexts/AuthContext"
 import { useLoadingContext } from "../src/utils/contexts/LoadingContext"
 import { useNotificationContext } from "../src/utils/contexts/NotificationContext"
 import useConstants from "../src/utils/hooks/useConstants"
@@ -35,6 +36,7 @@ const LoginForm: React.FC<{}> = () => {
   const notificationContext = useNotificationContext()
   const securityService = useSecurityService()
   const loadingContext = useLoadingContext()
+  const authContext = useAuthContext()
   const {
     register,
     handleSubmit,
@@ -51,6 +53,8 @@ const LoginForm: React.FC<{}> = () => {
       )
 
       if ("accessToken" in responseBody) {
+        const { accessToken, refreshToken } = responseBody
+        authContext.set(accessToken, refreshToken)
         router.push("/dashboard")
       } else {
         const { code, errors, message, traceId } =

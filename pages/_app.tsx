@@ -1,15 +1,18 @@
-import "../styles/app.scss"
 import type { AppProps } from "next/app"
-import { NotificationProvider } from "../src/utils/contexts/NotificationContext"
+import { AuthProvider } from "../src/utils/contexts/AuthContext"
 import { LoadingProvider } from "../src/utils/contexts/LoadingContext"
+import { NotificationProvider } from "../src/utils/contexts/NotificationContext"
+import "../styles/app.scss"
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
-    <NotificationProvider>
-      <LoadingProvider>
-        <Component {...pageProps} />
-      </LoadingProvider>
-    </NotificationProvider>
+    <AuthProvider>
+      <NotificationProvider>
+        <LoadingProvider>
+          <Component {...pageProps} />
+        </LoadingProvider>
+      </NotificationProvider>
+    </AuthProvider>
   )
 }
 
