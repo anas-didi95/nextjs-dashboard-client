@@ -51,6 +51,7 @@ const useConstants = () => {
   }
 
   const button = {
+    credits: "Credits",
     clear: "Clear",
     signIn: "Sign In",
     signOut: "Sign Out",

@@ -1,6 +1,7 @@
 const testId = {
   navbarImage: "[data-testid=navbar-image]",
   navbarTitle: "[data-testid=navbar-title]",
+  navbarButtonCredits: "[data-testid=navbar-button-credits]",
   signInFormHeader: "[data-testid=signin-form-header]",
   signInFormLabelUsername: "[data-testid=signin-form-label-username]",
   signInFormInputUsername: "[data-testid=signin-form-input-username]",
@@ -29,6 +30,7 @@ describe("Sign In page", () => {
       .should("have.attr", "src")
       .should("include", "dashboard")
     cy.get(testId.navbarTitle).should("have.text", "Dashboard")
+    cy.get(testId.navbarButtonCredits).should("have.text", "Credits")
   })
 
   it("has signin form", () => {
