@@ -11,7 +11,9 @@ services:
     command: sleep infinity
     environment:
       DISPLAY: unix${DISPLAY}
+    env_file:
+      - .env.local
     volumes:
       - ./:/workspace
-      - .cypress/:/home/node/.cache/Cypress
+      - .cache/:/home/node/.cache
       - /tmp/.X11-unix:/tmp/.X11-unix
