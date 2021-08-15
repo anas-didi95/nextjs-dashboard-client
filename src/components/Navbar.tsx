@@ -104,7 +104,8 @@ const ModalCredits: React.FC<{
     <Modal
       isActive={isActive}
       title={constants.header.credits}
-      toggleActive={toggleActive}>
+      toggleActive={toggleActive}
+      testId="navbar-modal-credits">
       <div className="content">
         <h3>Resources</h3>
         <ul>

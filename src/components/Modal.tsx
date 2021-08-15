@@ -5,14 +5,18 @@ interface IModal {
   isActive: boolean
   toggleActive: () => void
   title: string
+  testId?: string
 }
 const Modal: React.FC<IModal> = ({
   children,
   isActive,
   toggleActive,
   title,
+  testId,
 }) => (
-  <div className={`modal ${isActive ? "is-active" : ""} px-4`}>
+  <div
+    className={`modal ${isActive ? "is-active" : ""} px-4`}
+    data-testId={testId}>
     <div className="modal-background" onClick={toggleActive}></div>
     <div
       className={`modal-card ${
@@ -23,7 +27,9 @@ const Modal: React.FC<IModal> = ({
         <button
           className="delete"
           aria-label="close"
-          onClick={toggleActive}></button>
+          onClick={toggleActive}
+          data-testId={`${testId}-close`}
+        />
       </header>
       <section className="modal-card-body">{children}</section>
     </div>
