@@ -4,6 +4,8 @@ import React, { useState } from "react"
 import useConstants from "../utils/hooks/useConstants"
 import Button from "./Button"
 import ButtonGroup from "./ButtonGroup"
+import Modal from "./Modal"
+import { GrPersonalComputer, GrGithub, GrLinkedin } from "react-icons/gr"
 
 interface INavbar {}
 const Navbar: React.FC<INavbar> = () => {
@@ -60,30 +62,99 @@ const NavbarBrand: React.FC<{ isActive: boolean; toggleActive: () => void }> =
 
 const NavbarMenu: React.FC<{ isActive: boolean }> = ({ isActive }) => {
   const constants = useConstants()
-  const toggleCredits = () => {}
+  const [isCredits, setCredits] = useState<boolean>(false)
+
+  const toggleCredits = () => setCredits((prev) => !prev)
 
   return (
-    <div
-      className={`navbar-menu ${
-        isActive
-          ? "is-active animate__animated animate__slideInDown animate__faster"
-          : ""
-      }`}>
-      <div className="navbar-end">
-        <div className="navbar-item">
-          <ButtonGroup>
-            <Button
-              label={constants.button.credits}
-              onClick={toggleCredits}
-              type="button"
-              color="is-light"
-              isOutlined
-              testId="navbar-button-credits"
-            />
-          </ButtonGroup>
+    <>
+      <div
+        className={`navbar-menu ${
+          isActive
+            ? "is-active animate__animated animate__slideInDown animate__faster"
+            : ""
+        }`}>
+        <div className="navbar-end">
+          <div className="navbar-item">
+            <ButtonGroup>
+              <Button
+                label={constants.button.credits}
+                onClick={toggleCredits}
+                type="button"
+                color="is-light"
+                isOutlined
+                testId="navbar-button-credits"
+              />
+            </ButtonGroup>
+          </div>
         </div>
       </div>
-    </div>
+      <ModalCredits isActive={isCredits} toggleActive={toggleCredits} />
+    </>
+  )
+}
+
+const ModalCredits: React.FC<{
+  isActive: boolean
+  toggleActive: () => void
+}> = ({ isActive, toggleActive }) => {
+  const constants = useConstants()
+
+  return (
+    <Modal
+      isActive={isActive}
+      title={constants.header.credits}
+      toggleActive={toggleActive}>
+      <div className="content">
+        <h3>Resources</h3>
+        <ul>
+          <li>
+            Icons made by{" "}
+            <a
+              href="https://www.flaticon.com/authors/prosymbols"
+              title="Prosymbols">
+              Prosymbols
+            </a>{" "}
+            from{" "}
+            <a href="https://www.flaticon.com/" title="Flaticon">
+              www.flaticon.com
+            </a>
+          </li>
+          <li>
+            Icons made by{" "}
+            <a href="https://www.flaticon.com/authors/freepik" title="Freepik">
+              Freepik
+            </a>{" "}
+            from{" "}
+            <a href="https://www.flaticon.com/" title="Flaticon">
+              www.flaticon.com
+            </a>
+          </li>
+        </ul>
+      </div>
+      <hr />
+      <div className="columns is-centered has-text-centered is-mobile">
+        <div className="column is-size-3">
+          <a
+            href={constants.metadata.social.website}
+            className="has-text-black">
+            <GrPersonalComputer />
+          </a>
+        </div>
+        <div className="column is-size-3">
+          <a href={constants.metadata.social.github} className="has-text-black">
+            <GrGithub />
+          </a>
+        </div>
+        <div className="column is-size-3">
+          <a
+            href={constants.metadata.social.linkedin}
+            className="has-text-black">
+            <GrLinkedin />
+          </a>
+        </div>
+      </div>{" "}
+    </Modal>
   )
 }
 
