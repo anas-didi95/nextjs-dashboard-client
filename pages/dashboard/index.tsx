@@ -1,5 +1,10 @@
 import React from "react"
+import AppLayout from "../../src/layouts/AppLayout"
 
-const DashboardPage: React.FC<{}> = () => <div>This is dashboard</div>
+const HomePage: React.FC<{}> = () => (
+  <AppLayout title="Home" needAuth>
+    <div>This is home</div>
+  </AppLayout>
+)
 
-export default DashboardPage
+export default HomePage
