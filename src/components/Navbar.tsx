@@ -1,6 +1,6 @@
+import React, { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { useState } from "react"
 import { GrGithub, GrLinkedin, GrPersonalComputer } from "react-icons/gr"
 import { useAuthContext } from "../utils/contexts/AuthContext"
 import useConstants from "../utils/hooks/useConstants"
@@ -85,8 +85,8 @@ const NavbarMenu: React.FC<{
     <>
       <div
         className={`navbar-menu ${isActive
-            ? "is-active animate__animated animate__slideInDown animate__faster"
-            : ""
+          ? "is-active animate__animated animate__slideInDown animate__faster"
+          : ""
           }`}>
         {authContext.isAuth() && (
           <div className="navbar-start">

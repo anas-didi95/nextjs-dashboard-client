@@ -1,3 +1,4 @@
+import React from "react"
 import type { AppProps } from "next/app"
 import { AuthProvider } from "../src/utils/contexts/AuthContext"
 import { LoadingProvider } from "../src/utils/contexts/LoadingContext"

@@ -1,3 +1,4 @@
+import React from "react"
 import AppLayout from "../../src/layouts/AppLayout"
 import DashboardLayout from "../../src/layouts/DashboardLayout"
 
