@@ -1,26 +1,39 @@
 import Image from "next/image"
 import Link from "next/link"
-import React, { useState } from "react"
+import { useState } from "react"
+import { GrGithub, GrLinkedin, GrPersonalComputer } from "react-icons/gr"
+import { useAuthContext } from "../utils/contexts/AuthContext"
 import useConstants from "../utils/hooks/useConstants"
 import Button from "./Button"
 import ButtonGroup from "./ButtonGroup"
 import Modal from "./Modal"
-import { GrPersonalComputer, GrGithub, GrLinkedin } from "react-icons/gr"
 
-interface INavbar {}
+interface INavbar { }
 const Navbar: React.FC<INavbar> = () => {
   const [isActive, setActive] = useState<boolean>(false)
+  const [isCredits, setCredits] = useState<boolean>(false)
+  const [isSignOut, setSignOut] = useState<boolean>(false)
 
   const toggleActive = () => setActive((prev) => !prev)
+  const toggleCredits = () => setCredits((prev) => !prev)
+  const toggleSignOut = () => setSignOut((prev) => !prev)
 
   return (
-    <nav
-      className="navbar is-info is-spaced"
-      role="navigation"
-      aria-label="main navigation">
-      <NavbarBrand isActive={isActive} toggleActive={toggleActive} />
-      <NavbarMenu isActive={isActive} />
-    </nav>
+    <>
+      <nav
+        className="navbar is-info is-spaced"
+        role="navigation"
+        aria-label="main navigation">
+        <NavbarBrand isActive={isActive} toggleActive={toggleActive} />
+        <NavbarMenu
+          isActive={isActive}
+          toggleCredits={toggleCredits}
+          toggleSignOut={toggleSignOut}
+        />
+      </nav>
+      <ModalCredits isActive={isCredits} toggleActive={toggleCredits} />
+      <ModalSignOut isActive={isSignOut} toggleActive={toggleSignOut} />
+    </>
   )
 }
 
@@ -60,20 +73,28 @@ const NavbarBrand: React.FC<{ isActive: boolean; toggleActive: () => void }> =
     )
   }
 
-const NavbarMenu: React.FC<{ isActive: boolean }> = ({ isActive }) => {
+const NavbarMenu: React.FC<{
+  isActive: boolean
+  toggleCredits: () => void
+  toggleSignOut: () => void
+}> = ({ isActive, toggleCredits, toggleSignOut }) => {
   const constants = useConstants()
-  const [isCredits, setCredits] = useState<boolean>(false)
-
-  const toggleCredits = () => setCredits((prev) => !prev)
+  const authContext = useAuthContext()
 
   return (
     <>
       <div
-        className={`navbar-menu ${
-          isActive
+        className={`navbar-menu ${isActive
             ? "is-active animate__animated animate__slideInDown animate__faster"
             : ""
-        }`}>
+          }`}>
+        {authContext.isAuth() && (
+          <div className="navbar-start">
+            <Link href="/dashboard">
+              <a className="navbar-item">Home</a>
+            </Link>
+          </div>
+        )}
         <div className="navbar-end">
           <div className="navbar-item">
             <ButtonGroup>
@@ -85,11 +106,19 @@ const NavbarMenu: React.FC<{ isActive: boolean }> = ({ isActive }) => {
                 isOutlined
                 testId="navbar-button-credits"
               />
+              {authContext.isAuth() && (
+                <Button
+                  label={constants.button.signOut}
+                  onClick={toggleSignOut}
+                  type="button"
+                  color="is-danger"
+                  testId="navbar-button-signout"
+                />
+              )}
             </ButtonGroup>
           </div>
         </div>
       </div>
-      <ModalCredits isActive={isCredits} toggleActive={toggleCredits} />
     </>
   )
 }
@@ -155,6 +184,66 @@ const ModalCredits: React.FC<{
           </a>
         </div>
       </div>{" "}
+    </Modal>
+  )
+}
+
+const ModalSignOut: React.FC<{
+  isActive: boolean
+  toggleActive: () => void
+}> = ({ isActive, toggleActive }) => {
+  const constants = useConstants()
+  const authContext = useAuthContext()
+  //const router = useRouter()
+  //const auth = useAuth()
+  //const notificationContext = useNotificationContext()
+  //const loadingContext = useLoadingContext()
+
+  /*const signOut = async () => {
+    loadingContext.onLoading()
+    const responseBody = await auth.signOut(authContext.getAccessToken())
+    loadingContext.offLoading()
+
+    if (!responseBody.status.isSuccess) {
+      console.error("[Navbar] responseBody", responseBody)
+      notificationContext.setSaveMessage(
+        "Sign out failed!",
+        responseBody.status.message,
+        "is-danger",
+        []
+      )
+    }
+
+    authContext.clearAuth()
+    router.replace("/")
+  }*/
+
+  return (
+    <Modal
+      isActive={isActive}
+      toggleActive={toggleActive}
+      title={constants.header.confirmSignOut}>
+      <p className="content has-text-black">
+        Click &quot;Sign Out&quot; below to sign out from dashboard.
+      </p>
+      <br />
+      <ButtonGroup align="is-right">
+        <Button
+          label={constants.button.close}
+          onClick={toggleActive}
+          type="button"
+          color="is-light"
+          isInverted
+          isOutlined
+        />
+        <Button
+          label={constants.button.signOut}
+          //onClick={signOut}
+          onClick={() => { }}
+          type="button"
+          color="is-danger"
+        />
+      </ButtonGroup>
     </Modal>
   )
 }

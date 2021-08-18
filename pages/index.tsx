@@ -1,5 +1,4 @@
 import { useRouter } from "next/dist/client/router"
-import React from "react"
 import { useForm } from "react-hook-form"
 import Button from "../src/components/Button"
 import ButtonGroup from "../src/components/ButtonGroup"
@@ -105,6 +104,9 @@ const LoginForm: React.FC<{}> = () => {
             label={constants.button.clear}
             type="button"
             onClick={onClear}
+            color="is-light"
+            isInverted
+            isOutlined
             testId="signin-form-button-clear"
           />
           <Button
