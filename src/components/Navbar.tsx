@@ -1,9 +1,15 @@
 import React, { useState } from "react"
+import { useRouter } from "next/dist/client/router"
 import Image from "next/image"
 import Link from "next/link"
 import { GrGithub, GrLinkedin, GrPersonalComputer } from "react-icons/gr"
 import { useAuthContext } from "../utils/contexts/AuthContext"
+import { useLoadingContext } from "../utils/contexts/LoadingContext"
+import { useNotificationContext } from "../utils/contexts/NotificationContext"
 import useConstants from "../utils/hooks/useConstants"
+import useSecurityService, {
+  TResponseError,
+} from "../utils/hooks/useSecurityService"
 import Button from "./Button"
 import ButtonGroup from "./ButtonGroup"
 import Modal from "./Modal"
@@ -194,30 +200,25 @@ const ModalSignOut: React.FC<{
   toggleActive: () => void
 }> = ({ isActive, toggleActive }) => {
   const constants = useConstants()
+  const router = useRouter()
   const authContext = useAuthContext()
-  //const router = useRouter()
-  //const auth = useAuth()
-  //const notificationContext = useNotificationContext()
-  //const loadingContext = useLoadingContext()
+  const notificationContext = useNotificationContext()
+  const loadingContext = useLoadingContext()
+  const securityService = useSecurityService()
 
-  /*const signOut = async () => {
-    loadingContext.onLoading()
-    const responseBody = await auth.signOut(authContext.getAccessToken())
-    loadingContext.offLoading()
-
-    if (!responseBody.status.isSuccess) {
-      console.error("[Navbar] responseBody", responseBody)
-      notificationContext.setSaveMessage(
-        "Sign out failed!",
-        responseBody.status.message,
-        "is-danger",
-        []
-      )
-    }
-
-    authContext.clearAuth()
-    router.replace("/")
-  }*/
+  const onSignOut = () => {
+    loadingContext.run(async () => {
+      const responseBody = await securityService.signOut()
+      if ("userId" in responseBody) {
+        authContext.clear()
+        router.replace("/")
+      } else {
+        const { code, errors, message, traceId } =
+          responseBody as TResponseError
+        notificationContext.setError(message, errors[0], code, traceId, [])
+      }
+    })
+  }
 
   return (
     <Modal
@@ -239,8 +240,7 @@ const ModalSignOut: React.FC<{
         />
         <Button
           label={constants.button.signOut}
-          //onClick={signOut}
-          onClick={() => {}}
+          onClick={onSignOut}
           type="button"
           color="is-danger"
         />

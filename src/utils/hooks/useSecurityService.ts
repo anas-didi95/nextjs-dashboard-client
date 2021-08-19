@@ -1,4 +1,8 @@
+import { useAuthContext } from "../contexts/AuthContext"
+
 const useSecurityService = () => {
+  const authContext = useAuthContext()
+
   const signIn = async (
     username: string,
     password: string
@@ -31,8 +35,33 @@ const useSecurityService = () => {
     }
   }
 
+  const signOut = async (): Promise<{ id: string } | TResponseError> => {
+    try {
+      const response = await fetch(
+        "https://api.anasdidi.dev/security/auth/logout",
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${authContext.getAccessToken()}`,
+          },
+        }
+      )
+      const responseBody = await response.json()
+      return responseBody
+    } catch (error) {
+      console.error("[useSecurityService] signOut failed!", error)
+      return {
+        ...initialResponseError,
+        message: error.message,
+      }
+    }
+  }
+
   return {
     signIn,
+    signOut,
   }
 }
 

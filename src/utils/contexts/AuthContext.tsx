@@ -4,6 +4,7 @@ const AuthContext = createContext<TContext>({
   set: (a, b) => {},
   getAccessToken: () => "",
   isAuth: () => false,
+  clear: () => {},
 })
 
 const initialState: TState = {
@@ -18,9 +19,10 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     setData({ accessToken, refreshToken })
   const getAccessToken = () => data.accessToken
   const isAuth = () => !!data.accessToken && !!data.refreshToken
+  const clear = () => setData(initialState)
 
   return (
-    <AuthContext.Provider value={{ set, getAccessToken, isAuth }}>
+    <AuthContext.Provider value={{ set, getAccessToken, isAuth, clear }}>
       {children}
     </AuthContext.Provider>
   )
@@ -34,6 +36,7 @@ type TContext = {
   set: (accessToken: string, refreshToken: string) => void
   getAccessToken: () => string
   isAuth: () => boolean
+  clear: () => void
 }
 type TState = {
   accessToken: string
