@@ -1,10 +1,10 @@
 const appLayout = {
   testId: {
-    navbarImage: "[data-testId=navbar-image]",
-    navbarTitle: "[data-testId=navbar-title]",
-    navbarButtonCredits: "[data-testId=navbar-button-credits]",
-    navbarModalCredits: "[data-testId=navbar-modal-credits]",
-    navbarModalCreditsClose: "[data-testId=navbar-modal-credits-close]",
+    navbarImage: "[data-testid=navbar-image]",
+    navbarTitle: "[data-testid=navbar-title]",
+    navbarButtonCredits: "[data-testid=navbar-button-credits]",
+    navbarModalCredits: "[data-testid=navbar-modal-credits]",
+    navbarModalCreditsClose: "[data-testid=navbar-modal-credits-close]",
   },
 }
 

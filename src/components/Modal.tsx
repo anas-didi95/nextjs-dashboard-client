@@ -16,7 +16,7 @@ const Modal: React.FC<IModal> = ({
 }) => (
   <div
     className={`modal ${isActive ? "is-active" : ""} px-4`}
-    data-testId={testId}>
+    data-testid={testId}>
     <div className="modal-background" onClick={toggleActive}></div>
     <div
       className={`modal-card ${
@@ -28,7 +28,7 @@ const Modal: React.FC<IModal> = ({
           className="delete"
           aria-label="close"
           onClick={toggleActive}
-          data-testId={`${testId}-close`}
+          data-testid={`${testId}-close`}
         />
       </header>
       <section className="modal-card-body">{children}</section>
