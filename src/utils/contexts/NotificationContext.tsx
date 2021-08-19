@@ -5,7 +5,7 @@ import React, {
   useContext,
   useReducer,
 } from "react"
-import { TResponseError } from "../hooks/useSecurityService"
+import { TResponseError } from "../types"
 
 const initialState: TState = {
   message: "",

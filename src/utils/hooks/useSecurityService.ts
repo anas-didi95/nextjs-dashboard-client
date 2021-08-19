@@ -1,4 +1,5 @@
 import { useAuthContext } from "../contexts/AuthContext"
+import { initialResponseError, TResponseError } from "../types"
 
 const useSecurityService = () => {
   const authContext = useAuthContext()
@@ -65,18 +66,4 @@ const useSecurityService = () => {
   }
 }
 
-const initialResponseError: TResponseError = {
-  code: "",
-  message: "",
-  traceId: "",
-  errors: [""],
-}
-
 export default useSecurityService
-
-export type TResponseError = {
-  code: string
-  message: string
-  traceId: string
-  errors: string[]
-}

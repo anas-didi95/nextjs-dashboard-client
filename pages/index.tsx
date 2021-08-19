@@ -10,9 +10,8 @@ import { useAuthContext } from "../src/utils/contexts/AuthContext"
 import { useLoadingContext } from "../src/utils/contexts/LoadingContext"
 import { useNotificationContext } from "../src/utils/contexts/NotificationContext"
 import useConstants from "../src/utils/hooks/useConstants"
-import useSecurityService, {
-  TResponseError,
-} from "../src/utils/hooks/useSecurityService"
+import useSecurityService from "../src/utils/hooks/useSecurityService"
+import { TResponseError } from "../src/utils/types"
 
 const SignInPage: React.FC<{}> = () => (
   <AppLayout title="Sign In">

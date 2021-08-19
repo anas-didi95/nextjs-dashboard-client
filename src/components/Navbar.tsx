@@ -7,14 +7,13 @@ import { useAuthContext } from "../utils/contexts/AuthContext"
 import { useLoadingContext } from "../utils/contexts/LoadingContext"
 import { useNotificationContext } from "../utils/contexts/NotificationContext"
 import useConstants from "../utils/hooks/useConstants"
-import useSecurityService, {
-  TResponseError,
-} from "../utils/hooks/useSecurityService"
+import useSecurityService from "../utils/hooks/useSecurityService"
 import Button from "./Button"
 import ButtonGroup from "./ButtonGroup"
 import Modal from "./Modal"
+import { TResponseError } from "../utils/types"
 
-interface INavbar {}
+interface INavbar { }
 const Navbar: React.FC<INavbar> = () => {
   const [isActive, setActive] = useState<boolean>(false)
   const [isCredits, setCredits] = useState<boolean>(false)
@@ -90,11 +89,10 @@ const NavbarMenu: React.FC<{
   return (
     <>
       <div
-        className={`navbar-menu ${
-          isActive
-            ? "is-active animate__animated animate__slideInDown animate__faster"
-            : ""
-        }`}>
+        className={`navbar-menu ${isActive
+          ? "is-active animate__animated animate__slideInDown animate__faster"
+          : ""
+          }`}>
         {authContext.isAuth() && (
           <div className="navbar-start">
             <Link href="/dashboard">
