@@ -213,9 +213,7 @@ const ModalSignOut: React.FC<{
         authContext.clear()
         router.replace("/")
       } else {
-        const { code, errors, message, traceId } =
-          responseBody as TResponseError
-        notificationContext.setError(message, errors[0], code, traceId, [])
+        notificationContext.setError(responseBody as TResponseError)
       }
     })
   }

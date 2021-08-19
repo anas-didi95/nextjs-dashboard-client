@@ -57,9 +57,7 @@ const LoginForm: React.FC<{}> = () => {
         authContext.set(accessToken, refreshToken)
         router.push("/dashboard")
       } else {
-        const { code, errors, message, traceId } =
-          responseBody as TResponseError
-        notificationContext.setError(message, errors[0], code, traceId, [])
+        notificationContext.setError(responseBody as TResponseError)
       }
     })
   }

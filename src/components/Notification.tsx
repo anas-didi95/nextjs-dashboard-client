@@ -3,7 +3,7 @@ import { useNotificationContext } from "../utils/contexts/NotificationContext"
 
 const Notification: React.FC<{}> = () => {
   const notification = useNotificationContext()
-  const { title, message, messageType, errors, code, traceId } =
+  const { message, detail, messageType, errors, code, traceId } =
     notification.state
 
   return (
@@ -14,9 +14,9 @@ const Notification: React.FC<{}> = () => {
           data-testid="notification">
           <p className="is-size-5 has-text-weight-semibold">
             {!!code && code + ": "}
-            {title}
+            {message}
           </p>
-          <p className="mt-1">{message}</p>
+          {!!detail && <p className="mt-1">{detail}</p>}
           {errors.length > 0 && (
             <div className="content is-small">
               <ul className="mt-1">
