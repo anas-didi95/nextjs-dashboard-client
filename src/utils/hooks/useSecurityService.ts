@@ -60,9 +60,35 @@ const useSecurityService = () => {
     }
   }
 
+  const refresh = async (refreshToken: string): Promise<{ accessToken: string; refreshToken: string } | TResponseError
+  > => {
+    try {
+      const response = await fetch(
+        "https://api.anasdidi.dev/security/auth/refresh",
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${refreshToken}`
+          },
+        }
+      )
+      const responseBody = await response.json()
+      return responseBody
+    } catch (error) {
+      console.error("[useSecurityService] refresh failed!", error)
+      return {
+        ...initialResponseError,
+        message: error.message,
+      }
+    }
+  }
+
   return {
     signIn,
     signOut,
+    refresh
   }
 }
 
