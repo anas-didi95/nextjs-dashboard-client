@@ -20,7 +20,7 @@ const AppLayout: React.FC<IAppLayout> = ({ children, title, needAuth }) => {
 
   useEffect(() => {
     if (needAuth) {
-      (async () => {
+      ;(async () => {
         if (!authContext.isAuth()) {
           const refreshToken = window.localStorage.getItem("refreshToken")
           if (!!refreshToken) {

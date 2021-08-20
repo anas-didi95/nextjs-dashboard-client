@@ -1,10 +1,10 @@
 import React, { createContext, ReactNode, useContext, useState } from "react"
 
 const AuthContext = createContext<TContext>({
-  set: (a, b) => { },
+  set: (a, b) => {},
   getAccessToken: () => "",
   isAuth: () => false,
-  clear: () => { },
+  clear: () => {},
 })
 
 const initialState: TState = {

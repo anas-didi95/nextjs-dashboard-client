@@ -60,7 +60,10 @@ const useSecurityService = () => {
     }
   }
 
-  const refresh = async (refreshToken: string): Promise<{ accessToken: string; refreshToken: string } | TResponseError
+  const refresh = async (
+    refreshToken: string
+  ): Promise<
+    { accessToken: string; refreshToken: string } | TResponseError
   > => {
     try {
       const response = await fetch(
@@ -70,7 +73,7 @@ const useSecurityService = () => {
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${refreshToken}`
+            Authorization: `Bearer ${refreshToken}`,
           },
         }
       )
@@ -88,7 +91,7 @@ const useSecurityService = () => {
   return {
     signIn,
     signOut,
-    refresh
+    refresh,
   }
 }
 
