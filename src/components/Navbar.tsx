@@ -97,7 +97,9 @@ const NavbarMenu: React.FC<{
         {authContext.isAuth() && (
           <div className="navbar-start">
             <Link href="/dashboard">
-              <a className="navbar-item">Home</a>
+              <a className="navbar-item" data-testid="navbar-menu-home">
+                Home
+              </a>
             </Link>
           </div>
         )}
