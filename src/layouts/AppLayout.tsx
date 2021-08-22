@@ -27,7 +27,7 @@ const AppLayout: React.FC<IAppLayout> = ({ children, title, needAuth }) => {
             const responseBody = await securityService.refresh(refreshToken)
             if ("accessToken" in responseBody) {
               const { refreshToken, accessToken } = responseBody
-              authContext.set(accessToken, refreshToken)
+              authContext.setToken(accessToken, refreshToken)
               setVisible(true)
             } else {
               router.replace("/")

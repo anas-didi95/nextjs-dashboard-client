@@ -1,33 +1,39 @@
 import React, { createContext, ReactNode, useContext, useState } from "react"
+import { initialUser, TUser } from "../types"
+
+const initialState: TState = {
+  accessToken: "",
+  user: initialUser,
+}
 
 const AuthContext = createContext<TContext>({
-  set: (a, b) => {},
+  setToken: (a, b) => {},
+  setUser: (a) => {},
   getAccessToken: () => "",
+  getUser: () => ({ ...initialState.user }),
   isAuth: () => false,
   clear: () => {},
 })
 
-const initialState: TState = {
-  accessToken: "",
-  refreshToken: "",
-}
-
 const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [data, setData] = useState<TState>(initialState)
 
-  const set = (accessToken: string, refreshToken: string) => {
-    setData({ accessToken, refreshToken })
+  const setToken = (accessToken: string, refreshToken: string) => {
+    setData({ ...initialState, accessToken: accessToken })
     window.localStorage.setItem("refreshToken", refreshToken)
   }
+  const setUser = (user: TUser) => setData({ ...data, user })
   const getAccessToken = () => data.accessToken
-  const isAuth = () => !!data.accessToken && !!data.refreshToken
+  const getUser = () => data.user
+  const isAuth = () => !!data.accessToken
   const clear = () => {
     setData(initialState)
     window.localStorage.clear()
   }
 
   return (
-    <AuthContext.Provider value={{ set, getAccessToken, isAuth, clear }}>
+    <AuthContext.Provider
+      value={{ setToken, setUser, getAccessToken, getUser, isAuth, clear }}>
       {children}
     </AuthContext.Provider>
   )
@@ -38,12 +44,14 @@ const useAuthContext = () => useContext(AuthContext)
 export { AuthProvider, useAuthContext }
 
 type TContext = {
-  set: (accessToken: string, refreshToken: string) => void
+  setToken: (accessToken: string, refreshToken: string) => void
+  setUser: (user: TUser) => void
   getAccessToken: () => string
+  getUser: () => TUser
   isAuth: () => boolean
   clear: () => void
 }
 type TState = {
   accessToken: string
-  refreshToken: string
+  user: TUser
 }

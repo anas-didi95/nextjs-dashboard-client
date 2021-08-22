@@ -1,5 +1,5 @@
 import { useAuthContext } from "../contexts/AuthContext"
-import { initialResponseError, TResponseError } from "../types"
+import { initialResponseError, TResponseError, TUser } from "../types"
 import useConstants from "./useConstants"
 
 const useSecurityService = () => {
@@ -84,10 +84,34 @@ const useSecurityService = () => {
     }
   }
 
+  const check = async (): Promise<{ user: TUser } | TResponseError> => {
+    try {
+      console.log("accessToken", authContext.isAuth())
+      const response = await fetch(`${constants.env.apiSecurity}/auth/check`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authContext.getAccessToken()}`,
+        },
+      })
+      const responseBody = await response.json()
+      console.log("responseBody", responseBody)
+      return responseBody
+    } catch (error) {
+      console.error("[useSecurityService] check failed!", error)
+      return {
+        ...initialResponseError,
+        message: error.message,
+      }
+    }
+  }
+
   return {
     signIn,
     signOut,
     refresh,
+    check,
   }
 }
 

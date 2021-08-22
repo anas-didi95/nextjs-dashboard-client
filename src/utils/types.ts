@@ -11,3 +11,17 @@ export const initialResponseError: TResponseError = {
   traceId: "",
   errors: [],
 }
+
+export type TUser = {
+  userId: string
+  username: string
+  fullName: string
+  permissions: string[]
+}
+
+export const initialUser: TUser = {
+  userId: "",
+  username: "",
+  fullName: "",
+  permissions: [],
+}
