@@ -12,6 +12,7 @@ import { useNotificationContext } from "../src/utils/contexts/NotificationContex
 import useConstants from "../src/utils/hooks/useConstants"
 import useSecurityService from "../src/utils/hooks/useSecurityService"
 import { TResponseError } from "../src/utils/types"
+import Box from "../src/components/Box"
 
 const SignInPage: React.FC<{}> = () => (
   <AppLayout title="Sign In">
@@ -66,7 +67,7 @@ const LoginForm: React.FC<{}> = () => {
   }
 
   return (
-    <div className="box">
+    <Box>
       <p
         className="is-size-4 has-text-weight-bold mb-4"
         data-testid="signin-form-header">
@@ -116,7 +117,7 @@ const LoginForm: React.FC<{}> = () => {
           />
         </ButtonGroup>
       </form>
-    </div>
+    </Box>
   )
 }
 
