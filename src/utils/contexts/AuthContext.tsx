@@ -1,4 +1,5 @@
 import React, { createContext, ReactNode, useContext, useState } from "react"
+import useLocalStorage from "../hooks/useLocalStorage"
 import { initialUser, TUser } from "../types"
 
 const initialState: TState = {
@@ -16,11 +17,12 @@ const AuthContext = createContext<TContext>({
 })
 
 const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+  const localStorage = useLocalStorage()
   const [data, setData] = useState<TState>(initialState)
 
   const setToken = (accessToken: string, refreshToken: string) => {
     setData({ ...initialState, accessToken: accessToken })
-    window.localStorage.setItem("refreshToken", refreshToken)
+    localStorage.set("refreshToken", refreshToken)
   }
   const setUser = (user: TUser) => setData({ ...data, user })
   const getAccessToken = () => data.accessToken
@@ -28,7 +30,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const isAuth = () => !!data.accessToken
   const clear = () => {
     setData(initialState)
-    window.localStorage.clear()
+    localStorage.clear()
   }
 
   return (

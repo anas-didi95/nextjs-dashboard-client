@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar"
 import { useAuthContext } from "../utils/contexts/AuthContext"
 import useConstants from "../utils/hooks/useConstants"
 import useSecurityService from "../utils/hooks/useSecurityService"
+import useLocalStorage from "../utils/hooks/useLocalStorage"
 
 interface IAppLayout {
   children: ReactNode
@@ -16,13 +17,14 @@ const AppLayout: React.FC<IAppLayout> = ({ children, title, needAuth }) => {
   const authContext = useAuthContext()
   const router = useRouter()
   const securityService = useSecurityService()
+  const localStorage = useLocalStorage()
   const [isVisible, setVisible] = useState<boolean>(false)
 
   useEffect(() => {
     if (needAuth) {
       ;(async () => {
         if (!authContext.isAuth()) {
-          const refreshToken = window.localStorage.getItem("refreshToken")
+          const refreshToken = localStorage.get("refreshToken")
           if (!!refreshToken) {
             const responseBody = await securityService.refresh(refreshToken)
             if ("accessToken" in responseBody) {
@@ -42,6 +44,16 @@ const AppLayout: React.FC<IAppLayout> = ({ children, title, needAuth }) => {
     } else {
       setVisible(true)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    ;(async () => {
+      const responseBody = await securityService.check()
+      if ("userId" in responseBody) {
+        authContext.setUser(responseBody)
+      }
+    })()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

@@ -86,7 +86,6 @@ const useSecurityService = () => {
 
   const check = async (): Promise<{ user: TUser } | TResponseError> => {
     try {
-      console.log("accessToken", authContext.isAuth())
       const response = await fetch(`${constants.env.apiSecurity}/auth/check`, {
         method: "GET",
         headers: {
@@ -96,7 +95,6 @@ const useSecurityService = () => {
         },
       })
       const responseBody = await response.json()
-      console.log("responseBody", responseBody)
       return responseBody
     } catch (error) {
       console.error("[useSecurityService] check failed!", error)
