@@ -17,23 +17,15 @@ const AppLayout: React.FC<IAppLayout> = ({ children, title, needAuth }) => {
   const authContext = useAuthContext()
   const router = useRouter()
   const securityService = useSecurityService()
-  const localStorage = useLocalStorage()
   const [isVisible, setVisible] = useState<boolean>(false)
 
   useEffect(() => {
     if (needAuth) {
       ;(async () => {
         if (!authContext.isAuth()) {
-          const refreshToken = localStorage.get("refreshToken")
-          if (!!refreshToken) {
-            const responseBody = await securityService.refresh(refreshToken)
-            if ("accessToken" in responseBody) {
-              const { refreshToken, accessToken } = responseBody
-              authContext.setToken(accessToken, refreshToken)
-              setVisible(true)
-            } else {
-              router.replace("/")
-            }
+          if (authContext.hasRefreshToken()) {
+            await authContext.refresh()
+            setVisible(true)
           } else {
             router.replace("/")
           }
@@ -44,16 +36,6 @@ const AppLayout: React.FC<IAppLayout> = ({ children, title, needAuth }) => {
     } else {
       setVisible(true)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  useEffect(() => {
-    ;(async () => {
-      const responseBody = await securityService.check()
-      if ("userId" in responseBody) {
-        authContext.setUser(responseBody)
-      }
-    })()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

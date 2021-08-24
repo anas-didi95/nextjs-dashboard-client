@@ -84,14 +84,16 @@ const useSecurityService = () => {
     }
   }
 
-  const check = async (): Promise<{ user: TUser } | TResponseError> => {
+  const check = async (
+    accessToken: string
+  ): Promise<{ user: TUser } | TResponseError> => {
     try {
       const response = await fetch(`${constants.env.apiSecurity}/auth/check`, {
         method: "GET",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: `Bearer ${authContext.getAccessToken()}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       })
       const responseBody = await response.json()
