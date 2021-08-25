@@ -8,6 +8,7 @@
     "start": "next start",
     "format": "prettier --write '{pages,styles,src,cypress}/**/*.{js,jsx,ts,tsx,css}'",
     "lint": "next lint",
+    "type-check": "tsc --noEmit",
     "cypress": "cypress",
     "test": "yarn cypress run"
   },
