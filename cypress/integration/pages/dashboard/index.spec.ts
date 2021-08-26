@@ -2,7 +2,7 @@ const homePage = {
   testId: {
     welcomeCardTitle: "[data-testid=welcome-card-title]",
     serverStatusCardTitle: "[data-testid=server-status-card-title]",
-  }
+  },
 }
 
 describe("Home page - Not sign in", () => {
@@ -30,6 +30,9 @@ describe("Home page - Sign in", () => {
   })
 
   it("has server status card", () => {
-    cy.get(homePage.testId.serverStatusCardTitle).should("have.text", "Server Status")
+    cy.get(homePage.testId.serverStatusCardTitle).should(
+      "have.text",
+      "Server Status"
+    )
   })
 })

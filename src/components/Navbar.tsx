@@ -12,7 +12,7 @@ import Button from "./Button"
 import ButtonGroup from "./ButtonGroup"
 import Modal from "./Modal"
 
-interface INavbar { }
+interface INavbar {}
 const Navbar: React.FC<INavbar> = () => {
   const [isActive, setActive] = useState<boolean>(false)
   const [isCredits, setCredits] = useState<boolean>(false)
@@ -88,10 +88,11 @@ const NavbarMenu: React.FC<{
   return (
     <>
       <div
-        className={`navbar-menu ${isActive
+        className={`navbar-menu ${
+          isActive
             ? "is-active animate__animated animate__slideInDown animate__faster"
             : ""
-          }`}>
+        }`}>
         {authContext.isAuth() && (
           <div className="navbar-start">
             <Link href="/dashboard">
@@ -99,6 +100,16 @@ const NavbarMenu: React.FC<{
                 Home
               </a>
             </Link>
+            <div className="navbar-item has-dropdown is-hoverable">
+              <a className="navbar-link" data-testid="navbar-menu-security">
+                Security
+              </a>
+              <div className="navbar-dropdown">
+                <Link href="/dashboard/security/user">
+                  <a className="navbar-item">User</a>
+                </Link>
+              </div>
+            </div>
           </div>
         )}
         <div className="navbar-end">

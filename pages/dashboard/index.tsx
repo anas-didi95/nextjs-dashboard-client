@@ -73,7 +73,7 @@ const ServerStatusCard: React.FC<{}> = () => {
   }
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       const url = servers[selected].url
       const response = await fetch(url, {
         method: "GET",
