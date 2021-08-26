@@ -36,7 +36,7 @@ const WelcomeCard: React.FC<{}> = () => {
   }, [])
 
   return (
-    <Card title={constants.header.welcome}>
+    <Card title={constants.header.welcome} testId="welcome-card">
       <p className="title is-4">Hi, {user.fullName}</p>
       <div className="columns is-mobile is-multiline">
         <div className="column is-4">
@@ -73,7 +73,7 @@ const ServerStatusCard: React.FC<{}> = () => {
   }
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const url = servers[selected].url
       const response = await fetch(url, {
         method: "GET",
@@ -97,7 +97,7 @@ const ServerStatusCard: React.FC<{}> = () => {
   }, [selected])
 
   return (
-    <Card title="Server Status">
+    <Card title="Server Status" testId="server-status-card">
       <div className="tabs">
         <ul>
           {servers.map((server, i) => (
