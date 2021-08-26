@@ -5,8 +5,9 @@ interface IButton {
   label: string
   type: "button" | "submit"
   onClick: React.MouseEventHandler<HTMLButtonElement>
-  color?: "is-primary" | "is-light"
+  color?: "is-primary" | "is-light" | "is-danger"
   isOutlined?: boolean
+  isInverted?: boolean
   testId?: string
 }
 const Button: React.FC<IButton> = ({
@@ -15,6 +16,7 @@ const Button: React.FC<IButton> = ({
   onClick,
   color,
   isOutlined,
+  isInverted,
   testId,
 }) => {
   const loadingContext = useLoadingContext()
@@ -25,7 +27,7 @@ const Button: React.FC<IButton> = ({
       onClick={onClick}
       className={`button ${!!color ? color : ""} ${
         loadingContext.isLoading() ? "is-loading" : ""
-      } ${isOutlined ? "is-outlined" : ""}`}
+      } ${isOutlined ? "is-outlined" : ""} ${isInverted ? "is-inverted" : ""}`}
       data-testid={testId}>
       {label}
     </button>

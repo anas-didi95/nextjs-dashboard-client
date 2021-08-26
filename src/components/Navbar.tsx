@@ -1,26 +1,43 @@
+import React, { useState } from "react"
+import { useRouter } from "next/dist/client/router"
 import Image from "next/image"
 import Link from "next/link"
-import React, { useState } from "react"
+import { GrGithub, GrLinkedin, GrPersonalComputer } from "react-icons/gr"
+import { useAuthContext } from "../utils/contexts/AuthContext"
+import { useLoadingContext } from "../utils/contexts/LoadingContext"
+import { useNotificationContext } from "../utils/contexts/NotificationContext"
 import useConstants from "../utils/hooks/useConstants"
+import useSecurityService from "../utils/hooks/useSecurityService"
 import Button from "./Button"
 import ButtonGroup from "./ButtonGroup"
 import Modal from "./Modal"
-import { GrPersonalComputer, GrGithub, GrLinkedin } from "react-icons/gr"
 
-interface INavbar {}
+interface INavbar { }
 const Navbar: React.FC<INavbar> = () => {
   const [isActive, setActive] = useState<boolean>(false)
+  const [isCredits, setCredits] = useState<boolean>(false)
+  const [isSignOut, setSignOut] = useState<boolean>(false)
 
   const toggleActive = () => setActive((prev) => !prev)
+  const toggleCredits = () => setCredits((prev) => !prev)
+  const toggleSignOut = () => setSignOut((prev) => !prev)
 
   return (
-    <nav
-      className="navbar is-info is-spaced"
-      role="navigation"
-      aria-label="main navigation">
-      <NavbarBrand isActive={isActive} toggleActive={toggleActive} />
-      <NavbarMenu isActive={isActive} />
-    </nav>
+    <>
+      <nav
+        className="navbar is-info is-spaced"
+        role="navigation"
+        aria-label="main navigation">
+        <NavbarBrand isActive={isActive} toggleActive={toggleActive} />
+        <NavbarMenu
+          isActive={isActive}
+          toggleCredits={toggleCredits}
+          toggleSignOut={toggleSignOut}
+        />
+      </nav>
+      <ModalCredits isActive={isCredits} toggleActive={toggleCredits} />
+      <ModalSignOut isActive={isSignOut} toggleActive={toggleSignOut} />
+    </>
   )
 }
 
@@ -60,20 +77,30 @@ const NavbarBrand: React.FC<{ isActive: boolean; toggleActive: () => void }> =
     )
   }
 
-const NavbarMenu: React.FC<{ isActive: boolean }> = ({ isActive }) => {
+const NavbarMenu: React.FC<{
+  isActive: boolean
+  toggleCredits: () => void
+  toggleSignOut: () => void
+}> = ({ isActive, toggleCredits, toggleSignOut }) => {
   const constants = useConstants()
-  const [isCredits, setCredits] = useState<boolean>(false)
-
-  const toggleCredits = () => setCredits((prev) => !prev)
+  const authContext = useAuthContext()
 
   return (
     <>
       <div
-        className={`navbar-menu ${
-          isActive
+        className={`navbar-menu ${isActive
             ? "is-active animate__animated animate__slideInDown animate__faster"
             : ""
-        }`}>
+          }`}>
+        {authContext.isAuth() && (
+          <div className="navbar-start">
+            <Link href="/dashboard">
+              <a className="navbar-item" data-testid="navbar-menu-home">
+                Home
+              </a>
+            </Link>
+          </div>
+        )}
         <div className="navbar-end">
           <div className="navbar-item">
             <ButtonGroup>
@@ -85,11 +112,19 @@ const NavbarMenu: React.FC<{ isActive: boolean }> = ({ isActive }) => {
                 isOutlined
                 testId="navbar-button-credits"
               />
+              {authContext.isAuth() && (
+                <Button
+                  label={constants.button.signOut}
+                  onClick={toggleSignOut}
+                  type="button"
+                  color="is-danger"
+                  testId="navbar-button-signout"
+                />
+              )}
             </ButtonGroup>
           </div>
         </div>
       </div>
-      <ModalCredits isActive={isCredits} toggleActive={toggleCredits} />
     </>
   )
 }
@@ -155,6 +190,73 @@ const ModalCredits: React.FC<{
           </a>
         </div>
       </div>{" "}
+    </Modal>
+  )
+}
+
+const ModalSignOut: React.FC<{
+  isActive: boolean
+  toggleActive: () => void
+}> = ({ isActive, toggleActive }) => {
+  const constants = useConstants()
+  const router = useRouter()
+  const authContext = useAuthContext()
+  const notificationContext = useNotificationContext()
+  const loadingContext = useLoadingContext()
+  const securityService = useSecurityService()
+
+  const onSignOut = () => {
+    const request = async (retry: number = 1, accessToken: string = "") => {
+      accessToken = accessToken || authContext.getAccessToken()
+      const { responseBody, status } = await securityService.signOut(
+        accessToken
+      )
+      if ("userId" in responseBody) {
+        authContext.clear()
+        router.replace("/")
+      } else {
+        if (status === 401 && retry > 0) {
+          accessToken = await authContext.refresh()
+          await request(retry - 1, accessToken)
+        } else {
+          notificationContext.setError({
+            code: "",
+            errors: ["Token not found!"],
+            message: "Session timeout!",
+            traceId: "",
+          })
+          router.replace("/")
+        }
+      }
+    }
+    loadingContext.run(request)
+  }
+
+  return (
+    <Modal
+      isActive={isActive}
+      toggleActive={toggleActive}
+      title={constants.header.confirmSignOut}>
+      <p className="content has-text-black">
+        Click &quot;Sign Out&quot; below to sign out from dashboard.
+      </p>
+      <br />
+      <ButtonGroup align="is-right">
+        <Button
+          label={constants.button.close}
+          onClick={toggleActive}
+          type="button"
+          color="is-light"
+          isInverted
+          isOutlined
+        />
+        <Button
+          label={constants.button.signOut}
+          onClick={onSignOut}
+          type="button"
+          color="is-danger"
+        />
+      </ButtonGroup>
     </Modal>
   )
 }

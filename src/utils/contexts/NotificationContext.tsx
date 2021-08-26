@@ -5,25 +5,20 @@ import React, {
   useContext,
   useReducer,
 } from "react"
+import { TResponseError } from "../types"
 
 const initialState: TState = {
   message: "",
-  title: "",
   code: "",
   traceId: "",
   messageType: "",
   errors: [],
+  detail: "",
 }
 
 const NotificationContext = createContext<TContext>({
   state: initialState,
-  setError: (
-    title: string,
-    message: string,
-    code: string,
-    traceId: string,
-    errors: string[]
-  ) => {},
+  setError: (error) => {},
   clear: () => {},
   hasMessage: () => false,
 })
@@ -36,14 +31,14 @@ const NotificationProvider: React.FC<{ children: ReactNode }> = ({
       const { type } = action
       switch (type) {
         case "SET_ERROR":
-          const { title, message, code, traceId, errors } =
+          const { message, code, traceId, errors, detail } =
             action as TActionSetError
           return {
-            title,
             message,
             errors,
             code,
             traceId,
+            detail,
             messageType: "is-danger",
           }
         case "CLEAR":
@@ -53,16 +48,30 @@ const NotificationProvider: React.FC<{ children: ReactNode }> = ({
     initialState
   )
 
-  const setError = (
-    title: string,
-    message: string,
-    code: string,
-    traceId: string,
-    errors: string[]
-  ) => dispatch({ type: "SET_ERROR", title, message, code, traceId, errors })
+  const setError = (error: TResponseError) => {
+    const { code, errors, message, traceId } = error
+    if (errors.length > 1) {
+      dispatch({
+        code,
+        errors,
+        message,
+        traceId,
+        type: "SET_ERROR",
+        detail: "",
+      })
+    } else {
+      dispatch({
+        code,
+        message,
+        traceId,
+        type: "SET_ERROR",
+        errors: [],
+        detail: errors[0],
+      })
+    }
+  }
   const clear = () => dispatch({ type: "CLEAR" })
-  const hasMessage = () =>
-    !!state.title && !!state.message && !!state.messageType
+  const hasMessage = () => !!state.message && !!state.messageType
 
   return (
     <NotificationContext.Provider
@@ -78,33 +87,27 @@ export { NotificationProvider, useNotificationContext }
 
 type TContext = {
   state: TState
-  setError: (
-    title: string,
-    message: string,
-    code: string,
-    traceId: string,
-    errors: string[]
-  ) => void
+  setError: (error: TResponseError) => void
   clear: () => void
   hasMessage: () => boolean
 }
 type TType = "is-danger" | ""
 type TState = {
-  title: string
   message: string
   code: string
   traceId: string
   messageType: TType
   errors: string[]
+  detail: string
 }
 type TAction = TActionSetError | TActionClear
 type TActionSetError = {
   type: "SET_ERROR"
-  title: string
   message: string
   code: string
   traceId: string
   errors: string[]
+  detail: string
 }
 type TActionClear = {
   type: "CLEAR"

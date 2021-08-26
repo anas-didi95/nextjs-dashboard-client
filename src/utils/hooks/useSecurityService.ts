@@ -1,4 +1,9 @@
+import { initialResponseError, TResponseError, TUser } from "../types"
+import useConstants from "./useConstants"
+
 const useSecurityService = () => {
+  const constants = useConstants()
+
   const signIn = async (
     username: string,
     password: string
@@ -6,20 +11,17 @@ const useSecurityService = () => {
     { accessToken: string; refreshToken: string } | TResponseError
   > => {
     try {
-      const response = await fetch(
-        "https://api.anasdidi.dev/security/auth/login",
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username,
-            password,
-          }),
-        }
-      )
+      const response = await fetch(`${constants.env.apiSecurity}/auth/login`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          password,
+        }),
+      })
       const responseBody = await response.json()
       return responseBody
     } catch (error) {
@@ -31,23 +33,82 @@ const useSecurityService = () => {
     }
   }
 
+  const signOut = async (
+    accessToken: string
+  ): Promise<{
+    responseBody: { id: string } | TResponseError
+    status: number
+  }> => {
+    const response = await fetch(`${constants.env.apiSecurity}/auth/logout`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+    const responseBody = await response.json()
+    const { status } = response
+    return { responseBody, status }
+  }
+
+  const refresh = async (
+    refreshToken: string
+  ): Promise<
+    { accessToken: string; refreshToken: string } | TResponseError
+  > => {
+    try {
+      const response = await fetch(
+        `${constants.env.apiSecurity}/auth/refresh`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${refreshToken}`,
+          },
+        }
+      )
+      const responseBody = await response.json()
+      return responseBody
+    } catch (error) {
+      console.error("[useSecurityService] refresh failed!", error)
+      return {
+        ...initialResponseError,
+        message: error.message,
+      }
+    }
+  }
+
+  const check = async (
+    accessToken: string
+  ): Promise<{ user: TUser } | TResponseError> => {
+    try {
+      const response = await fetch(`${constants.env.apiSecurity}/auth/check`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      const responseBody = await response.json()
+      return responseBody
+    } catch (error) {
+      console.error("[useSecurityService] check failed!", error)
+      return {
+        ...initialResponseError,
+        message: error.message,
+      }
+    }
+  }
+
   return {
     signIn,
+    signOut,
+    refresh,
+    check,
   }
 }
 
-const initialResponseError: TResponseError = {
-  code: "",
-  message: "",
-  traceId: "",
-  errors: [""],
-}
-
 export default useSecurityService
-
-export type TResponseError = {
-  code: string
-  message: string
-  traceId: string
-  errors: string[]
-}

@@ -1,5 +1,5 @@
-import { useRouter } from "next/dist/client/router"
 import React from "react"
+import { useRouter } from "next/dist/client/router"
 import { useForm } from "react-hook-form"
 import Button from "../src/components/Button"
 import ButtonGroup from "../src/components/ButtonGroup"
@@ -10,9 +10,9 @@ import { useAuthContext } from "../src/utils/contexts/AuthContext"
 import { useLoadingContext } from "../src/utils/contexts/LoadingContext"
 import { useNotificationContext } from "../src/utils/contexts/NotificationContext"
 import useConstants from "../src/utils/hooks/useConstants"
-import useSecurityService, {
-  TResponseError,
-} from "../src/utils/hooks/useSecurityService"
+import useSecurityService from "../src/utils/hooks/useSecurityService"
+import { TResponseError } from "../src/utils/types"
+import Box from "../src/components/Box"
 
 const SignInPage: React.FC<{}> = () => (
   <AppLayout title="Sign In">
@@ -46,20 +46,16 @@ const LoginForm: React.FC<{}> = () => {
 
   const onSignIn = (data: TLoginForm) => {
     loadingContext.run(async () => {
-      notificationContext.clear()
       const responseBody = await securityService.signIn(
         data.username,
         data.password
       )
-
       if ("accessToken" in responseBody) {
         const { accessToken, refreshToken } = responseBody
-        authContext.set(accessToken, refreshToken)
+        authContext.setToken(accessToken, refreshToken)
         router.push("/dashboard")
       } else {
-        const { code, errors, message, traceId } =
-          responseBody as TResponseError
-        notificationContext.setError(message, errors[0], code, traceId, [])
+        notificationContext.setError(responseBody as TResponseError)
       }
     })
   }
@@ -69,7 +65,7 @@ const LoginForm: React.FC<{}> = () => {
   }
 
   return (
-    <div className="box">
+    <Box>
       <p
         className="is-size-4 has-text-weight-bold mb-4"
         data-testid="signin-form-header">
@@ -105,6 +101,9 @@ const LoginForm: React.FC<{}> = () => {
             label={constants.button.clear}
             type="button"
             onClick={onClear}
+            color="is-light"
+            isInverted
+            isOutlined
             testId="signin-form-button-clear"
           />
           <Button
@@ -116,7 +115,7 @@ const LoginForm: React.FC<{}> = () => {
           />
         </ButtonGroup>
       </form>
-    </div>
+    </Box>
   )
 }
 
