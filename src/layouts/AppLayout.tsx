@@ -4,8 +4,6 @@ import Head from "next/head"
 import Navbar from "../components/Navbar"
 import { useAuthContext } from "../utils/contexts/AuthContext"
 import useConstants from "../utils/hooks/useConstants"
-import useSecurityService from "../utils/hooks/useSecurityService"
-import useLocalStorage from "../utils/hooks/useLocalStorage"
 
 interface IAppLayout {
   children: ReactNode
@@ -16,7 +14,6 @@ const AppLayout: React.FC<IAppLayout> = ({ children, title, needAuth }) => {
   const constants = useConstants()
   const authContext = useAuthContext()
   const router = useRouter()
-  const securityService = useSecurityService()
   const [isVisible, setVisible] = useState<boolean>(false)
 
   useEffect(() => {

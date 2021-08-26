@@ -18,7 +18,7 @@ const AuthContext = createContext<TContext>({
   isAuth: () => false,
   clear: () => {},
   hasRefreshToken: () => false,
-  refresh: async () => {},
+  refresh: async () => "",
   setUser: async () => {},
 })
 
@@ -53,6 +53,9 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     if ("accessToken" in responseBody) {
       const { refreshToken, accessToken } = responseBody
       setToken(accessToken, refreshToken)
+      return accessToken
+    } else {
+      return ""
     }
   }
 
@@ -95,7 +98,7 @@ type TContext = {
   isAuth: () => boolean
   clear: () => void
   hasRefreshToken: () => boolean
-  refresh: () => Promise<void>
+  refresh: () => Promise<string>
   setUser: () => Promise<void>
 }
 type TState = {

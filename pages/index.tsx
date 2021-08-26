@@ -46,12 +46,10 @@ const LoginForm: React.FC<{}> = () => {
 
   const onSignIn = (data: TLoginForm) => {
     loadingContext.run(async () => {
-      notificationContext.clear()
       const responseBody = await securityService.signIn(
         data.username,
         data.password
       )
-
       if ("accessToken" in responseBody) {
         const { accessToken, refreshToken } = responseBody
         authContext.setToken(accessToken, refreshToken)

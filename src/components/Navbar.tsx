@@ -208,15 +208,30 @@ const ModalSignOut: React.FC<{
   const securityService = useSecurityService()
 
   const onSignOut = () => {
-    loadingContext.run(async () => {
-      const responseBody = await securityService.signOut()
+    const request = async (retry: number = 1, accessToken: string = "") => {
+      accessToken = accessToken || authContext.getAccessToken()
+      const { responseBody, status } = await securityService.signOut(
+        accessToken
+      )
       if ("userId" in responseBody) {
         authContext.clear()
         router.replace("/")
       } else {
-        notificationContext.setError(responseBody as TResponseError)
+        if (status === 401 && retry > 0) {
+          accessToken = await authContext.refresh()
+          await request(retry - 1, accessToken)
+        } else {
+          notificationContext.setError({
+            code: "",
+            errors: ["Token not found!"],
+            message: "Session timeout!",
+            traceId: "",
+          })
+          router.replace("/")
+        }
       }
-    })
+    }
+    loadingContext.run(request)
   }
 
   return (

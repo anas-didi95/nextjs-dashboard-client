@@ -1,10 +1,8 @@
-import { useAuthContext } from "../contexts/AuthContext"
 import { initialResponseError, TResponseError, TUser } from "../types"
 import useConstants from "./useConstants"
 
 const useSecurityService = () => {
   const constants = useConstants()
-  const authContext = useAuthContext()
 
   const signIn = async (
     username: string,
@@ -35,25 +33,23 @@ const useSecurityService = () => {
     }
   }
 
-  const signOut = async (): Promise<{ id: string } | TResponseError> => {
-    try {
-      const response = await fetch(`${constants.env.apiSecurity}/auth/logout`, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authContext.getAccessToken()}`,
-        },
-      })
-      const responseBody = await response.json()
-      return responseBody
-    } catch (error) {
-      console.error("[useSecurityService] signOut failed!", error)
-      return {
-        ...initialResponseError,
-        message: error.message,
-      }
-    }
+  const signOut = async (
+    accessToken: string
+  ): Promise<{
+    responseBody: { id: string } | TResponseError
+    status: number
+  }> => {
+    const response = await fetch(`${constants.env.apiSecurity}/auth/logout`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+    const responseBody = await response.json()
+    const { status } = response
+    return { responseBody, status }
   }
 
   const refresh = async (
