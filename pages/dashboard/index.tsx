@@ -40,12 +40,12 @@ const WelcomeCard: React.FC<{}> = () => {
       <p className="title is-4">Hi, {user.fullName}</p>
       <div className="columns is-mobile is-multiline">
         <div className="column is-4">
-          <LabelValue label="Session started at">
+          <LabelValue label={constants.label.sessionStartedAt}>
             <p>{authContext.getSessionDate().toLocaleString()}</p>
           </LabelValue>
         </div>
         <div className="column is-4">
-          <LabelValue label="Current Time">
+          <LabelValue label={constants.label.currentTime}>
             <p>{currentTime?.toLocaleString() ?? "Loading..."}</p>
           </LabelValue>
         </div>
@@ -55,6 +55,7 @@ const WelcomeCard: React.FC<{}> = () => {
 }
 
 const ServerStatusCard: React.FC<{}> = () => {
+  const constants = useConstants()
   const servers: TServer[] = [
     { label: "Security", url: "https://api.anasdidi.dev/security/health" },
     { label: "Bot", url: "https://api.anasdidi.dev/bot/ping" },
@@ -73,7 +74,7 @@ const ServerStatusCard: React.FC<{}> = () => {
   }
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       const url = servers[selected].url
       const response = await fetch(url, {
         method: "GET",
@@ -86,6 +87,8 @@ const ServerStatusCard: React.FC<{}> = () => {
         const responseBody = await response.json()
         if (responseBody.outcome === "UP") {
           setStatus(1)
+        } else {
+          setStatus(-1)
         }
         setContent(JSON.stringify(responseBody))
       } else {
@@ -97,7 +100,7 @@ const ServerStatusCard: React.FC<{}> = () => {
   }, [selected])
 
   return (
-    <Card title="Server Status" testId="server-status-card">
+    <Card title={constants.header.serverStatus} testId="server-status-card">
       <div className="tabs">
         <ul>
           {servers.map((server, i) => (
@@ -113,12 +116,12 @@ const ServerStatusCard: React.FC<{}> = () => {
       </div>
       <div className="columns is-mobile is-multiline">
         <div className="column is-3">
-          <LabelValue label="Server">
+          <LabelValue label={constants.label.server}>
             <p>{servers[selected].label}</p>
           </LabelValue>
         </div>
         <div className="column is-3">
-          <LabelValue label="Status">
+          <LabelValue label={constants.label.status}>
             {status === 0 ? (
               <Tag color="is-warning" value="Loading" />
             ) : status > 0 ? (

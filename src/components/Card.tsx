@@ -8,7 +8,11 @@ interface ICard {
 const Card: React.FC<ICard> = ({ title, children, testId }) => (
   <div className="card" data-testid={testId}>
     <header className="card-header has-background-link">
-      <p className="card-header-title has-text-white" data-testid={`${testId}-title`}>{title}</p>
+      <p
+        className="card-header-title has-text-white"
+        data-testid={`${testId}-title`}>
+        {title}
+      </p>
     </header>
     <div className="card-content">{children}</div>
   </div>

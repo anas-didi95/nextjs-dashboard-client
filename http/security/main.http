@@ -1,0 +1,6 @@
+@baseUrl = {{$processEnv NEXT_PUBLIC_API_SECURITY}}
+
+// @name health
+GET {{baseUrl}}/health
+Accept: application/json
+Content-Type: application/json

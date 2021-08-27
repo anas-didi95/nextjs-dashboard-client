@@ -6,6 +6,7 @@ const appLayout = {
     navbarModalCredits: "[data-testid=navbar-modal-credits]",
     navbarModalCreditsClose: "[data-testid=navbar-modal-credits-close]",
     navbarMenuHome: "[data-testid=navbar-menu-home]",
+    navbarMenuSecurity: "[data-testid=navbar-menu-security]",
   },
 }
 
@@ -50,6 +51,7 @@ describe("AppLayout - Sign in", () => {
     cy.get(appLayout.testId.navbarTitle).should("have.text", "Dashboard")
     cy.get(appLayout.testId.navbarButtonCredits).should("have.text", "Credits")
     cy.get(appLayout.testId.navbarMenuHome).should("have.text", "Home")
+    cy.get(appLayout.testId.navbarMenuSecurity).should("have.text", "Security")
   })
 
   it("has modal credits", () => {

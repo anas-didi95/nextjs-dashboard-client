@@ -19,7 +19,7 @@ const useConstants = () => {
     confirmSignOut: "Confirm Sign Out?",
     credits: "Credits",
     welcome: "Welcome",
-    securityServerStatus: "Security Server Status",
+    serverStatus: "Server Status",
     userListing: "User Listing",
     userForm: "User Form",
     userSummary: "User Summary",
@@ -46,6 +46,8 @@ const useConstants = () => {
     permissions: "Permissions",
     oldPassword: "Old Password",
     newPassword: "New Password",
+    sessionStartedAt: "Session started at",
+    server: "Server",
   }
 
   const button = {
@@ -64,14 +66,15 @@ const useConstants = () => {
     changePassword: "Change Password",
   }
 
-  const error = {
+  const message = {
     mandatoryField: (field: string) => `${field} is a mandatory field!`,
     passwordNotMatched: "Password not matched!",
     referConsoleLogDetails: "Kindly refer console log for details.",
     passwordCannotSimilar: "New Password cannot similar to Old Password!",
+    noRecordFound: "No record found",
   }
 
-  return { metadata, env, label, button, header, error }
+  return { metadata, env, label, button, header, message }
 }
 
 export default useConstants

@@ -75,7 +75,9 @@ const LoginForm: React.FC<{}> = () => {
       <form onSubmit={handleSubmit(onSignIn)}>
         <FormInput
           register={register("username", {
-            required: constants.error.mandatoryField(constants.label.username),
+            required: constants.message.mandatoryField(
+              constants.label.username
+            ),
           })}
           label={constants.label.username}
           type="text"
@@ -86,7 +88,9 @@ const LoginForm: React.FC<{}> = () => {
         />
         <FormInput
           register={register("password", {
-            required: constants.error.mandatoryField(constants.label.password),
+            required: constants.message.mandatoryField(
+              constants.label.password
+            ),
           })}
           label={constants.label.password}
           type="password"

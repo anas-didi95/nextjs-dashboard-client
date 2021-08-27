@@ -2,20 +2,10 @@ const homePage = {
   testId: {
     welcomeCardTitle: "[data-testid=welcome-card-title]",
     serverStatusCardTitle: "[data-testid=server-status-card-title]",
-  }
+  },
 }
 
-describe("Home page - Not sign in", () => {
-  beforeEach(() => {
-    cy.visit("/dashboard")
-  })
-
-  it("will navigate to login page", () => {
-    cy.title().should("eq", "Sign In | Dashboard")
-  })
-})
-
-describe("Home page - Sign in", () => {
+describe("Home page", () => {
   beforeEach(() => {
     cy.login()
     cy.visit("/dashboard")
@@ -30,6 +20,9 @@ describe("Home page - Sign in", () => {
   })
 
   it("has server status card", () => {
-    cy.get(homePage.testId.serverStatusCardTitle).should("have.text", "Server Status")
+    cy.get(homePage.testId.serverStatusCardTitle).should(
+      "have.text",
+      "Server Status"
+    )
   })
 })
