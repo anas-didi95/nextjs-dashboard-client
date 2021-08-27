@@ -8,11 +8,12 @@ import DashboardLayout from "../../../../src/layouts/DashboardLayout"
 import { useAuthContext } from "../../../../src/utils/contexts/AuthContext"
 import { useLoadingContext } from "../../../../src/utils/contexts/LoadingContext"
 import { useNotificationContext } from "../../../../src/utils/contexts/NotificationContext"
+import useConstants from "../../../../src/utils/hooks/useConstants"
 import useSecurityService from "../../../../src/utils/hooks/useSecurityService"
 import { TResponseError, TUsers } from "../../../../src/utils/types"
 
 const SecurityUserListingPage: React.FC<{}> = () => (
-  <AppLayout title="User Listing" needAuth>
+  <AppLayout title="Security - User Listing" needAuth>
     <DashboardLayout breadcrumbs={["Security", "User"]}>
       <UserListingeCard />
     </DashboardLayout>
@@ -20,6 +21,7 @@ const SecurityUserListingPage: React.FC<{}> = () => (
 )
 
 const UserListingeCard: React.FC<{}> = () => {
+  const constants = useConstants()
   const authContext = useAuthContext()
   const notification = useNotificationContext()
   const loadingContext = useLoadingContext()
@@ -49,8 +51,14 @@ const UserListingeCard: React.FC<{}> = () => {
   }, [])
 
   return (
-    <Card title="User Listing">
-      <Table headers={["No", "Username", "Full Name", "Email"]}>
+    <Card title={constants.header.userListing}>
+      <Table
+        headers={[
+          constants.label.number,
+          constants.label.username,
+          constants.label.fullName,
+          constants.label.email,
+        ]}>
         {!!users &&
           users.length > 0 &&
           users.map((user, i) => (
