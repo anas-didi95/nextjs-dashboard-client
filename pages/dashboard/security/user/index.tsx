@@ -51,7 +51,7 @@ const UserListingeCard: React.FC<{}> = () => {
   }, [])
 
   return (
-    <Card title={constants.header.userListing}>
+    <Card title={constants.header.userListing} testId="user-listing-card">
       <Table
         headers={[
           constants.label.number,
