@@ -1,8 +1,15 @@
-import React from "react"
+import Link from "next/link"
+import React, { useState } from "react"
+import { useEffect } from "react"
 import Card from "../../../../src/components/Card"
 import Table from "../../../../src/components/Table"
 import AppLayout from "../../../../src/layouts/AppLayout"
 import DashboardLayout from "../../../../src/layouts/DashboardLayout"
+import { useAuthContext } from "../../../../src/utils/contexts/AuthContext"
+import { useLoadingContext } from "../../../../src/utils/contexts/LoadingContext"
+import { useNotificationContext } from "../../../../src/utils/contexts/NotificationContext"
+import useSecurityService from "../../../../src/utils/hooks/useSecurityService"
+import { TResponseError, TUsers } from "../../../../src/utils/types"
 
 const SecurityUserListingPage: React.FC<{}> = () => (
   <AppLayout title="User Listing" needAuth>
@@ -13,11 +20,33 @@ const SecurityUserListingPage: React.FC<{}> = () => (
 )
 
 const UserListingeCard: React.FC<{}> = () => {
-  const users: { username: string; fullName: string; email: string }[] = [
-    { email: "email1", fullName: "fullName1", username: "username1" },
-    { email: "email2", fullName: "fullName2", username: "username2" },
-    { email: "email3", fullName: "fullName3", username: "username3" },
-  ]
+  const authContext = useAuthContext()
+  const notification = useNotificationContext()
+  const loadingContext = useLoadingContext()
+  const securityService = useSecurityService()
+  const [users, setUsers] = useState<TUsers>([])
+
+  useEffect(() => {
+    setUsers([])
+    const request = async (retry: number = 1, accessToken: string = "") => {
+      accessToken = accessToken || authContext.getAccessToken()
+      const { responseBody, status } = await securityService.getUsers(
+        accessToken
+      )
+      if (status === 200) {
+        setUsers(responseBody as TUsers)
+      } else {
+        if (status === 401 && retry > 0) {
+          accessToken = await authContext.refresh()
+          await request(retry - 1, accessToken)
+        } else {
+          notification.setError(responseBody as TResponseError)
+        }
+      }
+    }
+    loadingContext.run(request)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Card title="User Listing">
@@ -27,7 +56,11 @@ const UserListingeCard: React.FC<{}> = () => {
           users.map((user, i) => (
             <tr key={`user${i}`}>
               <td>{i + 1}</td>
-              <td>{user.username}</td>
+              <td>
+                <Link href={`/dashboard/security/user/${user.id}`}>
+                  <a>{user.username}</a>
+                </Link>
+              </td>
               <td>{user.fullName}</td>
               <td>{user.email}</td>
             </tr>

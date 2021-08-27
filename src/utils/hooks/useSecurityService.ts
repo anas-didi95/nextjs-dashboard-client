@@ -1,4 +1,4 @@
-import { initialResponseError, TResponseError, TUser } from "../types"
+import { initialResponseError, TResponseError, TUser, TUsers } from "../types"
 import useConstants from "./useConstants"
 
 const useSecurityService = () => {
@@ -103,11 +103,42 @@ const useSecurityService = () => {
     }
   }
 
+  const getUsers = async (
+    accessToken: string
+  ): Promise<{ responseBody: TUsers | TResponseError; status: number }> => {
+    const response = await fetch(`${constants.env.apiSecurity}/graphql`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({
+        query: `query {
+          getUserList {
+            id
+            username
+            fullName
+            email
+          }
+        }`,
+      }),
+    })
+    const responseBody = await response.json()
+    const { status } = response
+    if (status === 200) {
+      return { responseBody: responseBody.data.getUserList, status }
+    } else {
+      return { responseBody, status }
+    }
+  }
+
   return {
     signIn,
     signOut,
     refresh,
     check,
+    getUsers,
   }
 }
 

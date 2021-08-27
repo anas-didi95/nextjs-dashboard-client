@@ -25,3 +25,10 @@ export const initialUser: TUser = {
   fullName: "",
   permissions: [],
 }
+
+export type TUsers = {
+  id: string
+  username: string
+  fullName: string
+  email: string
+}[]
