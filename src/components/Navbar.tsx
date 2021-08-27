@@ -11,6 +11,7 @@ import useSecurityService from "../utils/hooks/useSecurityService"
 import Button from "./Button"
 import ButtonGroup from "./ButtonGroup"
 import Modal from "./Modal"
+import { TResponseError } from "../utils/types"
 
 interface INavbar {}
 const Navbar: React.FC<INavbar> = () => {
@@ -230,12 +231,8 @@ const ModalSignOut: React.FC<{
           accessToken = await authContext.refresh()
           await request(retry - 1, accessToken)
         } else {
-          notificationContext.setError({
-            code: "",
-            errors: ["Token not found!"],
-            message: "Session timeout!",
-            traceId: "",
-          })
+          notificationContext.setError(responseBody as TResponseError)
+          authContext.clear()
           router.replace("/")
         }
       }
