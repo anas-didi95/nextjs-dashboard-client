@@ -2,6 +2,7 @@ import Link from "next/link"
 import React, { useState } from "react"
 import { useEffect } from "react"
 import Card from "../../../../src/components/Card"
+import Loader from "../../../../src/components/Loader"
 import Table from "../../../../src/components/Table"
 import AppLayout from "../../../../src/layouts/AppLayout"
 import DashboardLayout from "../../../../src/layouts/DashboardLayout"
@@ -52,28 +53,32 @@ const UserListingeCard: React.FC<{}> = () => {
 
   return (
     <Card title={constants.header.userListing} testId="user-listing-card">
-      <Table
-        headers={[
-          constants.label.number,
-          constants.label.username,
-          constants.label.fullName,
-          constants.label.email,
-        ]}>
-        {!!users &&
-          users.length > 0 &&
-          users.map((user, i) => (
-            <tr key={`user${i}`}>
-              <td>{i + 1}</td>
-              <td>
-                <Link href={`/dashboard/security/user/${user.id}`}>
-                  <a>{user.username}</a>
-                </Link>
-              </td>
-              <td>{user.fullName}</td>
-              <td>{user.email}</td>
-            </tr>
-          ))}
-      </Table>
+      {!loadingContext.isLoading() ? (
+        <Table
+          headers={[
+            constants.label.number,
+            constants.label.username,
+            constants.label.fullName,
+            constants.label.email,
+          ]}>
+          {!!users &&
+            users.length > 0 &&
+            users.map((user, i) => (
+              <tr key={`user${i}`}>
+                <td>{i + 1}</td>
+                <td>
+                  <Link href={`/dashboard/security/user/${user.id}`}>
+                    <a>{user.username}</a>
+                  </Link>
+                </td>
+                <td>{user.fullName}</td>
+                <td>{user.email}</td>
+              </tr>
+            ))}
+        </Table>
+      ) : (
+        <Loader />
+      )}
     </Card>
   )
 }
