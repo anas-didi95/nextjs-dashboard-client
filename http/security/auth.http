@@ -1,0 +1,37 @@
+@baseUrl = {{$processEnv NEXT_PUBLIC_API_SECURITY}}/auth
+@accessToken = {{login.response.body.$.accessToken}}
+@refreshToken = {{login.response.body.$.refreshToken}}
+
+// @name login
+POST {{baseUrl}}/login
+Accept: application/json
+Content-Type: application/json
+
+{
+  "username": "superadmin",
+  "password": "password"
+}
+
+###
+
+// @name check
+GET {{baseUrl}}/check
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+###
+
+// @name refresh
+GET {{baseUrl}}/refresh
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{refreshToken}}
+
+###
+
+// @name logout
+GET {{baseUrl}}/logout
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}

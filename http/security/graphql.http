@@ -1,0 +1,75 @@
+@baseUrl = {{$processEnv NEXT_PUBLIC_API_SECURITY}}/graphql
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJTWVNURU0iLCJpc3MiOiJhbmFzZGlkaS5kZXYiLCJwbXMiOlsidXNlcjp3cml0ZSJdLCJ0eXAiOiJUT0tFTl9BQ0NFU1MifQ.Vrehyb_erdUw_ziFUE15zg-Aiefp7fmpDWB9n69Ms3k
+
+// @name ping
+POST {{baseUrl}}
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "query": "query ($value: String!) { ping(value: $value) { isSuccess testValue } }",
+  "variables": {
+    "value": "Hello world!"
+  }
+}
+
+###
+
+// @name getUserList
+POST {{baseUrl}}
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "query": "query ($format: String) { getUserList { id username fullName email lastModifiedBy { id } lastModifiedDate(format: $format) version telegramId permissions } }",
+  "variables": {
+    "format": "yyyy-MM-dd HH:mm:ss"
+  }
+}
+
+###
+
+// @name getUserById
+POST {{baseUrl}}
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "query": "query ($id: String!, $format: String) { getUserById(id: $id) { id username fullName email lastModifiedBy { id } lastModifiedDate(format: $format) version telegramId permissions } }",
+  "variables": {
+    "id": "60fbd5c0531d0d54bd28ff19",
+    "format": "yyyy-MM-dd HH:mm:ss"
+  }
+}
+
+###
+
+// @name getUserByUsername
+POST {{baseUrl}}
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "query": "query ($username: String!, $format: String) { getUserByUsername(username: $username) { id username fullName email lastModifiedBy { id } lastModifiedDate(format: $format) version telegramId permissions } }",
+  "variables": {
+    "username": "superadmin",
+    "format": "yyyy-MM-dd HH:mm:ss"
+  }
+}
+
+###
+
+// @name getPermissionList
+POST {{baseUrl}}
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{accessToken}}
+
+{
+  "query": "query { getPermissionList { id } }",
+  "variables": {}
+}
