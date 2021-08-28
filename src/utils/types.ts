@@ -12,23 +12,28 @@ export const initialResponseError: TResponseError = {
   errors: [],
 }
 
-export type TUser = {
+export type TClaim = {
   userId: string
   username: string
   fullName: string
   permissions: string[]
 }
 
-export const initialUser: TUser = {
+export const initialClaim: TClaim = {
   userId: "",
   username: "",
   fullName: "",
   permissions: [],
 }
 
-export type TUsers = {
+export type TUser = {
   id: string
   username: string
   fullName: string
   email: string
-}[]
+  lastModifiedBy: TUser
+  lastModifiedDate: string
+  version: number
+  telegram: string
+  permission: string[]
+}

@@ -2,24 +2,24 @@ import React, { createContext, ReactNode, useContext, useState } from "react"
 import { useEffect } from "react"
 import useLocalStorage from "../hooks/useLocalStorage"
 import useSecurityService from "../hooks/useSecurityService"
-import { initialUser, TUser } from "../types"
+import { initialClaim, TClaim } from "../types"
 
 const initialState: TState = {
   accessToken: "",
   sessionDate: new Date(),
-  user: initialUser,
+  claim: initialClaim,
 }
 
 const AuthContext = createContext<TContext>({
-  setToken: (a, b) => {},
+  setToken: (a, b) => { },
   getAccessToken: () => "",
-  getUser: () => ({ ...initialState.user }),
+  getClaim: () => ({ ...initialState.claim }),
   getSessionDate: () => new Date(),
   isAuth: () => false,
-  clear: () => {},
+  clear: () => { },
   hasRefreshToken: () => false,
   refresh: async () => "",
-  setUser: async () => {},
+  setUser: async () => { },
 })
 
 const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -34,12 +34,12 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const setUser = async () => {
     const responseBody = await securityService.check(data.accessToken)
     if ("userId" in responseBody) {
-      const user = responseBody as TUser
+      const user = responseBody as TClaim
       setData((prev) => ({ ...prev, user }))
     }
   }
   const getAccessToken = () => data.accessToken
-  const getUser = () => data.user
+  const getClaim = () => data.claim
   const getSessionDate = () => data.sessionDate
   const isAuth = () => !!data.accessToken
   const clear = () => {
@@ -60,7 +60,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   }
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       if (!!data.accessToken) {
         await setUser()
       }
@@ -74,7 +74,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         setToken,
         setUser,
         getAccessToken,
-        getUser,
+        getClaim,
         getSessionDate,
         isAuth,
         clear,
@@ -93,7 +93,7 @@ export { AuthProvider, useAuthContext }
 type TContext = {
   setToken: (accessToken: string, refreshToken: string) => void
   getAccessToken: () => string
-  getUser: () => TUser
+  getClaim: () => TClaim
   getSessionDate: () => Date
   isAuth: () => boolean
   clear: () => void
@@ -104,5 +104,5 @@ type TContext = {
 type TState = {
   accessToken: string
   sessionDate: Date
-  user: TUser
+  claim: TClaim
 }

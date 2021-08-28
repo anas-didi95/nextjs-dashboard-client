@@ -1,4 +1,4 @@
-import { initialResponseError, TResponseError, TUser, TUsers } from "../types"
+import { initialResponseError, TResponseError, TClaim, TUser } from "../types"
 import useConstants from "./useConstants"
 
 const useSecurityService = () => {
@@ -82,7 +82,7 @@ const useSecurityService = () => {
 
   const check = async (
     accessToken: string
-  ): Promise<{ user: TUser } | TResponseError> => {
+  ): Promise<{ user: TClaim } | TResponseError> => {
     try {
       const response = await fetch(`${constants.env.apiSecurity}/auth/check`, {
         method: "GET",
@@ -105,7 +105,7 @@ const useSecurityService = () => {
 
   const getUsers = async (
     accessToken: string
-  ): Promise<{ responseBody: TUsers | TResponseError; status: number }> => {
+  ): Promise<{ responseBody: TUser[] | TResponseError; status: number }> => {
     const response = await fetch(`${constants.env.apiSecurity}/graphql`, {
       method: "POST",
       headers: {

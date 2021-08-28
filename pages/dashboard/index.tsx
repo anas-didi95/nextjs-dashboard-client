@@ -22,7 +22,7 @@ const HomePage: React.FC<{}> = () => (
 const WelcomeCard: React.FC<{}> = () => {
   const constants = useConstants()
   const authContext = useAuthContext()
-  const user = authContext.getUser()
+  const claim = authContext.getClaim()
   const [currentTime, setCurrentTime] = useState<Date>()
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const WelcomeCard: React.FC<{}> = () => {
 
   return (
     <Card title={constants.header.welcome} testId="welcome-card">
-      <p className="title is-4">Hi, {user.fullName}</p>
+      <p className="title is-4">Hi, {claim.fullName}</p>
       <div className="columns is-mobile is-multiline">
         <div className="column is-4">
           <LabelValue label={constants.label.sessionStartedAt}>
@@ -74,7 +74,7 @@ const ServerStatusCard: React.FC<{}> = () => {
   }
 
   useEffect(() => {
-    ;(async () => {
+    ; (async () => {
       const url = servers[selected].url
       const response = await fetch(url, {
         method: "GET",
