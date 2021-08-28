@@ -7,7 +7,7 @@ interface ILabelValue {
 const LabelValue: React.FC<ILabelValue> = ({ label, children }) => (
   <div className="field">
     <label className="label">{label}</label>
-    <div className="control">{children}</div>
+    <div className="control">{children ?? "-"}</div>
   </div>
 )
 
