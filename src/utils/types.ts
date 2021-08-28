@@ -31,9 +31,25 @@ export type TUser = {
   username: string
   fullName: string
   email: string
-  lastModifiedBy: TUser
+  lastModifiedBy: {
+    id: ""
+  }
   lastModifiedDate: string
   version: number
-  telegram: string
-  permission: string[]
+  telegramId: string
+  permissions: string[]
+}
+
+export const initialUser: TUser = {
+  id: "",
+  username: "",
+  fullName: "",
+  email: "",
+  lastModifiedBy: {
+    id: "",
+  },
+  lastModifiedDate: "",
+  version: -1,
+  telegramId: "",
+  permissions: [],
 }

@@ -133,12 +133,55 @@ const useSecurityService = () => {
     }
   }
 
+  const getUserById = async (
+    id: string,
+    accessToken: string
+  ): Promise<{ responseBody: TUser | TResponseError; status: number }> => {
+    const response = await fetch(`${constants.env.apiSecurity}/graphql`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({
+        query: `query ($id: String!, $format: String) {
+            getUserById(id: $id) {
+              id
+              username
+              fullName
+              email
+              lastModifiedBy {
+                id
+              }
+              lastModifiedDate(format: $format)
+              version
+              telegramId
+              permissions
+            }
+          }`,
+        variables: {
+          id,
+          format: "yyyy-MM-dd HH:mm:ss",
+        },
+      }),
+    })
+    const responseBody = await response.json()
+    const { status } = response
+    if (status === 200) {
+      return { responseBody: responseBody.data.getUserById, status }
+    } else {
+      return { responseBody, status }
+    }
+  }
+
   return {
     signIn,
     signOut,
     refresh,
     check,
     getUsers,
+    getUserById,
   }
 }
 
