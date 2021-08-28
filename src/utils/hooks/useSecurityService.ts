@@ -153,6 +153,7 @@ const useSecurityService = () => {
               email
               lastModifiedBy {
                 id
+                username
               }
               lastModifiedDate(format: $format)
               version

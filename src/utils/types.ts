@@ -33,6 +33,7 @@ export type TUser = {
   email: string
   lastModifiedBy: {
     id: ""
+    username: ""
   }
   lastModifiedDate: string
   version: number
@@ -47,6 +48,7 @@ export const initialUser: TUser = {
   email: "",
   lastModifiedBy: {
     id: "",
+    username: "",
   },
   lastModifiedDate: "",
   version: -1,

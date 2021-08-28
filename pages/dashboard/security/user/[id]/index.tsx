@@ -82,7 +82,7 @@ const UserSummaryCard: React.FC<{}> = () => {
           </div>
           <div className="column is-6">
             <LabelValue label={constants.label.lastModifiedBy}>
-              {user.lastModifiedBy.id}
+              {user.lastModifiedBy.username ?? user.lastModifiedBy.id}
             </LabelValue>
           </div>
           <div className="column is-6">
