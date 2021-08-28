@@ -11,15 +11,15 @@ const initialState: TState = {
 }
 
 const AuthContext = createContext<TContext>({
-  setToken: (a, b) => { },
+  setToken: (a, b) => {},
   getAccessToken: () => "",
   getClaim: () => ({ ...initialState.claim }),
   getSessionDate: () => new Date(),
   isAuth: () => false,
-  clear: () => { },
+  clear: () => {},
   hasRefreshToken: () => false,
   refresh: async () => "",
-  setUser: async () => { },
+  setUser: async () => {},
 })
 
 const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
@@ -60,7 +60,7 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   }
 
   useEffect(() => {
-    ; (async () => {
+    ;(async () => {
       if (!!data.accessToken) {
         await setUser()
       }

@@ -17,11 +17,15 @@ import {
 import { useNotificationContext } from "../../../../../src/utils/contexts/NotificationContext"
 import { useLoadingContext } from "../../../../../src/utils/contexts/LoadingContext"
 import Loader from "../../../../../src/components/Loader"
+import ButtonGroup from "../../../../../src/components/ButtonGroup"
+import Button from "../../../../../src/components/Button"
 
 const SecurityUserSummaryPage: React.FC<{}> = () => (
   <AppLayout title="Security - User Summary" needAuth>
     <DashboardLayout breadcrumbs={["Security", "User", "Summary"]}>
       <UserSummaryCard />
+      <br />
+      <ActionButton />
     </DashboardLayout>
   </AppLayout>
 )
@@ -105,6 +109,24 @@ const UserSummaryCard: React.FC<{}> = () => {
         <Loader />
       )}
     </Card>
+  )
+}
+
+const ActionButton: React.FC<{}> = () => {
+  const constants = useConstants()
+  const router = useRouter()
+
+  const onBack = () => router.back()
+
+  return (
+    <ButtonGroup align="is-right">
+      <Button
+        label={constants.button.back}
+        onClick={onBack}
+        type="button"
+        color="is-primary"
+      />
+    </ButtonGroup>
   )
 }
 
