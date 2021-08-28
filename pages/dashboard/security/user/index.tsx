@@ -11,7 +11,7 @@ import { useLoadingContext } from "../../../../src/utils/contexts/LoadingContext
 import { useNotificationContext } from "../../../../src/utils/contexts/NotificationContext"
 import useConstants from "../../../../src/utils/hooks/useConstants"
 import useSecurityService from "../../../../src/utils/hooks/useSecurityService"
-import { TResponseError, TUsers } from "../../../../src/utils/types"
+import { TResponseError, TUser } from "../../../../src/utils/types"
 
 const SecurityUserListingPage: React.FC<{}> = () => (
   <AppLayout title="Security - User Listing" needAuth>
@@ -27,7 +27,7 @@ const UserListingeCard: React.FC<{}> = () => {
   const notification = useNotificationContext()
   const loadingContext = useLoadingContext()
   const securityService = useSecurityService()
-  const [users, setUsers] = useState<TUsers>([])
+  const [users, setUsers] = useState<TUser[]>([])
 
   useEffect(() => {
     setUsers([])
@@ -37,7 +37,7 @@ const UserListingeCard: React.FC<{}> = () => {
         accessToken
       )
       if (status === 200) {
-        setUsers(responseBody as TUsers)
+        setUsers(responseBody as TUser[])
       } else {
         if (status === 401 && retry > 0) {
           accessToken = await authContext.refresh()
