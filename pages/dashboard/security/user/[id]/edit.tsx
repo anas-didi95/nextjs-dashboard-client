@@ -2,6 +2,7 @@ import { useRouter } from "next/dist/client/router"
 import React from "react"
 import Button from "../../../../../src/components/Button"
 import ButtonGroup from "../../../../../src/components/ButtonGroup"
+import ButtonLink from "../../../../../src/components/ButtonLink"
 import Card from "../../../../../src/components/Card"
 import AppLayout from "../../../../../src/layouts/AppLayout"
 import DashboardLayout from "../../../../../src/layouts/DashboardLayout"
@@ -32,12 +33,15 @@ const UserFormCard: React.FC<{}> = () => {
 const ActionButton: React.FC<{}> = () => {
   const constants = useConstants()
   const router = useRouter()
-
-  const onBack = () => router.back()
+  const { id } = router.query
 
   return (
     <ButtonGroup align="is-right">
-      <Button label={constants.button.back} onClick={onBack} type="button" color="is-primary" />
+      <ButtonLink
+        href={`/dashboard/security/user/${id}`}
+        label={constants.button.back}
+        color="is-primary"
+      />
     </ButtonGroup>
   )
 }

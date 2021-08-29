@@ -19,6 +19,7 @@ import { useLoadingContext } from "../../../../../src/utils/contexts/LoadingCont
 import Loader from "../../../../../src/components/Loader"
 import ButtonGroup from "../../../../../src/components/ButtonGroup"
 import Button from "../../../../../src/components/Button"
+import ButtonLink from "../../../../../src/components/ButtonLink"
 
 const SecurityUserSummaryPage: React.FC<{}> = () => (
   <AppLayout title="Security - User Summary" needAuth>
@@ -80,7 +81,9 @@ const UserSummaryCard: React.FC<{}> = () => {
               </LabelValue>
             </div>
             <div className="column is-6">
-              <LabelValue label={constants.label.email}>{user.email}</LabelValue>
+              <LabelValue label={constants.label.email}>
+                {user.email}
+              </LabelValue>
             </div>
             <div className="column is-6">
               <LabelValue label={constants.label.version}>
@@ -110,7 +113,7 @@ const UserSummaryCard: React.FC<{}> = () => {
           </div>
           <br />
           <ButtonGroup align="is-right">
-            <Button label={constants.button.edit} onClick={onEdit} type="button" color="is-success" />
+            <ButtonLink href={`/dashboard/security/user/${id}/edit`} label={constants.button.edit} color="is-success" />
           </ButtonGroup>
         </>
       ) : (
@@ -122,16 +125,12 @@ const UserSummaryCard: React.FC<{}> = () => {
 
 const ActionButton: React.FC<{}> = () => {
   const constants = useConstants()
-  const router = useRouter()
-
-  const onBack = () => router.back()
 
   return (
     <ButtonGroup align="is-right">
-      <Button
+      <ButtonLink
+        href="/dashboard/security/user"
         label={constants.button.back}
-        onClick={onBack}
-        type="button"
         color="is-primary"
       />
     </ButtonGroup>
