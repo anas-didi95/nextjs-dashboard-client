@@ -5,7 +5,7 @@ interface IButton {
   label: string
   type: "button" | "submit"
   onClick: React.MouseEventHandler<HTMLButtonElement>
-  color?: "is-primary" | "is-light" | "is-danger"
+  color?: "is-primary" | "is-light" | "is-danger" | "is-success"
   isOutlined?: boolean
   isInverted?: boolean
   testId?: string
@@ -25,9 +25,8 @@ const Button: React.FC<IButton> = ({
     <button
       type={type}
       onClick={onClick}
-      className={`button ${!!color ? color : ""} ${
-        loadingContext.isLoading() ? "is-loading" : ""
-      } ${isOutlined ? "is-outlined" : ""} ${isInverted ? "is-inverted" : ""}`}
+      className={`button ${!!color ? color : ""} ${loadingContext.isLoading() ? "is-loading" : ""
+        } ${isOutlined ? "is-outlined" : ""} ${isInverted ? "is-inverted" : ""}`}
       data-testid={testId}>
       {label}
     </button>

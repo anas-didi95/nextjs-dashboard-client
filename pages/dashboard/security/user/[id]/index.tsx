@@ -40,6 +40,8 @@ const UserSummaryCard: React.FC<{}> = () => {
   const { id } = router.query
   const [user, setUser] = useState<TUser>(initialUser)
 
+  const onEdit = () => router.push(`/dashboard/security/user/${id}/edit`)
+
   useEffect(() => {
     const request = async (retry: number = 1, accessToken: string = "") => {
       accessToken = accessToken || authContext.getAccessToken()
@@ -65,46 +67,52 @@ const UserSummaryCard: React.FC<{}> = () => {
   return (
     <Card title={constants.header.userSummary} testId="user-summary-car d">
       {!loadingContext.isLoading() ? (
-        <div className="columns is-multiline is-variable is-4">
-          <div className="column is-6">
-            <LabelValue label={constants.label.username}>
-              {user.username}
-            </LabelValue>
+        <>
+          <div className="columns is-multiline is-variable is-4">
+            <div className="column is-6">
+              <LabelValue label={constants.label.username}>
+                {user.username}
+              </LabelValue>
+            </div>
+            <div className="column is-6">
+              <LabelValue label={constants.label.fullName}>
+                {user.fullName}
+              </LabelValue>
+            </div>
+            <div className="column is-6">
+              <LabelValue label={constants.label.email}>{user.email}</LabelValue>
+            </div>
+            <div className="column is-6">
+              <LabelValue label={constants.label.version}>
+                {user.version}
+              </LabelValue>
+            </div>
+            <div className="column is-6">
+              <LabelValue label={constants.label.lastModifiedBy}>
+                {user.lastModifiedBy.username ?? user.lastModifiedBy.id}
+              </LabelValue>
+            </div>
+            <div className="column is-6">
+              <LabelValue label={constants.label.lastModifiedDate}>
+                {user.lastModifiedDate}
+              </LabelValue>
+            </div>
+            <div className="column is-6">
+              <LabelValue label={constants.label.permissions}>
+                [{user.permissions}]
+              </LabelValue>
+            </div>
+            <div className="column is-6">
+              <LabelValue label={constants.label.telegramId}>
+                {user.telegramId}
+              </LabelValue>
+            </div>
           </div>
-          <div className="column is-6">
-            <LabelValue label={constants.label.fullName}>
-              {user.fullName}
-            </LabelValue>
-          </div>
-          <div className="column is-6">
-            <LabelValue label={constants.label.email}>{user.email}</LabelValue>
-          </div>
-          <div className="column is-6">
-            <LabelValue label={constants.label.version}>
-              {user.version}
-            </LabelValue>
-          </div>
-          <div className="column is-6">
-            <LabelValue label={constants.label.lastModifiedBy}>
-              {user.lastModifiedBy.username ?? user.lastModifiedBy.id}
-            </LabelValue>
-          </div>
-          <div className="column is-6">
-            <LabelValue label={constants.label.lastModifiedDate}>
-              {user.lastModifiedDate}
-            </LabelValue>
-          </div>
-          <div className="column is-6">
-            <LabelValue label={constants.label.permissions}>
-              [{user.permissions}]
-            </LabelValue>
-          </div>
-          <div className="column is-6">
-            <LabelValue label={constants.label.telegramId}>
-              {user.telegramId}
-            </LabelValue>
-          </div>
-        </div>
+          <br />
+          <ButtonGroup align="is-right">
+            <Button label={constants.button.edit} onClick={onEdit} type="button" color="is-success" />
+          </ButtonGroup>
+        </>
       ) : (
         <Loader />
       )}
