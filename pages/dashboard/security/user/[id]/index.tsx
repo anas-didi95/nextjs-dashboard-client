@@ -58,6 +58,9 @@ const UserSummaryCard: React.FC<{}> = () => {
           await request(retry - 1, accessToken)
         } else {
           notificationContext.setError(responseBody as TResponseError)
+          if (retry === 0) {
+            router.replace("/")
+          }
         }
       }
     }
@@ -113,7 +116,11 @@ const UserSummaryCard: React.FC<{}> = () => {
           </div>
           <br />
           <ButtonGroup align="is-right">
-            <ButtonLink href={`/dashboard/security/user/${id}/edit`} label={constants.button.edit} color="is-success" />
+            <ButtonLink
+              href={`/dashboard/security/user/${id}/edit`}
+              label={constants.button.edit}
+              color="is-success"
+            />
           </ButtonGroup>
         </>
       ) : (

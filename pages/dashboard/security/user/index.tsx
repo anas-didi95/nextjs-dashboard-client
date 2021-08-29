@@ -1,3 +1,4 @@
+import { useRouter } from "next/dist/client/router"
 import Link from "next/link"
 import React, { useState } from "react"
 import { useEffect } from "react"
@@ -27,6 +28,7 @@ const UserListingeCard: React.FC<{}> = () => {
   const notification = useNotificationContext()
   const loadingContext = useLoadingContext()
   const securityService = useSecurityService()
+  const router = useRouter()
   const [users, setUsers] = useState<TUser[]>([])
 
   useEffect(() => {
@@ -44,6 +46,9 @@ const UserListingeCard: React.FC<{}> = () => {
           await request(retry - 1, accessToken)
         } else {
           notification.setError(responseBody as TResponseError)
+          if (retry === 0) {
+            router.replace("/")
+          }
         }
       }
     }
