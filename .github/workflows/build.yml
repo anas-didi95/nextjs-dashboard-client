@@ -1,5 +1,7 @@
-#Reference: https://docs.github.com/en/free-pro-team@latest/actions/guides/building-and-testing-nodejs
-#Reference: https://github.com/actions/setup-node
+# References
+# https://docs.github.com/en/free-pro-team@latest/actions/guides/building-and-testing-nodejs
+# https://github.com/actions/checkout
+# https://github.com/actions/setup-node
 
 name: build
 
@@ -11,18 +13,17 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        node-version: [10.x, 12.x]
-
+        node-version:
+          - 14
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-      - name: yarn install, build, codegen, type-check and test
+      - name: yarn install, build
         run: |
           yarn install
           yarn build
