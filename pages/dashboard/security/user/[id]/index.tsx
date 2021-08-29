@@ -86,6 +86,16 @@ const UserSummaryCard: React.FC<{}> = () => {
               </LabelValue>
             </div>
             <div className="column is-6">
+              <LabelValue label={constants.label.permissions}>
+                [{user.permissions}]
+              </LabelValue>
+            </div>
+            <div className="column is-6">
+              <LabelValue label={constants.label.telegramId}>
+                {user.telegramId}
+              </LabelValue>
+            </div>
+            <div className="column is-6">
               <LabelValue label={constants.label.version}>
                 {user.version}
               </LabelValue>
@@ -98,16 +108,6 @@ const UserSummaryCard: React.FC<{}> = () => {
             <div className="column is-6">
               <LabelValue label={constants.label.lastModifiedDate}>
                 {user.lastModifiedDate}
-              </LabelValue>
-            </div>
-            <div className="column is-6">
-              <LabelValue label={constants.label.permissions}>
-                [{user.permissions}]
-              </LabelValue>
-            </div>
-            <div className="column is-6">
-              <LabelValue label={constants.label.telegramId}>
-                {user.telegramId}
               </LabelValue>
             </div>
           </div>
