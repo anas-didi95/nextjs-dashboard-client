@@ -23,27 +23,35 @@ The application is deployed at https://dashboard.anasdidi.dev/.
 
 ## Technologies
 
-* Next - version 10.0.9
+* Next - version 11.0.1
 * React - version 17.0.2
-* TypeScript - version 4.2.3
-* Bulma - version 0.9.2
+* TypeScript - version 4.2.5
+* Bulma - version 0.9.3
 
 ---
 
 ## Features
 
-* Sign in user using JWT authentication to access the dashboard.
-* Sign out user from the dashboard.
+* [x] Sign in user using JWT authentication to access the dashboard.
+* [x] Sign out user from the dashboard.
+* [x] View services' status.
+* [x] Get list of users.
+* [x] View user summary.
+* [ ] Create new user.
+* [ ] Delete other existing user.
+* [ ] Change password of current user.
 
 ---
 
 ## Environment Variables
 Following table is list of environment variables used in this project.
 
-| Variable Name | Datatype | Description | Default Value |
-| --- | --- | --- | --- |
-| NEXT_PUBLIC_API_SECURITY | String | Server URL of security-related service | |
-| NEXT_PUBLIC_REFRESH_INTERVAL_MINUTE | Number | Refresh token interval duration (in minutes) | 20 |
+| Variable Name | Datatype | Description
+| --- | --- | --- |
+| NEXT_PUBLIC_API_SECURITY | String | Server URL of security-related service |
+| CYPRESS_LOGIN_USERNAME | String | Valid username for end-to-end testing (for development only) |
+| CYPRESS_LOGIN_PASSWORD | String | Valid password for end-to-end testing (for development only) |
+| CYPRESS_API_SECURITY | String | Server URL of security-related service (for development only) |
 
 ---
 
@@ -95,7 +103,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 * [Execute `cypress open` from Docker container open browser](https://github.com/cypress-io/cypress/issues/4462)
 
---
+---
 
 ## Contact
 
