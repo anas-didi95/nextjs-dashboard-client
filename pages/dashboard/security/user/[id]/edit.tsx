@@ -19,6 +19,7 @@ import useConstants from "../../../../../src/utils/hooks/useConstants"
 import useSecurityService from "../../../../../src/utils/hooks/useSecurityService"
 import {
   initialUser,
+  TPermission,
   TResponseError,
   TUser,
 } from "../../../../../src/utils/types"
@@ -48,6 +49,7 @@ const UserFormCard: React.FC<{}> = () => {
     formState: { errors },
   } = useForm<TUser>({ defaultValues: initialUser })
   const [user, setUser] = useState<TUser>(initialUser)
+  const [permissions, setPermissions] = useState<TPermission[]>([])
 
   const onSubmit = (data: TUser) => {
     console.log("[onSubmit] data", data)
@@ -65,8 +67,10 @@ const UserFormCard: React.FC<{}> = () => {
         id as string,
         accessToken
       )
+      const permissions = await securityService.getPermissionList(accessToken)
       if (status === 200) {
         setUser(responseBody as TUser)
+        setPermissions(permissions.responseBody as TPermission[])
       } else {
         if (status === 401 && retry > 0) {
           accessToken = await authContext.refresh()
@@ -126,11 +130,25 @@ const UserFormCard: React.FC<{}> = () => {
               />
             </div>
             <div className="column is-6">
-              <FormInput
-                label={constants.label.permissions}
-                type="text"
-                register={register("permissions")}
-              />
+              <LabelValue label={constants.label.permissions}>
+                {!!permissions &&
+                  permissions.length > 0 &&
+                  permissions.map((permission) => (
+                    <label
+                      key={permission.id}
+                      className="checkbox"
+                      style={{ marginRight: "1rem" }}>
+                      <input
+                        type="checkbox"
+                        value={permission.id}
+                        {...register("permissions")}
+                      />
+                      <span style={{ marginLeft: "0.3rem" }}>
+                        {permission.id}
+                      </span>
+                    </label>
+                  ))}
+              </LabelValue>
             </div>
             <div className="column is-6">
               <FormInput
