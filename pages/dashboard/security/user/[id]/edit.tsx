@@ -7,6 +7,7 @@ import Button from "../../../../../src/components/Button"
 import ButtonGroup from "../../../../../src/components/ButtonGroup"
 import ButtonLink from "../../../../../src/components/ButtonLink"
 import Card from "../../../../../src/components/Card"
+import FormCheckbox from "../../../../../src/components/FormCheckbox"
 import FormInput from "../../../../../src/components/FormInput"
 import LabelValue from "../../../../../src/components/LabelValue"
 import Loader from "../../../../../src/components/Loader"
@@ -55,6 +56,7 @@ const UserFormCard: React.FC<{}> = () => {
     console.log("[onSubmit] data", data)
   }
   const onClear = () => {
+    //reset({ fullName: "", email: "", permissions: [], telegramId: "" })
     reset()
     notificationContext.clear()
   }
@@ -70,7 +72,9 @@ const UserFormCard: React.FC<{}> = () => {
       const permissions = await securityService.getPermissionList(accessToken)
       if (status === 200) {
         setUser(responseBody as TUser)
-        setPermissions(permissions.responseBody as TPermission[])
+        const a = permissions.responseBody as TPermission[]
+        const b = [{ id: "test2" }, ...a, { id: "test3" }]
+        setPermissions(b)
       } else {
         if (status === 401 && retry > 0) {
           accessToken = await authContext.refresh()
@@ -134,19 +138,11 @@ const UserFormCard: React.FC<{}> = () => {
                 {!!permissions &&
                   permissions.length > 0 &&
                   permissions.map((permission) => (
-                    <label
+                    <FormCheckbox
                       key={permission.id}
-                      className="checkbox"
-                      style={{ marginRight: "1rem" }}>
-                      <input
-                        type="checkbox"
-                        value={permission.id}
-                        {...register("permissions")}
-                      />
-                      <span style={{ marginLeft: "0.3rem" }}>
-                        {permission.id}
-                      </span>
-                    </label>
+                      value={permission.id}
+                      register={register(`permissions`)}
+                    />
                   ))}
               </LabelValue>
             </div>
