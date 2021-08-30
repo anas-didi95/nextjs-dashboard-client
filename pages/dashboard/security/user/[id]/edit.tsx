@@ -2,6 +2,8 @@ import { useRouter } from "next/dist/client/router"
 import React from "react"
 import { useState } from "react"
 import { useEffect } from "react"
+import { useForm } from "react-hook-form"
+import Button from "../../../../../src/components/Button"
 import ButtonGroup from "../../../../../src/components/ButtonGroup"
 import ButtonLink from "../../../../../src/components/ButtonLink"
 import Card from "../../../../../src/components/Card"
@@ -38,10 +40,25 @@ const UserFormCard: React.FC<{}> = () => {
   const loadingContext = useLoadingContext()
   const securityService = useSecurityService()
   const router = useRouter()
-  const { id } = router.query
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<TUser>({ defaultValues: initialUser })
   const [user, setUser] = useState<TUser>(initialUser)
 
+  const onSubmit = (data: TUser) => {
+    console.log("[onSubmit] data", data)
+  }
+  const onClear = () => {
+    reset()
+    notificationContext.clear()
+  }
+
   useEffect(() => {
+    const { id } = router.query
     const request = async (retry: number = 1, accessToken: string = "") => {
       accessToken = accessToken || authContext.getAccessToken()
       const { responseBody, status } = await securityService.getUserById(
@@ -66,10 +83,18 @@ const UserFormCard: React.FC<{}> = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  useEffect(() => {
+    setValue("fullName", user.fullName)
+    setValue("email", user.email)
+    setValue("permissions", user.permissions)
+    setValue("telegramId", user.telegramId)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user])
+
   return (
     <Card title={constants.header.userForm}>
       {!loadingContext.isLoading() ? (
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="columns is-multiline is-variable is-4">
             <div className="column is-6">
               <LabelValue label={constants.label.username}>
@@ -79,32 +104,60 @@ const UserFormCard: React.FC<{}> = () => {
             <div className="column is-6">
               <FormInput
                 label={constants.label.fullName}
-                register={null}
                 type="text"
+                error={errors.fullName?.message}
+                register={register("fullName", {
+                  required: constants.message.mandatoryField(
+                    constants.label.fullName
+                  ),
+                })}
               />
             </div>
             <div className="column is-6">
               <FormInput
                 label={constants.label.email}
-                register={null}
                 type="text"
+                error={errors.email?.message}
+                register={register("email", {
+                  required: constants.message.mandatoryField(
+                    constants.label.email
+                  ),
+                })}
               />
             </div>
             <div className="column is-6">
               <FormInput
                 label={constants.label.permissions}
-                register={null}
                 type="text"
+                register={register("permissions")}
               />
             </div>
             <div className="column is-6">
               <FormInput
                 label={constants.label.telegramId}
-                register={null}
                 type="text"
+                error={errors.telegramId?.message}
+                register={register("telegramId")}
               />
             </div>
           </div>
+          <br />
+          <ButtonGroup align="is-right">
+            <Button
+              label={constants.button.clear}
+              type="button"
+              color="is-light"
+              isInverted
+              isOutlined
+              onClick={onClear}
+            />
+            <Button
+              label={constants.button.update}
+              type="submit"
+              color="is-success"
+              onClick={handleSubmit(onSubmit)}
+            />
+          </ButtonGroup>
         </form>
       ) : (
         <Loader />
