@@ -16,4 +16,5 @@ services:
     volumes:
       - ./:/workspace
       - .cache/:/home/node/.cache
+      - .vscode-server/:/home/node/.vscode-server
       - /tmp/.X11-unix:/tmp/.X11-unix
