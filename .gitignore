@@ -4,6 +4,7 @@
 .cache/
 cypress/screenshots/
 cypress/videos/
+.vscode-server/
 
 # dependencies
 /node_modules

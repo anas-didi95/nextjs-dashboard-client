@@ -19,6 +19,7 @@ import { useLoadingContext } from "../../../../../src/utils/contexts/LoadingCont
 import Loader from "../../../../../src/components/Loader"
 import ButtonGroup from "../../../../../src/components/ButtonGroup"
 import Button from "../../../../../src/components/Button"
+import ButtonLink from "../../../../../src/components/ButtonLink"
 
 const SecurityUserSummaryPage: React.FC<{}> = () => (
   <AppLayout title="Security - User Summary" needAuth>
@@ -40,6 +41,8 @@ const UserSummaryCard: React.FC<{}> = () => {
   const { id } = router.query
   const [user, setUser] = useState<TUser>(initialUser)
 
+  const onEdit = () => router.push(`/dashboard/security/user/${id}/edit`)
+
   useEffect(() => {
     const request = async (retry: number = 1, accessToken: string = "") => {
       accessToken = accessToken || authContext.getAccessToken()
@@ -55,6 +58,9 @@ const UserSummaryCard: React.FC<{}> = () => {
           await request(retry - 1, accessToken)
         } else {
           notificationContext.setError(responseBody as TResponseError)
+          if (retry === 0) {
+            router.replace("/")
+          }
         }
       }
     }
@@ -65,46 +71,58 @@ const UserSummaryCard: React.FC<{}> = () => {
   return (
     <Card title={constants.header.userSummary} testId="user-summary-car d">
       {!loadingContext.isLoading() ? (
-        <div className="columns is-multiline is-variable is-4">
-          <div className="column is-6">
-            <LabelValue label={constants.label.username}>
-              {user.username}
-            </LabelValue>
+        <>
+          <div className="columns is-multiline is-variable is-4">
+            <div className="column is-6">
+              <LabelValue label={constants.label.username}>
+                {user.username}
+              </LabelValue>
+            </div>
+            <div className="column is-6">
+              <LabelValue label={constants.label.fullName}>
+                {user.fullName}
+              </LabelValue>
+            </div>
+            <div className="column is-6">
+              <LabelValue label={constants.label.email}>
+                {user.email}
+              </LabelValue>
+            </div>
+            <div className="column is-6">
+              <LabelValue label={constants.label.permissions}>
+                [{user.permissions}]
+              </LabelValue>
+            </div>
+            <div className="column is-6">
+              <LabelValue label={constants.label.telegramId}>
+                {user.telegramId}
+              </LabelValue>
+            </div>
+            <div className="column is-6">
+              <LabelValue label={constants.label.version}>
+                {user.version}
+              </LabelValue>
+            </div>
+            <div className="column is-6">
+              <LabelValue label={constants.label.lastModifiedBy}>
+                {user.lastModifiedBy.username ?? user.lastModifiedBy.id}
+              </LabelValue>
+            </div>
+            <div className="column is-6">
+              <LabelValue label={constants.label.lastModifiedDate}>
+                {user.lastModifiedDate}
+              </LabelValue>
+            </div>
           </div>
-          <div className="column is-6">
-            <LabelValue label={constants.label.fullName}>
-              {user.fullName}
-            </LabelValue>
-          </div>
-          <div className="column is-6">
-            <LabelValue label={constants.label.email}>{user.email}</LabelValue>
-          </div>
-          <div className="column is-6">
-            <LabelValue label={constants.label.version}>
-              {user.version}
-            </LabelValue>
-          </div>
-          <div className="column is-6">
-            <LabelValue label={constants.label.lastModifiedBy}>
-              {user.lastModifiedBy.username ?? user.lastModifiedBy.id}
-            </LabelValue>
-          </div>
-          <div className="column is-6">
-            <LabelValue label={constants.label.lastModifiedDate}>
-              {user.lastModifiedDate}
-            </LabelValue>
-          </div>
-          <div className="column is-6">
-            <LabelValue label={constants.label.permissions}>
-              [{user.permissions}]
-            </LabelValue>
-          </div>
-          <div className="column is-6">
-            <LabelValue label={constants.label.telegramId}>
-              {user.telegramId}
-            </LabelValue>
-          </div>
-        </div>
+          <br />
+          <ButtonGroup align="is-right">
+            <ButtonLink
+              href={`/dashboard/security/user/${id}/edit`}
+              label={constants.button.edit}
+              color="is-success"
+            />
+          </ButtonGroup>
+        </>
       ) : (
         <Loader />
       )}
@@ -114,16 +132,12 @@ const UserSummaryCard: React.FC<{}> = () => {
 
 const ActionButton: React.FC<{}> = () => {
   const constants = useConstants()
-  const router = useRouter()
-
-  const onBack = () => router.back()
 
   return (
     <ButtonGroup align="is-right">
-      <Button
+      <ButtonLink
+        href="/dashboard/security/user"
         label={constants.button.back}
-        onClick={onBack}
-        type="button"
         color="is-primary"
       />
     </ButtonGroup>

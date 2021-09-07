@@ -55,3 +55,11 @@ export const initialUser: TUser = {
   telegramId: "",
   permissions: [],
 }
+
+export type TPermission = {
+  id: string
+}
+
+export const initalPermission: TPermission = {
+  id: "",
+}
