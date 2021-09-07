@@ -16,27 +16,19 @@ const useSecurityService = () => {
   ): Promise<
     { accessToken: string; refreshToken: string } | TResponseError
   > => {
-    try {
-      const response = await fetch(`${constants.env.apiSecurity}/auth/login`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username,
-          password,
-        }),
-      })
-      const responseBody = await response.json()
-      return responseBody
-    } catch (error) {
-      console.error("[useSecurityService] signIn failed!", error)
-      return {
-        ...initialResponseError,
-        message: error.message,
-      }
-    }
+    const response = await fetch(`${constants.env.apiSecurity}/auth/login`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username,
+        password,
+      }),
+    })
+    const responseBody = await response.json()
+    return responseBody
   }
 
   const signOut = async (
@@ -63,50 +55,31 @@ const useSecurityService = () => {
   ): Promise<
     { accessToken: string; refreshToken: string } | TResponseError
   > => {
-    try {
-      const response = await fetch(
-        `${constants.env.apiSecurity}/auth/refresh`,
-        {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${refreshToken}`,
-          },
-        }
-      )
-      const responseBody = await response.json()
-      return responseBody
-    } catch (error) {
-      console.error("[useSecurityService] refresh failed!", error)
-      return {
-        ...initialResponseError,
-        message: error.message,
-      }
-    }
+    const response = await fetch(`${constants.env.apiSecurity}/auth/refresh`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${refreshToken}`,
+      },
+    })
+    const responseBody = await response.json()
+    return responseBody
   }
 
   const check = async (
     accessToken: string
   ): Promise<{ user: TClaim } | TResponseError> => {
-    try {
-      const response = await fetch(`${constants.env.apiSecurity}/auth/check`, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
-      const responseBody = await response.json()
-      return responseBody
-    } catch (error) {
-      console.error("[useSecurityService] check failed!", error)
-      return {
-        ...initialResponseError,
-        message: error.message,
-      }
-    }
+    const response = await fetch(`${constants.env.apiSecurity}/auth/check`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+    const responseBody = await response.json()
+    return responseBody
   }
 
   const getUserList = async (
