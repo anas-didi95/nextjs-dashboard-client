@@ -65,21 +65,19 @@ const UserFormCard: React.FC<{}> = () => {
     const { id } = router.query
     const request = async (retry: number = 1, accessToken: string = "") => {
       accessToken = accessToken || authContext.getAccessToken()
-      const { responseBody, status } = await securityService.getUserById(
-        id as string,
-        accessToken
-      )
+      const user = await securityService.getUserById(id as string, accessToken)
       const permissions = await securityService.getPermissionList(accessToken)
-      if (status === 200) {
-        setUser(responseBody as TUser)
-        const a = permissions.responseBody as TPermission[]
-        const b = [{ id: "test2" }, ...a, { id: "test3" }]
-        setPermissions(b)
+      if (user.status === permissions.status && permissions.status === 200) {
+        setUser(user.responseBody as TUser)
+        setPermissions(permissions.responseBody as TPermission[])
       } else {
-        if (status === 401 && retry > 0) {
+        const isRetry = user.status === 401 || permissions.status === 401
+        if (isRetry && retry > 0) {
           accessToken = await authContext.refresh()
           await request(retry - 1, accessToken)
         } else {
+          const responseBody =
+            user.status !== 200 ? user.responseBody : permissions.responseBody
           notificationContext.setError(responseBody as TResponseError)
           if (retry === 0) {
             router.replace("/")
