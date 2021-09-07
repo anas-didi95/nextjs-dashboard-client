@@ -185,6 +185,36 @@ const useSecurityService = () => {
     }
   }
 
+  const updateUser = async (
+    user: TUser,
+    accessToken: string
+  ): Promise<{
+    responseBody: { id: string } | TResponseError
+    status: number
+  }> => {
+    const response = await fetch(
+      `${constants.env.apiSecurity}/user/${user.id}`,
+      {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          fullName: user.fullName,
+          email: user.email,
+          version: user.version,
+          telegramId: user.telegramId,
+          permissions: user.permissions,
+        }),
+      }
+    )
+    const responseBody = await response.json()
+    const { status } = response
+    return { responseBody, status }
+  }
+
   return {
     signIn,
     signOut,
@@ -193,6 +223,7 @@ const useSecurityService = () => {
     getUserList,
     getUserById,
     getPermissionList,
+    updateUser,
   }
 }
 

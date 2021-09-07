@@ -53,11 +53,39 @@ const UserFormCard: React.FC<{}> = () => {
   const [permissions, setPermissions] = useState<TPermission[]>([])
 
   const onSubmit = (data: TUser) => {
-    console.log("[onSubmit] data", data)
+    if (!!data.permissions) {
+      data.permissions = Array.isArray(data.permissions)
+        ? data.permissions.filter((v) => !!v)
+        : [data.permissions]
+    } else {
+      data.permissions = []
+    }
+    const request = async (retry: number = 1, accessToken: string = "") => {
+      accessToken = accessToken || authContext.getAccessToken()
+      const { responseBody, status } = await securityService.updateUser(
+        data,
+        accessToken
+      )
+      if (status === 200) {
+        const { id } = responseBody as { id: string }
+        router.replace(`/dashboard/security/user/${id}`)
+      } else {
+        if (status === 401 && retry > 0) {
+          accessToken = await authContext.refresh()
+          await request(retry - 1, accessToken)
+        } else {
+          notificationContext.setError(responseBody as TResponseError)
+          if (retry === 0) {
+            router.replace("/")
+          }
+        }
+      }
+    }
+    loadingContext.run(request)
   }
   const onClear = () => {
-    //reset({ fullName: "", email: "", permissions: [], telegramId: "" })
     reset()
+    reset({ permissions: [] })
     notificationContext.clear()
   }
 
@@ -90,6 +118,8 @@ const UserFormCard: React.FC<{}> = () => {
   }, [])
 
   useEffect(() => {
+    setValue("id", user.id)
+    setValue("version", user.version)
     setValue("fullName", user.fullName)
     setValue("email", user.email)
     setValue("permissions", user.permissions)
