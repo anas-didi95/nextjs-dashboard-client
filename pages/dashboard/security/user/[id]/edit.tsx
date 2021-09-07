@@ -68,6 +68,9 @@ const UserFormCard: React.FC<{}> = () => {
       )
       if (status === 200) {
         const { id } = responseBody as { id: string }
+        if (id === authContext.getClaim().userId) {
+          await authContext.refresh()
+        }
         router.replace(`/dashboard/security/user/${id}`)
       } else {
         if (status === 401 && retry > 0) {
