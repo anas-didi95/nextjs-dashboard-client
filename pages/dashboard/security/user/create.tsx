@@ -1,10 +1,20 @@
-import React from "react"
+import { useRouter } from "next/dist/client/router"
+import React, { useEffect, useState } from "react"
+import Button from "../../../../src/components/Button"
 import ButtonGroup from "../../../../src/components/ButtonGroup"
 import ButtonLink from "../../../../src/components/ButtonLink"
 import Card from "../../../../src/components/Card"
+import FormCheckbox from "../../../../src/components/FormCheckbox"
+import FormInput from "../../../../src/components/FormInput"
+import LabelValue from "../../../../src/components/LabelValue"
 import AppLayout from "../../../../src/layouts/AppLayout"
 import DashboardLayout from "../../../../src/layouts/DashboardLayout"
+import { useAuthContext } from "../../../../src/utils/contexts/AuthContext"
+import { useLoadingContext } from "../../../../src/utils/contexts/LoadingContext"
+import { useNotificationContext } from "../../../../src/utils/contexts/NotificationContext"
 import useConstants from "../../../../src/utils/hooks/useConstants"
+import useSecurityService from "../../../../src/utils/hooks/useSecurityService"
+import { TPermission, TResponseError } from "../../../../src/utils/types"
 
 const SecurityUserCreatePage: React.FC<{}> = () => (
   <AppLayout title="Security - User Create" needAuth>
@@ -18,10 +28,115 @@ const SecurityUserCreatePage: React.FC<{}> = () => (
 
 const UserFormCard: React.FC<{}> = () => {
   const constants = useConstants()
+  const authContext = useAuthContext()
+  const notificationContext = useNotificationContext()
+  const loadingContext = useLoadingContext()
+  const securityService = useSecurityService()
+  const router = useRouter()
+  const [permissions, setPermissions] = useState<TPermission[]>([])
+
+  useEffect(() => {
+    const request = async (retry: number = 1, accessToken: string = "") => {
+      accessToken = accessToken || authContext.getAccessToken()
+      const { responseBody, status } = await securityService.getPermissionList(
+        accessToken
+      )
+      if (status === 200) {
+        setPermissions(responseBody as TPermission[])
+      } else {
+        if (status === 401 && retry > 0) {
+          accessToken = await authContext.refresh()
+          await request(retry - 1, accessToken)
+        } else {
+          notificationContext.setError(responseBody as TResponseError)
+          if (retry === 0) {
+            router.replace("/")
+          }
+        }
+      }
+    }
+    loadingContext.run(request)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Card title={constants.header.userForm}>
-      <div>Create user</div>
+      <form>
+        <div className="columns is-multiline is-variable is-4">
+          <div className="column is-6">
+            <FormInput
+              label={constants.label.username}
+              type="text"
+              register={null}
+            />
+          </div>
+          <div className="column is-6">
+            <FormInput
+              label={constants.label.fullName}
+              type="text"
+              register={null}
+            />
+          </div>
+          <div className="column is-6">
+            <FormInput
+              label={constants.label.password}
+              type="text"
+              register={null}
+            />
+          </div>
+          <div className="column is-6">
+            <FormInput
+              label={constants.label.confirmPassword}
+              type="text"
+              register={null}
+            />
+          </div>
+          <div className="column is-6">
+            <FormInput
+              label={constants.label.email}
+              type="email"
+              register={null}
+            />
+          </div>
+          <div className="column is-6">
+            <FormInput
+              label={constants.label.telegramId}
+              type="text"
+              register={null}
+            />
+          </div>
+          <div className="column is-6">
+            <LabelValue label={constants.label.permissions}>
+              {!!permissions &&
+                permissions.length > 0 &&
+                permissions.map((permission) => (
+                  <FormCheckbox
+                    key={permission.id}
+                    value={permission.id}
+                    register={null}
+                  />
+                ))}
+            </LabelValue>
+          </div>
+        </div>
+        <br />
+        <ButtonGroup align="is-right">
+          <Button
+            label={constants.button.clear}
+            type="button"
+            color="is-light"
+            isInverted
+            isOutlined
+            onClick={() => {}}
+          />
+          <Button
+            label={constants.button.create}
+            type="submit"
+            color="is-success"
+            onClick={() => {}}
+          />
+        </ButtonGroup>
+      </form>
     </Card>
   )
 }

@@ -155,7 +155,7 @@ const UserFormCard: React.FC<{}> = () => {
             <div className="column is-6">
               <FormInput
                 label={constants.label.email}
-                type="text"
+                type="email"
                 error={errors.email?.message}
                 register={register("email", {
                   required: constants.message.mandatoryField(
