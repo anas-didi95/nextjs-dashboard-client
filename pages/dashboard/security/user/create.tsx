@@ -45,7 +45,33 @@ const UserFormCard: React.FC<{}> = () => {
   } = useForm<TUserForm>()
 
   const onSubmit = (data: TUserForm) => {
-    console.log(data)
+    if (!!data.permissions) {
+      data.permissions = Array.isArray(data.permissions)
+        ? data.permissions.filter((v) => !!v)
+        : [data.permissions]
+    }
+    const request = async (retry: number = 1, accessToken: string = "") => {
+      accessToken = accessToken || authContext.getAccessToken()
+      const { responseBody, status } = await securityService.createUser(
+        { ...data },
+        accessToken
+      )
+      if (status === 201) {
+        const { id } = responseBody as { id: string }
+        router.replace(`/dashboard/security/user/${id}`)
+      } else {
+        if (status === 401 && retry > 0) {
+          accessToken = await authContext.refresh()
+          await request(retry - 1, accessToken)
+        } else {
+          notificationContext.setError(responseBody as TResponseError)
+          if (retry === 0) {
+            router.replace("/")
+          }
+        }
+      }
+    }
+    loadingContext.run(request)
   }
 
   const onClear = () => {

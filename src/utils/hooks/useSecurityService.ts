@@ -215,6 +215,41 @@ const useSecurityService = () => {
     return { responseBody, status }
   }
 
+  const createUser = async (
+    data: {
+      username: string
+      password: string
+      fullName: string
+      email: string
+      telegramId: string
+      permissions: string[]
+    },
+    accessToken: string
+  ): Promise<{
+    responseBody: { id: string } | TResponseError
+    status: number
+  }> => {
+    const response = await fetch(`${constants.env.apiSecurity}/user`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({
+        username: data.username,
+        password: data.password,
+        fullName: data.fullName,
+        email: data.email,
+        telegramId: data.telegramId,
+        permissions: data.permissions,
+      }),
+    })
+    const responseBody = await response.json()
+    const { status } = response
+    return { responseBody, status }
+  }
+
   return {
     signIn,
     signOut,
@@ -224,6 +259,7 @@ const useSecurityService = () => {
     getUserById,
     getPermissionList,
     updateUser,
+    createUser,
   }
 }
 
