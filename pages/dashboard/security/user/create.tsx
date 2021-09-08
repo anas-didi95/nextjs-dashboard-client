@@ -15,8 +15,7 @@ import { useLoadingContext } from "../../../../src/utils/contexts/LoadingContext
 import { useNotificationContext } from "../../../../src/utils/contexts/NotificationContext"
 import useConstants from "../../../../src/utils/hooks/useConstants"
 import useSecurityService from "../../../../src/utils/hooks/useSecurityService"
-import { TPermission, TResponseError, TUser } from "../../../../src/utils/types"
-import { handler } from "../../../api/hello"
+import { TPermission, TResponseError } from "../../../../src/utils/types"
 
 const SecurityUserCreatePage: React.FC<{}> = () => (
   <AppLayout title="Security - User Create" needAuth>
