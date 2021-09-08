@@ -1,6 +1,4 @@
-import React from "react"
-import { useEffect } from "react"
-import { useState } from "react"
+import React, { useEffect, useState } from "react"
 import Card from "../../src/components/Card"
 import LabelValue from "../../src/components/LabelValue"
 import Tag from "../../src/components/Tag"

@@ -1,17 +1,17 @@
-import React, { useState } from "react"
 import { useRouter } from "next/dist/client/router"
 import Image from "next/image"
 import Link from "next/link"
+import React, { useState } from "react"
 import { GrGithub, GrLinkedin, GrPersonalComputer } from "react-icons/gr"
 import { useAuthContext } from "../utils/contexts/AuthContext"
 import { useLoadingContext } from "../utils/contexts/LoadingContext"
 import { useNotificationContext } from "../utils/contexts/NotificationContext"
 import useConstants from "../utils/hooks/useConstants"
 import useSecurityService from "../utils/hooks/useSecurityService"
+import { TResponseError } from "../utils/types"
 import Button from "./Button"
 import ButtonGroup from "./ButtonGroup"
 import Modal from "./Modal"
-import { TResponseError } from "../utils/types"
 
 interface INavbar {}
 const Navbar: React.FC<INavbar> = () => {

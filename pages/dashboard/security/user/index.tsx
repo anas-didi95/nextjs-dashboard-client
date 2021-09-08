@@ -1,7 +1,6 @@
 import { useRouter } from "next/dist/client/router"
 import Link from "next/link"
-import React, { useState } from "react"
-import { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import ButtonGroup from "../../../../src/components/ButtonGroup"
 import ButtonLink from "../../../../src/components/ButtonLink"
 import Card from "../../../../src/components/Card"

@@ -1,10 +1,4 @@
-import {
-  initialResponseError,
-  TResponseError,
-  TClaim,
-  TUser,
-  TPermission,
-} from "../types"
+import { TClaim, TPermission, TResponseError, TUser } from "../types"
 import useConstants from "./useConstants"
 
 const useSecurityService = () => {

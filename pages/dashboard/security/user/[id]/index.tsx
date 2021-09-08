@@ -1,25 +1,22 @@
-import React from "react"
 import { useRouter } from "next/dist/client/router"
+import React, { useEffect, useState } from "react"
+import ButtonGroup from "../../../../../src/components/ButtonGroup"
+import ButtonLink from "../../../../../src/components/ButtonLink"
 import Card from "../../../../../src/components/Card"
-import AppLayout from "../../../../../src/layouts/AppLayout"
-import useConstants from "../../../../../src/utils/hooks/useConstants"
-import DashboardLayout from "../../../../../src/layouts/DashboardLayout"
-import { useEffect } from "react"
 import LabelValue from "../../../../../src/components/LabelValue"
+import Loader from "../../../../../src/components/Loader"
+import AppLayout from "../../../../../src/layouts/AppLayout"
+import DashboardLayout from "../../../../../src/layouts/DashboardLayout"
 import { useAuthContext } from "../../../../../src/utils/contexts/AuthContext"
+import { useLoadingContext } from "../../../../../src/utils/contexts/LoadingContext"
+import { useNotificationContext } from "../../../../../src/utils/contexts/NotificationContext"
+import useConstants from "../../../../../src/utils/hooks/useConstants"
 import useSecurityService from "../../../../../src/utils/hooks/useSecurityService"
-import { useState } from "react"
 import {
   initialUser,
   TResponseError,
   TUser,
 } from "../../../../../src/utils/types"
-import { useNotificationContext } from "../../../../../src/utils/contexts/NotificationContext"
-import { useLoadingContext } from "../../../../../src/utils/contexts/LoadingContext"
-import Loader from "../../../../../src/components/Loader"
-import ButtonGroup from "../../../../../src/components/ButtonGroup"
-import Button from "../../../../../src/components/Button"
-import ButtonLink from "../../../../../src/components/ButtonLink"
 
 const SecurityUserSummaryPage: React.FC<{}> = () => (
   <AppLayout title="Security - User Summary" needAuth>

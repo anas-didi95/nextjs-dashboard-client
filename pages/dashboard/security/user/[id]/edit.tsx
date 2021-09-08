@@ -1,7 +1,5 @@
 import { useRouter } from "next/dist/client/router"
-import React from "react"
-import { useState } from "react"
-import { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import Button from "../../../../../src/components/Button"
 import ButtonGroup from "../../../../../src/components/ButtonGroup"
