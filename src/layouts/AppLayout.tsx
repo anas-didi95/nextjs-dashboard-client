@@ -1,6 +1,6 @@
-import React, { ReactNode, useEffect, useState } from "react"
 import { useRouter } from "next/dist/client/router"
 import Head from "next/head"
+import React, { ReactNode, useEffect, useState } from "react"
 import Navbar from "../components/Navbar"
 import { useAuthContext } from "../utils/contexts/AuthContext"
 import useConstants from "../utils/hooks/useConstants"

@@ -1,7 +1,5 @@
 import { useRouter } from "next/dist/client/router"
-import React from "react"
-import { useState } from "react"
-import { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import Button from "../../../../../src/components/Button"
 import ButtonGroup from "../../../../../src/components/ButtonGroup"
@@ -60,8 +58,10 @@ const UserFormCard: React.FC<{}> = () => {
     } else {
       data.permissions = []
     }
-    const request = async (retry: number = 1, accessToken: string = "") => {
-      accessToken = accessToken || authContext.getAccessToken()
+    const request = async (
+      retry: number = 1,
+      accessToken: string = authContext.getAccessToken()
+    ) => {
       const { responseBody, status } = await securityService.updateUser(
         data,
         accessToken
@@ -94,8 +94,10 @@ const UserFormCard: React.FC<{}> = () => {
 
   useEffect(() => {
     const { id } = router.query
-    const request = async (retry: number = 1, accessToken: string = "") => {
-      accessToken = accessToken || authContext.getAccessToken()
+    const request = async (
+      retry: number = 1,
+      accessToken: string = authContext.getAccessToken()
+    ) => {
       const user = await securityService.getUserById(id as string, accessToken)
       const permissions = await securityService.getPermissionList(accessToken)
       if (user.status === permissions.status && permissions.status === 200) {
@@ -155,7 +157,7 @@ const UserFormCard: React.FC<{}> = () => {
             <div className="column is-6">
               <FormInput
                 label={constants.label.email}
-                type="text"
+                type="email"
                 error={errors.email?.message}
                 register={register("email", {
                   required: constants.message.mandatoryField(

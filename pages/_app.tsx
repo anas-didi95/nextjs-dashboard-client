@@ -1,5 +1,5 @@
-import React from "react"
 import type { AppProps } from "next/app"
+import React from "react"
 import { AuthProvider } from "../src/utils/contexts/AuthContext"
 import { LoadingProvider } from "../src/utils/contexts/LoadingContext"
 import { NotificationProvider } from "../src/utils/contexts/NotificationContext"

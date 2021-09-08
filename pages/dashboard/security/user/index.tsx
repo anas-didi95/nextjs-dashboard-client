@@ -1,7 +1,8 @@
 import { useRouter } from "next/dist/client/router"
 import Link from "next/link"
-import React, { useState } from "react"
-import { useEffect } from "react"
+import React, { useEffect, useState } from "react"
+import ButtonGroup from "../../../../src/components/ButtonGroup"
+import ButtonLink from "../../../../src/components/ButtonLink"
 import Card from "../../../../src/components/Card"
 import Loader from "../../../../src/components/Loader"
 import Table from "../../../../src/components/Table"
@@ -18,6 +19,8 @@ const SecurityUserListingPage: React.FC<{}> = () => (
   <AppLayout title="Security - User Listing" needAuth>
     <DashboardLayout breadcrumbs={["Security", "User"]}>
       <UserListingeCard />
+      <br />
+      <ActionButton />
     </DashboardLayout>
   </AppLayout>
 )
@@ -33,8 +36,10 @@ const UserListingeCard: React.FC<{}> = () => {
 
   useEffect(() => {
     setUsers([])
-    const request = async (retry: number = 1, accessToken: string = "") => {
-      accessToken = accessToken || authContext.getAccessToken()
+    const request = async (
+      retry: number = 1,
+      accessToken: string = authContext.getAccessToken()
+    ) => {
       const { responseBody, status } = await securityService.getUserList(
         accessToken
       )
@@ -85,6 +90,20 @@ const UserListingeCard: React.FC<{}> = () => {
         <Loader />
       )}
     </Card>
+  )
+}
+
+const ActionButton: React.FC<{}> = () => {
+  const constants = useConstants()
+
+  return (
+    <ButtonGroup align="is-right">
+      <ButtonLink
+        href="/dashboard/security/user/create"
+        label={constants.button.create}
+        color="is-primary"
+      />
+    </ButtonGroup>
   )
 }
 
