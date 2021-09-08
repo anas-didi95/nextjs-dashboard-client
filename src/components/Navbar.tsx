@@ -218,8 +218,10 @@ const ModalSignOut: React.FC<{
   const securityService = useSecurityService()
 
   const onSignOut = () => {
-    const request = async (retry: number = 1, accessToken: string = "") => {
-      accessToken = accessToken || authContext.getAccessToken()
+    const request = async (
+      retry: number = 1,
+      accessToken: string = authContext.getAccessToken()
+    ) => {
       const { responseBody, status } = await securityService.signOut(
         accessToken
       )

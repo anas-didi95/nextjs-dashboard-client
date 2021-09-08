@@ -37,8 +37,10 @@ const UserListingeCard: React.FC<{}> = () => {
 
   useEffect(() => {
     setUsers([])
-    const request = async (retry: number = 1, accessToken: string = "") => {
-      accessToken = accessToken || authContext.getAccessToken()
+    const request = async (
+      retry: number = 1,
+      accessToken: string = authContext.getAccessToken()
+    ) => {
       const { responseBody, status } = await securityService.getUserList(
         accessToken
       )

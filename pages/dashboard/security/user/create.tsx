@@ -50,8 +50,10 @@ const UserFormCard: React.FC<{}> = () => {
         ? data.permissions.filter((v) => !!v)
         : [data.permissions]
     }
-    const request = async (retry: number = 1, accessToken: string = "") => {
-      accessToken = accessToken || authContext.getAccessToken()
+    const request = async (
+      retry: number = 1,
+      accessToken: string = authContext.getAccessToken()
+    ) => {
       const { responseBody, status } = await securityService.createUser(
         { ...data },
         accessToken
@@ -80,8 +82,10 @@ const UserFormCard: React.FC<{}> = () => {
   }
 
   useEffect(() => {
-    const request = async (retry: number = 1, accessToken: string = "") => {
-      accessToken = accessToken || authContext.getAccessToken()
+    const request = async (
+      retry: number = 1,
+      accessToken: string = authContext.getAccessToken()
+    ) => {
       const { responseBody, status } = await securityService.getPermissionList(
         accessToken
       )

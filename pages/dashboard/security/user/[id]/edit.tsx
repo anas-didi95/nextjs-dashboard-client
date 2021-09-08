@@ -60,8 +60,10 @@ const UserFormCard: React.FC<{}> = () => {
     } else {
       data.permissions = []
     }
-    const request = async (retry: number = 1, accessToken: string = "") => {
-      accessToken = accessToken || authContext.getAccessToken()
+    const request = async (
+      retry: number = 1,
+      accessToken: string = authContext.getAccessToken()
+    ) => {
       const { responseBody, status } = await securityService.updateUser(
         data,
         accessToken
@@ -94,8 +96,10 @@ const UserFormCard: React.FC<{}> = () => {
 
   useEffect(() => {
     const { id } = router.query
-    const request = async (retry: number = 1, accessToken: string = "") => {
-      accessToken = accessToken || authContext.getAccessToken()
+    const request = async (
+      retry: number = 1,
+      accessToken: string = authContext.getAccessToken()
+    ) => {
       const user = await securityService.getUserById(id as string, accessToken)
       const permissions = await securityService.getPermissionList(accessToken)
       if (user.status === permissions.status && permissions.status === 200) {

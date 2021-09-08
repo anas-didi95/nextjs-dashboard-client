@@ -44,8 +44,10 @@ const UserSummaryCard: React.FC<{}> = () => {
   const onEdit = () => router.push(`/dashboard/security/user/${id}/edit`)
 
   useEffect(() => {
-    const request = async (retry: number = 1, accessToken: string = "") => {
-      accessToken = accessToken || authContext.getAccessToken()
+    const request = async (
+      retry: number = 1,
+      accessToken: string = authContext.getAccessToken()
+    ) => {
       const { responseBody, status } = await securityService.getUserById(
         id as string,
         accessToken
