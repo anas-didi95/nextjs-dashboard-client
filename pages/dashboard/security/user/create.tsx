@@ -1,5 +1,6 @@
 import { useRouter } from "next/dist/client/router"
 import React, { useEffect, useState } from "react"
+import { useForm } from "react-hook-form"
 import Button from "../../../../src/components/Button"
 import ButtonGroup from "../../../../src/components/ButtonGroup"
 import ButtonLink from "../../../../src/components/ButtonLink"
@@ -14,7 +15,8 @@ import { useLoadingContext } from "../../../../src/utils/contexts/LoadingContext
 import { useNotificationContext } from "../../../../src/utils/contexts/NotificationContext"
 import useConstants from "../../../../src/utils/hooks/useConstants"
 import useSecurityService from "../../../../src/utils/hooks/useSecurityService"
-import { TPermission, TResponseError } from "../../../../src/utils/types"
+import { TPermission, TResponseError, TUser } from "../../../../src/utils/types"
+import { handler } from "../../../api/hello"
 
 const SecurityUserCreatePage: React.FC<{}> = () => (
   <AppLayout title="Security - User Create" needAuth>
@@ -34,6 +36,22 @@ const UserFormCard: React.FC<{}> = () => {
   const securityService = useSecurityService()
   const router = useRouter()
   const [permissions, setPermissions] = useState<TPermission[]>([])
+  const {
+    register,
+    watch,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<TUserForm>()
+
+  const onSubmit = (data: TUserForm) => {
+    console.log(data)
+  }
+
+  const onClear = () => {
+    reset()
+    notificationContext.clear()
+  }
 
   useEffect(() => {
     const request = async (retry: number = 1, accessToken: string = "") => {
@@ -61,59 +79,85 @@ const UserFormCard: React.FC<{}> = () => {
 
   return (
     <Card title={constants.header.userForm}>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="columns is-multiline is-variable is-4">
           <div className="column is-6">
             <FormInput
               label={constants.label.username}
               type="text"
-              register={null}
+              error={errors.username?.message}
+              register={register("username", {
+                required: constants.message.mandatoryField(
+                  constants.label.username
+                ),
+              })}
             />
           </div>
           <div className="column is-6">
             <FormInput
               label={constants.label.fullName}
               type="text"
-              register={null}
+              error={errors.fullName?.message}
+              register={register("fullName", {
+                required: constants.message.mandatoryField(
+                  constants.label.fullName
+                ),
+              })}
             />
           </div>
           <div className="column is-6">
             <FormInput
               label={constants.label.password}
-              type="text"
-              register={null}
+              type="password"
+              error={errors.password?.message}
+              register={register("password", {
+                required: constants.message.mandatoryField(
+                  constants.label.password
+                ),
+              })}
             />
           </div>
           <div className="column is-6">
             <FormInput
               label={constants.label.confirmPassword}
-              type="text"
-              register={null}
+              type="password"
+              error={errors.confirmPassword?.message}
+              register={register("confirmPassword", {
+                validate: (value) =>
+                  watch().password === value ||
+                  constants.message.passwordNotMatched,
+              })}
             />
           </div>
           <div className="column is-6">
             <FormInput
               label={constants.label.email}
               type="email"
-              register={null}
+              error={errors.email?.message}
+              register={register("email", {
+                required: constants.message.mandatoryField(
+                  constants.label.email
+                ),
+              })}
             />
           </div>
           <div className="column is-6">
             <FormInput
               label={constants.label.telegramId}
               type="text"
-              register={null}
+              error={errors.telegramId?.message}
+              register={register("telegramId")}
             />
           </div>
           <div className="column is-6">
             <LabelValue label={constants.label.permissions}>
               {!!permissions &&
                 permissions.length > 0 &&
-                permissions.map((permission) => (
+                permissions.map((permission, i) => (
                   <FormCheckbox
                     key={permission.id}
                     value={permission.id}
-                    register={null}
+                    register={register(`permissions.${i}`)}
                   />
                 ))}
             </LabelValue>
@@ -127,13 +171,13 @@ const UserFormCard: React.FC<{}> = () => {
             color="is-light"
             isInverted
             isOutlined
-            onClick={() => {}}
+            onClick={onClear}
           />
           <Button
             label={constants.button.create}
             type="submit"
             color="is-success"
-            onClick={() => {}}
+            onClick={handleSubmit(onSubmit)}
           />
         </ButtonGroup>
       </form>
@@ -156,3 +200,13 @@ const ActionButton: React.FC<{}> = () => {
 }
 
 export default SecurityUserCreatePage
+
+type TUserForm = {
+  username: string
+  fullName: string
+  password: string
+  confirmPassword: string
+  email: string
+  telegramId: string
+  permissions: string[]
+}
