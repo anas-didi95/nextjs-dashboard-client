@@ -114,12 +114,14 @@ const UserSummaryCard: React.FC<{}> = () => {
           </div>
           <br />
           <ButtonGroup align="is-right">
-            <Button
-              label={constants.button.delete}
-              color="is-danger"
-              type="button"
-              onClick={() => { }}
-            />
+            {authContext.getClaim().userId !== id && (
+              <Button
+                label={constants.button.delete}
+                color="is-danger"
+                type="button"
+                onClick={() => { }}
+              />
+            )}
             <ButtonLink
               href={`/dashboard/security/user/${id}/edit`}
               label={constants.button.edit}
