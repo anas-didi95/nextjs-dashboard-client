@@ -35,7 +35,7 @@ const App: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
       <NotificationProvider>
         <LoadingProvider>
           <div
-            className={`pageloader has-background-link ${
+            className={`pageloader has-background-link is-bottom-to-top ${
               isLoading ? "is-active" : ""
             }`}>
             <span className="title">Loading</span>
