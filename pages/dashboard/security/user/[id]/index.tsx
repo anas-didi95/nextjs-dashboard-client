@@ -1,5 +1,6 @@
 import { useRouter } from "next/dist/client/router"
 import React, { useEffect, useState } from "react"
+import Button from "../../../../../src/components/Button"
 import ButtonGroup from "../../../../../src/components/ButtonGroup"
 import ButtonLink from "../../../../../src/components/ButtonLink"
 import Card from "../../../../../src/components/Card"
@@ -37,8 +38,6 @@ const UserSummaryCard: React.FC<{}> = () => {
   const securityService = useSecurityService()
   const { id } = router.query
   const [user, setUser] = useState<TUser>(initialUser)
-
-  const onEdit = () => router.push(`/dashboard/security/user/${id}/edit`)
 
   useEffect(() => {
     const request = async (
@@ -115,6 +114,12 @@ const UserSummaryCard: React.FC<{}> = () => {
           </div>
           <br />
           <ButtonGroup align="is-right">
+            <Button
+              label={constants.button.delete}
+              color="is-danger"
+              type="button"
+              onClick={() => { }}
+            />
             <ButtonLink
               href={`/dashboard/security/user/${id}/edit`}
               label={constants.button.edit}
