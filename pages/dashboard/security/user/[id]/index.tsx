@@ -42,7 +42,31 @@ const UserSummaryCard: React.FC<{}> = () => {
   const [isDelete, setDelete] = useState<boolean>(false)
 
   const toggleDelete = () => setDelete((prev) => !prev)
-  const onDelete = () => {}
+  const onDelete = () => {
+    const request = async (
+      retry: number = 1,
+      accessToken: string = authContext.getAccessToken()
+    ) => {
+      const { responseBody, status } = await securityService.deleteUser(
+        { id: user.id, version: user.version },
+        accessToken
+      )
+      if (status === 200) {
+        router.replace("/dashboard/security/user")
+      } else {
+        if (status === 401 && retry > 0) {
+          accessToken = await authContext.refresh()
+          await request(retry - 1, accessToken)
+        } else {
+          notificationContext.setError(responseBody as TResponseError)
+          if (retry === 0) {
+            router.replace("/")
+          }
+        }
+      }
+    }
+    loadingContext.run(request)
+  }
 
   useEffect(() => {
     const request = async (
