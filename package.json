@@ -15,6 +15,7 @@
   "dependencies": {
     "animate.css": "^4.1.1",
     "bulma": "^0.9.3",
+    "bulma-pageloader": "^0.3.0",
     "bulmaswatch": "^0.8.1",
     "next": "11.0.1",
     "react": "17.0.2",
