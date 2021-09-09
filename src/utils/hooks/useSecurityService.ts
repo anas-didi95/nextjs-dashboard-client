@@ -244,6 +244,35 @@ const useSecurityService = () => {
     return { responseBody, status }
   }
 
+  const deleteUser = async (
+    data: {
+      id: string
+      version: number
+    },
+    accessToken: string
+  ): Promise<{
+    responseBody: { id: string } | TResponseError
+    status: number
+  }> => {
+    const response = await fetch(
+      `${constants.env.apiSecurity}/user/${data.id}`,
+      {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          version: data.version,
+        }),
+      }
+    )
+    const responseBody = await response.json()
+    const { status } = response
+    return { responseBody, status }
+  }
+
   return {
     signIn,
     signOut,
@@ -254,6 +283,7 @@ const useSecurityService = () => {
     getPermissionList,
     updateUser,
     createUser,
+    deleteUser,
   }
 }
 
