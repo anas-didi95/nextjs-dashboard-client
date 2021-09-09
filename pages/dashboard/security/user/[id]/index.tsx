@@ -6,6 +6,7 @@ import ButtonLink from "../../../../../src/components/ButtonLink"
 import Card from "../../../../../src/components/Card"
 import LabelValue from "../../../../../src/components/LabelValue"
 import Loader from "../../../../../src/components/Loader"
+import Modal from "../../../../../src/components/Modal"
 import AppLayout from "../../../../../src/layouts/AppLayout"
 import DashboardLayout from "../../../../../src/layouts/DashboardLayout"
 import { useAuthContext } from "../../../../../src/utils/contexts/AuthContext"
@@ -38,6 +39,10 @@ const UserSummaryCard: React.FC<{}> = () => {
   const securityService = useSecurityService()
   const { id } = router.query
   const [user, setUser] = useState<TUser>(initialUser)
+  const [isDelete, setDelete] = useState<boolean>(false)
+
+  const toggleDelete = () => setDelete((prev) => !prev)
+  const onDelete = () => {}
 
   useEffect(() => {
     const request = async (
@@ -67,72 +72,96 @@ const UserSummaryCard: React.FC<{}> = () => {
   }, [])
 
   return (
-    <Card title={constants.header.userSummary} testId="user-summary-car d">
-      {!loadingContext.isLoading() ? (
-        <>
-          <div className="columns is-multiline is-variable is-4">
-            <div className="column is-6">
-              <LabelValue label={constants.label.username}>
-                {user.username}
-              </LabelValue>
+    <>
+      <Card title={constants.header.userSummary} testId="user-summary-car d">
+        {!loadingContext.isLoading() ? (
+          <>
+            <div className="columns is-multiline is-variable is-4">
+              <div className="column is-6">
+                <LabelValue label={constants.label.username}>
+                  {user.username}
+                </LabelValue>
+              </div>
+              <div className="column is-6">
+                <LabelValue label={constants.label.fullName}>
+                  {user.fullName}
+                </LabelValue>
+              </div>
+              <div className="column is-6">
+                <LabelValue label={constants.label.email}>
+                  {user.email}
+                </LabelValue>
+              </div>
+              <div className="column is-6">
+                <LabelValue label={constants.label.permissions}>
+                  [{user.permissions}]
+                </LabelValue>
+              </div>
+              <div className="column is-6">
+                <LabelValue label={constants.label.telegramId}>
+                  {user.telegramId}
+                </LabelValue>
+              </div>
+              <div className="column is-6">
+                <LabelValue label={constants.label.version}>
+                  {user.version}
+                </LabelValue>
+              </div>
+              <div className="column is-6">
+                <LabelValue label={constants.label.lastModifiedBy}>
+                  {user.lastModifiedBy.username ?? user.lastModifiedBy.id}
+                </LabelValue>
+              </div>
+              <div className="column is-6">
+                <LabelValue label={constants.label.lastModifiedDate}>
+                  {user.lastModifiedDate}
+                </LabelValue>
+              </div>
             </div>
-            <div className="column is-6">
-              <LabelValue label={constants.label.fullName}>
-                {user.fullName}
-              </LabelValue>
-            </div>
-            <div className="column is-6">
-              <LabelValue label={constants.label.email}>
-                {user.email}
-              </LabelValue>
-            </div>
-            <div className="column is-6">
-              <LabelValue label={constants.label.permissions}>
-                [{user.permissions}]
-              </LabelValue>
-            </div>
-            <div className="column is-6">
-              <LabelValue label={constants.label.telegramId}>
-                {user.telegramId}
-              </LabelValue>
-            </div>
-            <div className="column is-6">
-              <LabelValue label={constants.label.version}>
-                {user.version}
-              </LabelValue>
-            </div>
-            <div className="column is-6">
-              <LabelValue label={constants.label.lastModifiedBy}>
-                {user.lastModifiedBy.username ?? user.lastModifiedBy.id}
-              </LabelValue>
-            </div>
-            <div className="column is-6">
-              <LabelValue label={constants.label.lastModifiedDate}>
-                {user.lastModifiedDate}
-              </LabelValue>
-            </div>
-          </div>
-          <br />
-          <ButtonGroup align="is-right">
-            {authContext.getClaim().userId !== id && (
-              <Button
-                label={constants.button.delete}
-                color="is-danger"
-                type="button"
-                onClick={() => { }}
+            <br />
+            <ButtonGroup align="is-right">
+              {authContext.getClaim().userId !== id && (
+                <Button
+                  label={constants.button.delete}
+                  color="is-danger"
+                  type="button"
+                  onClick={toggleDelete}
+                />
+              )}
+              <ButtonLink
+                href={`/dashboard/security/user/${id}/edit`}
+                label={constants.button.edit}
+                color="is-success"
               />
-            )}
-            <ButtonLink
-              href={`/dashboard/security/user/${id}/edit`}
-              label={constants.button.edit}
-              color="is-success"
-            />
-          </ButtonGroup>
-        </>
-      ) : (
-        <Loader />
-      )}
-    </Card>
+            </ButtonGroup>
+          </>
+        ) : (
+          <Loader />
+        )}
+      </Card>
+      <Modal
+        title={constants.header.confirmDelete}
+        isActive={isDelete}
+        toggleActive={toggleDelete}>
+        <p className="content">Are you sure to delete user?</p>
+        <ButtonGroup align="is-right">
+          <Button
+            label={constants.button.cancel}
+            type="button"
+            color="is-light"
+            isInverted
+            isOutlined
+            onClick={toggleDelete}
+          />
+          <Button
+            label={constants.button.delete}
+            type="button"
+            color="is-danger"
+            onClick={onDelete}
+          />
+        </ButtonGroup>
+      </Modal>
+    </>
   )
 }
 
