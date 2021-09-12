@@ -118,7 +118,7 @@ const UserSummaryCard: React.FC<{}> = () => {
               </div>
               <div className="column is-6">
                 <LabelValue label={constants.label.permissions}>
-                  [{user.permissions}]
+                  [{user.permissions.join(", ")}]
                 </LabelValue>
               </div>
               <div className="column is-6">
