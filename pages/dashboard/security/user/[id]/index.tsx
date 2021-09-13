@@ -78,7 +78,12 @@ const UserSummaryCard: React.FC<{}> = () => {
         accessToken
       )
       if (status === 200) {
-        setUser(responseBody as TUser)
+        const rUser = responseBody as TUser
+        if (!!rUser.id) {
+          setUser(responseBody as TUser)
+        } else {
+          router.replace("/dashboard/security/user")
+        }
       } else {
         if (status === 401 && retry > 0) {
           accessToken = await authContext.refresh()

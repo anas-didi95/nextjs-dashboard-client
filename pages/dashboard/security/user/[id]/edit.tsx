@@ -101,8 +101,13 @@ const UserFormCard: React.FC<{}> = () => {
       const user = await securityService.getUserById(id as string, accessToken)
       const permissions = await securityService.getPermissionList(accessToken)
       if (user.status === permissions.status && permissions.status === 200) {
-        setUser(user.responseBody as TUser)
-        setPermissions(permissions.responseBody as TPermission[])
+        const rUser = user.responseBody as TUser
+        if (!!rUser.id) {
+          setUser(user.responseBody as TUser)
+          setPermissions(permissions.responseBody as TPermission[])
+        } else {
+          router.replace("/dashboard/security/user")
+        }
       } else {
         const isRetry = user.status === 401 || permissions.status === 401
         if (isRetry && retry > 0) {
