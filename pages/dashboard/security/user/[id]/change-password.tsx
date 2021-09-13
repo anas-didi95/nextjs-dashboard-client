@@ -1,5 +1,6 @@
 import { useRouter } from "next/dist/client/router"
 import React from "react"
+import { useForm } from "react-hook-form"
 import Button from "../../../../../src/components/Button"
 import ButtonGroup from "../../../../../src/components/ButtonGroup"
 import ButtonLink from "../../../../../src/components/ButtonLink"
@@ -21,16 +22,31 @@ const SecurityUserChangePassword: React.FC<{}> = () => (
 
 const ChangePasswordCard: React.FC<{}> = () => {
   const constants = useConstants()
+  const {
+    register,
+    watch,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<TForm>()
+
+  const onSubmit = (data: TForm) => console.log("[onSubmit] data", data)
+  const onClear = () => reset()
 
   return (
     <Card title={constants.header.changePassword}>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="columns is-multiline is-variable is-4">
           <div className="column is-6">
             <FormInput
               label={constants.label.oldPassword}
               type="password"
-              register={null}
+              error={errors.oldPassword?.message}
+              register={register("oldPassword", {
+                required: constants.message.mandatoryField(
+                  constants.label.oldPassword
+                ),
+              })}
             />
           </div>
           <div className="column is-hidden-mobile" />
@@ -38,14 +54,24 @@ const ChangePasswordCard: React.FC<{}> = () => {
             <FormInput
               label={constants.label.newPassword}
               type="password"
-              register={null}
+              error={errors.newPassword?.message}
+              register={register("newPassword", {
+                required: constants.message.mandatoryField(
+                  constants.label.newPassword
+                ),
+              })}
             />
           </div>
           <div className="column is-6">
             <FormInput
               label={constants.label.confirmPassword}
               type="password"
-              register={null}
+              error={errors.confirmPassword?.message}
+              register={register("confirmPassword", {
+                validate: (value) =>
+                  value === watch().newPassword ||
+                  constants.message.passwordNotMatched,
+              })}
             />
           </div>
         </div>
@@ -57,13 +83,13 @@ const ChangePasswordCard: React.FC<{}> = () => {
             color="is-light"
             isInverted
             isOutlined
-            onClick={() => {}}
+            onClick={onClear}
           />
           <Button
             label={constants.button.changePassword}
             type="submit"
             color="is-success"
-            onClick={() => {}}
+            onClick={handleSubmit(onSubmit)}
           />
         </ButtonGroup>
       </form>
@@ -88,3 +114,9 @@ const ActionButton: React.FC<{}> = () => {
 }
 
 export default SecurityUserChangePassword
+
+type TForm = {
+  oldPassword: string
+  newPassword: string
+  confirmPassword: string
+}
