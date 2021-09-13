@@ -144,12 +144,18 @@ const UserSummaryCard: React.FC<{}> = () => {
             </div>
             <br />
             <ButtonGroup align="is-right">
-              {authContext.getClaim().userId !== id && (
+              {authContext.getClaim().userId !== id ? (
                 <Button
                   label={constants.button.delete}
                   color="is-danger"
                   type="button"
                   onClick={toggleDelete}
+                />
+              ) : (
+                <ButtonLink
+                  label={constants.button.changePassword}
+                  color="is-danger"
+                  href={`/dashboard/security/user/${id}/change-password`}
                 />
               )}
               <ButtonLink
