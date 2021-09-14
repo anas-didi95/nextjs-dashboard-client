@@ -273,6 +273,39 @@ const useSecurityService = () => {
     return { responseBody, status }
   }
 
+  const changePassword = async (
+    data: {
+      id: string
+      oldPassword: string
+      newPassword: string
+      version: number
+    },
+    accessToken: string
+  ): Promise<{
+    responseBody: { id: string } | TResponseError
+    status: number
+  }> => {
+    const response = await fetch(
+      `${constants.env.apiSecurity}/user/${data.id}/change-password`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          oldPassword: data.oldPassword,
+          newPassword: data.newPassword,
+          version: data.version,
+        }),
+      }
+    )
+    const responseBody = await response.json()
+    const { status } = response
+    return { responseBody, status }
+  }
+
   return {
     signIn,
     signOut,
@@ -284,6 +317,7 @@ const useSecurityService = () => {
     updateUser,
     createUser,
     deleteUser,
+    changePassword,
   }
 }
 

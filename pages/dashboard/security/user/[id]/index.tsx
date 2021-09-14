@@ -78,7 +78,12 @@ const UserSummaryCard: React.FC<{}> = () => {
         accessToken
       )
       if (status === 200) {
-        setUser(responseBody as TUser)
+        const rUser = responseBody as TUser
+        if (!!rUser.id) {
+          setUser(responseBody as TUser)
+        } else {
+          router.replace("/dashboard/security/user")
+        }
       } else {
         if (status === 401 && retry > 0) {
           accessToken = await authContext.refresh()
@@ -118,7 +123,7 @@ const UserSummaryCard: React.FC<{}> = () => {
               </div>
               <div className="column is-6">
                 <LabelValue label={constants.label.permissions}>
-                  [{user.permissions}]
+                  [{user.permissions.join(", ")}]
                 </LabelValue>
               </div>
               <div className="column is-6">
@@ -144,12 +149,18 @@ const UserSummaryCard: React.FC<{}> = () => {
             </div>
             <br />
             <ButtonGroup align="is-right">
-              {authContext.getClaim().userId !== id && (
+              {authContext.getClaim().userId !== id ? (
                 <Button
                   label={constants.button.delete}
                   color="is-danger"
                   type="button"
                   onClick={toggleDelete}
+                />
+              ) : (
+                <ButtonLink
+                  label={constants.button.changePassword}
+                  color="is-danger"
+                  href={`/dashboard/security/user/${id}/change-password`}
                 />
               )}
               <ButtonLink

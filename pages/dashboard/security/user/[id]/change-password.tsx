@@ -5,10 +5,7 @@ import Button from "../../../../../src/components/Button"
 import ButtonGroup from "../../../../../src/components/ButtonGroup"
 import ButtonLink from "../../../../../src/components/ButtonLink"
 import Card from "../../../../../src/components/Card"
-import FormCheckbox from "../../../../../src/components/FormCheckbox"
 import FormInput from "../../../../../src/components/FormInput"
-import LabelValue from "../../../../../src/components/LabelValue"
-import Loader from "../../../../../src/components/Loader"
 import AppLayout from "../../../../../src/layouts/AppLayout"
 import DashboardLayout from "../../../../../src/layouts/DashboardLayout"
 import { useAuthContext } from "../../../../../src/utils/contexts/AuthContext"
@@ -18,60 +15,49 @@ import useConstants from "../../../../../src/utils/hooks/useConstants"
 import useSecurityService from "../../../../../src/utils/hooks/useSecurityService"
 import {
   initialUser,
-  TPermission,
   TResponseError,
   TUser,
 } from "../../../../../src/utils/types"
 
-const SecurityUserEditPage: React.FC<{}> = () => (
-  <AppLayout title="Security - User Edit" needAuth>
-    <DashboardLayout breadcrumbs={["Security", "User", "Edit"]}>
-      <UserFormCard />
+const SecurityUserChangePassword: React.FC<{}> = () => (
+  <AppLayout title="Security - User Change Password" needAuth>
+    <DashboardLayout breadcrumbs={["Security", "User", "Change Password"]}>
+      <ChangePasswordCard />
       <br />
       <ActionButton />
     </DashboardLayout>
   </AppLayout>
 )
 
-const UserFormCard: React.FC<{}> = () => {
+const ChangePasswordCard: React.FC<{}> = () => {
   const constants = useConstants()
   const authContext = useAuthContext()
   const notificationContext = useNotificationContext()
   const loadingContext = useLoadingContext()
   const securityService = useSecurityService()
   const router = useRouter()
+  const { id } = router.query
   const {
     register,
-    setValue,
+    watch,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<TUser>({ defaultValues: initialUser })
+  } = useForm<TForm>()
   const [user, setUser] = useState<TUser>(initialUser)
-  const [permissions, setPermissions] = useState<TPermission[]>([])
 
-  const onSubmit = (data: TUser) => {
-    if (!!data.permissions) {
-      data.permissions = Array.isArray(data.permissions)
-        ? data.permissions.filter((v) => !!v)
-        : [data.permissions]
-    } else {
-      data.permissions = []
-    }
+  const onSubmit = (data: TForm) => {
     const request = async (
       retry: number = 1,
       accessToken: string = authContext.getAccessToken()
     ) => {
-      const { responseBody, status } = await securityService.updateUser(
-        data,
+      const { responseBody, status } = await securityService.changePassword(
+        { ...data, id: user.id, version: user.version },
         accessToken
       )
       if (status === 200) {
-        const { id } = responseBody as { id: string }
-        if (id === authContext.getClaim().userId) {
-          await authContext.refresh()
-        }
-        router.replace(`/dashboard/security/user/${id}`)
+        await authContext.refresh()
+        router.replace(`/dashboard/security/user/${user.id}`)
       } else {
         if (status === 401 && retry > 0) {
           accessToken = await authContext.refresh()
@@ -88,34 +74,25 @@ const UserFormCard: React.FC<{}> = () => {
   }
   const onClear = () => {
     reset()
-    reset({ permissions: [] })
     notificationContext.clear()
   }
 
   useEffect(() => {
-    const { id } = router.query
     const request = async (
       retry: number = 1,
       accessToken: string = authContext.getAccessToken()
     ) => {
-      const user = await securityService.getUserById(id as string, accessToken)
-      const permissions = await securityService.getPermissionList(accessToken)
-      if (user.status === permissions.status && permissions.status === 200) {
-        const rUser = user.responseBody as TUser
-        if (!!rUser.id) {
-          setUser(user.responseBody as TUser)
-          setPermissions(permissions.responseBody as TPermission[])
-        } else {
-          router.replace("/dashboard/security/user")
-        }
+      const { responseBody, status } = await securityService.getUserById(
+        id as string,
+        accessToken
+      )
+      if (status === 200) {
+        setUser(responseBody as TUser)
       } else {
-        const isRetry = user.status === 401 || permissions.status === 401
-        if (isRetry && retry > 0) {
+        if (status === 401 && retry > 0) {
           accessToken = await authContext.refresh()
           await request(retry - 1, accessToken)
         } else {
-          const responseBody =
-            user.status !== 200 ? user.responseBody : permissions.responseBody
           notificationContext.setError(responseBody as TResponseError)
           if (retry === 0) {
             router.replace("/")
@@ -127,69 +104,46 @@ const UserFormCard: React.FC<{}> = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  useEffect(() => {
-    setValue("id", user.id)
-    setValue("version", user.version)
-    setValue("fullName", user.fullName)
-    setValue("email", user.email)
-    setValue("permissions", user.permissions)
-    setValue("telegramId", user.telegramId)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user])
-
   return (
-    <Card title={constants.header.userForm}>
-      {!loadingContext.isLoading() ? (
+    <Card title={constants.header.changePassword}>
+      {authContext.getClaim().userId === id ? (
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="columns is-multiline is-variable is-4">
             <div className="column is-6">
-              <LabelValue label={constants.label.username}>
-                {user.username}
-              </LabelValue>
+              <FormInput
+                label={constants.label.oldPassword}
+                type="password"
+                error={errors.oldPassword?.message}
+                register={register("oldPassword", {
+                  required: constants.message.mandatoryField(
+                    constants.label.oldPassword
+                  ),
+                })}
+              />
             </div>
+            <div className="column is-hidden-mobile" />
             <div className="column is-6">
               <FormInput
-                label={constants.label.fullName}
-                type="text"
-                error={errors.fullName?.message}
-                register={register("fullName", {
+                label={constants.label.newPassword}
+                type="password"
+                error={errors.newPassword?.message}
+                register={register("newPassword", {
                   required: constants.message.mandatoryField(
-                    constants.label.fullName
+                    constants.label.newPassword
                   ),
                 })}
               />
             </div>
             <div className="column is-6">
               <FormInput
-                label={constants.label.email}
-                type="email"
-                error={errors.email?.message}
-                register={register("email", {
-                  required: constants.message.mandatoryField(
-                    constants.label.email
-                  ),
+                label={constants.label.confirmPassword}
+                type="password"
+                error={errors.confirmPassword?.message}
+                register={register("confirmPassword", {
+                  validate: (value) =>
+                    value === watch().newPassword ||
+                    constants.message.passwordNotMatched,
                 })}
-              />
-            </div>
-            <div className="column is-6">
-              <LabelValue label={constants.label.permissions}>
-                {!!permissions &&
-                  permissions.length > 0 &&
-                  permissions.map((permission) => (
-                    <FormCheckbox
-                      key={permission.id}
-                      value={permission.id}
-                      register={register(`permissions`)}
-                    />
-                  ))}
-              </LabelValue>
-            </div>
-            <div className="column is-6">
-              <FormInput
-                label={constants.label.telegramId}
-                type="text"
-                error={errors.telegramId?.message}
-                register={register("telegramId")}
               />
             </div>
           </div>
@@ -204,7 +158,7 @@ const UserFormCard: React.FC<{}> = () => {
               onClick={onClear}
             />
             <Button
-              label={constants.button.update}
+              label={constants.button.changePassword}
               type="submit"
               color="is-success"
               onClick={handleSubmit(onSubmit)}
@@ -212,7 +166,7 @@ const UserFormCard: React.FC<{}> = () => {
           </ButtonGroup>
         </form>
       ) : (
-        <Loader />
+        <p className="content">You cannot change password for another user!</p>
       )}
     </Card>
   )
@@ -226,12 +180,18 @@ const ActionButton: React.FC<{}> = () => {
   return (
     <ButtonGroup align="is-right">
       <ButtonLink
-        href={`/dashboard/security/user/${id}`}
         label={constants.button.back}
         color="is-primary"
+        href={`/dashboard/security/user/${id}`}
       />
     </ButtonGroup>
   )
 }
 
-export default SecurityUserEditPage
+export default SecurityUserChangePassword
+
+type TForm = {
+  oldPassword: string
+  newPassword: string
+  confirmPassword: string
+}
