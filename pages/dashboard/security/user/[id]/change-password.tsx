@@ -9,7 +9,15 @@ import FormInput from "../../../../../src/components/FormInput"
 import AppLayout from "../../../../../src/layouts/AppLayout"
 import DashboardLayout from "../../../../../src/layouts/DashboardLayout"
 import { useAuthContext } from "../../../../../src/utils/contexts/AuthContext"
+import { useLoadingContext } from "../../../../../src/utils/contexts/LoadingContext"
+import { useNotificationContext } from "../../../../../src/utils/contexts/NotificationContext"
 import useConstants from "../../../../../src/utils/hooks/useConstants"
+import useSecurityService from "../../../../../src/utils/hooks/useSecurityService"
+import {
+  initialUser,
+  TResponseError,
+  TUser,
+} from "../../../../../src/utils/types"
 
 const SecurityUserChangePassword: React.FC<{}> = () => (
   <AppLayout title="Security - User Change Password" needAuth>
@@ -24,6 +32,9 @@ const SecurityUserChangePassword: React.FC<{}> = () => (
 const ChangePasswordCard: React.FC<{}> = () => {
   const constants = useConstants()
   const authContext = useAuthContext()
+  const notificationContext = useNotificationContext()
+  const loadingContext = useLoadingContext()
+  const securityService = useSecurityService()
   const router = useRouter()
   const { id } = router.query
   const {
@@ -33,19 +44,69 @@ const ChangePasswordCard: React.FC<{}> = () => {
     reset,
     formState: { errors },
   } = useForm<TForm>()
-  const [isUser, setUser] = useState<boolean>(false)
+  const [user, setUser] = useState<TUser>(initialUser)
 
-  const onSubmit = (data: TForm) => console.log("[onSubmit] data", data)
-  const onClear = () => reset()
+  const onSubmit = (data: TForm) => {
+    const request = async (
+      retry: number = 1,
+      accessToken: string = authContext.getAccessToken()
+    ) => {
+      const { responseBody, status } = await securityService.changePassword(
+        { ...data, id: user.id, version: user.version },
+        accessToken
+      )
+      if (status === 200) {
+        await authContext.refresh()
+        router.replace(`/dashboard/security/user/${user.id}`)
+      } else {
+        if (status === 401 && retry > 0) {
+          accessToken = await authContext.refresh()
+          await request(retry - 1, accessToken)
+        } else {
+          notificationContext.setError(responseBody as TResponseError)
+          if (retry === 0) {
+            router.replace("/")
+          }
+        }
+      }
+    }
+    loadingContext.run(request)
+  }
+  const onClear = () => {
+    reset()
+    notificationContext.clear()
+  }
 
   useEffect(() => {
-    setUser(authContext.getClaim().userId === id)
+    const request = async (
+      retry: number = 1,
+      accessToken: string = authContext.getAccessToken()
+    ) => {
+      const { responseBody, status } = await securityService.getUserById(
+        id as string,
+        accessToken
+      )
+      if (status === 200) {
+        setUser(responseBody as TUser)
+      } else {
+        if (status === 401 && retry > 0) {
+          accessToken = await authContext.refresh()
+          await request(retry - 1, accessToken)
+        } else {
+          notificationContext.setError(responseBody as TResponseError)
+          if (retry === 0) {
+            router.replace("/")
+          }
+        }
+      }
+    }
+    loadingContext.run(request)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
     <Card title={constants.header.changePassword}>
-      {isUser ? (
+      {authContext.getClaim().userId === id ? (
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="columns is-multiline is-variable is-4">
             <div className="column is-6">
