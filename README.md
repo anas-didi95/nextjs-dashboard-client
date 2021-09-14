@@ -37,9 +37,9 @@ The application is deployed at https://dashboard.anasdidi.dev/.
 * [x] View services' status.
 * [x] Get list of users.
 * [x] View user summary.
-* [ ] Create new user.
-* [ ] Delete other existing user.
-* [ ] Change password of current user.
+* [x] Create new user.
+* [x] Delete other existing user.
+* [x] Change password of current user.
 
 ---
 
