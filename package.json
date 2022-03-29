@@ -17,7 +17,7 @@
     "bulma": "^0.9.3",
     "bulma-pageloader": "^0.3.0",
     "bulmaswatch": "^0.8.1",
-    "next": "11.0.1",
+    "next": "12.1.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-hook-form": "^7.12.2",
